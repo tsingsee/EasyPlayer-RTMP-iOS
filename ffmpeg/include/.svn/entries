@@ -1,49 +1,0 @@
-10
-
-dir
-634
-svn://172.16.1.3/software/ios/trunk/NDMLib/ffmpeg/include
-svn://172.16.1.3/software/ios
-
-
-
-2015-04-30T11:06:41.259531Z
-40
-chenshun
-has-props
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-6f3e2ad5-8864-2d43-ab97-b963a4e7cf4c
-
-libavcodec
-dir
-
-libavdevice
-dir
-
-libavfilter
-dir
-
-libavformat
-dir
-
-libavutil
-dir
-
-libswresample
-dir
-
-libswscale
-dir
-

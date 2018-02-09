@@ -40,7 +40,7 @@ unsigned char H264_SPS_PPS_NEW[] = {
 
 void setupScaler(DEC_COMPONENT *pComponent, int nWidth, int nHeight) {
 	// Allocate RGB picture
-	avpicture_alloc(&pComponent->picture, PIX_FMT_RGB24, nWidth, nHeight);
+	avpicture_alloc(&pComponent->picture, AV_PIX_FMT_RGB24, nWidth, nHeight);
 	
 	// Setup scaler
 	static int sws_flags =  SWS_FAST_BILINEAR;
@@ -61,7 +61,7 @@ void setupScaler(DEC_COMPONENT *pComponent, int nWidth, int nHeight) {
                                                 pComponent->pCodecCtx->pix_fmt,
                                                 nWidth,
                                                 nHeight,
-                                                PIX_FMT_RGB24,
+                                                AV_PIX_FMT_RGB24,
                                                 sws_flags, NULL, NULL, NULL);
 }
 
@@ -78,7 +78,7 @@ void *DecodeCreate(DEC_CREATE_PARAM *pCreateParam) {
     s_uiDecodeMethod = pCreateParam->method;
     
     // [5]、avcodec_find_decoder()查找解码器
-    AVCodec *pCodec = avcodec_find_decoder(CODEC_ID_H264);
+    AVCodec *pCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
     if (pCodec == NULL) {
         printf("avcodec_find_decoder codec error\r\n");
         return 0;
@@ -90,7 +90,7 @@ void *DecodeCreate(DEC_CREATE_PARAM *pCreateParam) {
     pComponent->pCodecCtx = avcodec_alloc_context3(pCodec);
     pComponent->pCodecCtx->width = pCreateParam->nMaxImgWidth;
     pComponent->pCodecCtx->height = pCreateParam->nMaxImgHeight;
-    pComponent->pCodecCtx->pix_fmt = PIX_FMT_YUV420P;
+    pComponent->pCodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
     
     // [6]、如果找到了解码器，则打开解码器
     AVDictionary *options = NULL;

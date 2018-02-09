@@ -1012,7 +1012,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
-					ffmpeg/include/,
+					"$(PROJECT_DIR)/ffmpeg/include/",
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 				);
@@ -1063,7 +1063,7 @@
 				GCC_PREFIX_HEADER = "";
 				HEADER_SEARCH_PATHS = (
 					"$(SDKROOT)/usr/include/libxml2",
-					ffmpeg/include/,
+					"$(PROJECT_DIR)/ffmpeg/include/",
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 				);
