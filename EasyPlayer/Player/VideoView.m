@@ -458,7 +458,9 @@
     _moviePosition = frame.position;
     
     // 当前图片
-    currentImage = [kxGlView curImage];
+    if (!currentImage) {
+        currentImage = [kxGlView curImage];
+    }
     
     return frame.duration;
 }

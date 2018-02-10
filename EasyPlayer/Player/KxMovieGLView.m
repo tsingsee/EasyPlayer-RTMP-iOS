@@ -557,6 +557,8 @@ static NSDictionary *SCContextCreateCIContextOptions() {
     // Flip the CGImage by rendering it to the flipped bitmap context
     // The size of the destination area is measured in POINTS
     CGContextSetBlendMode(cgcontext, kCGBlendModeCopy);
+    
+    // CPU占比高，不能不停的调用
     CGContextDrawImage(cgcontext, CGRectMake(0.0, 0.0, widthInPoints, heightInPoints), imageRef);
     
     // Retrieve the UIImage from the current context

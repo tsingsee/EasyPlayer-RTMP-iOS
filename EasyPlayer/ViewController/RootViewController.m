@@ -94,7 +94,7 @@
     // rtmp://live.finding.com/live/C09?auth_key=1517917594-0-0-a0b1215b36b9f5958783f9fdce1838de
     // rtmp://www.easydss.com:10085/live/stream_270878
     
-    [_alertView textFieldAtIndex:0].text = @"rtmp://live.finding.com/live/C09?auth_key=1517917594-0-0-a0b1215b36b9f5958783f9fdce1838de";
+    [_alertView textFieldAtIndex:0].text = @"rtmp://www.easydss.com:10085/live/testid";
     _alertView.tag = -1;
     [_alertView show];
 }

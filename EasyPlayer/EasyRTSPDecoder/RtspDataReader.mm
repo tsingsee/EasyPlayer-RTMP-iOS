@@ -2,6 +2,7 @@
 #import "RtspDataReader.h"
 #include <pthread.h>
 #include <vector>
+#include <set>
 #import <string.h>
 
 #import "HWVideoDecoder.h"
@@ -17,6 +18,15 @@ struct FrameInfo {
     CGFloat timeStamp;
     int width;
     int height;
+};
+
+class com
+{
+public:
+    bool operator ()(FrameInfo* lhs, FrameInfo* rhs) const
+    {
+        return lhs->timeStamp < rhs->timeStamp;
+    }
 };
 
 @interface RtspDataReader()<HWVideoDecoderDelegate> {
@@ -35,7 +45,8 @@ struct FrameInfo {
     
     EASY_MEDIA_INFO_T _mediaInfo;   // 媒体信息
     
-    std::vector<FrameInfo *> vctFrame;
+    std::multiset<FrameInfo *, com> frameSet;
+//    std::vector<FrameInfo *> vctFrame;
     CGFloat _lastVideoFramePosition;
     
     // 视频硬解码器
@@ -72,7 +83,7 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
     
     if (frameInfo != NULL) {
         if (frameType == EASY_SDK_AUDIO_FRAME_FLAG) {// EASY_SDK_AUDIO_FRAME_FLAG音频帧标志
-            [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
+//            [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
         } else if (frameType == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
                    frameInfo->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
             [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
@@ -134,6 +145,10 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
 }
 
 - (void)stop {
+    if (!_running) {
+        return;
+    }
+    
     pthread_mutex_lock(&mutexChan);
     if (rtspHandle != NULL) {
         EasyRTMPClient_SetCallback(rtspHandle, NULL);
@@ -175,20 +190,27 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
         
         // ------------ 加锁mutexFrame ------------
         pthread_mutex_lock(&mutexFrame);
-        int count = (int)vctFrame.size();
+        
+//        int count = (int)vctFrame.size();
+        int count = (int) frameSet.size();
         if (count == 0) {
             pthread_mutex_unlock(&mutexFrame);
             usleep(5 * 1000);
             continue;
         }
         
-        FrameInfo *frame = vctFrame[0];
-        vctFrame.erase(vctFrame.begin());
+//        FrameInfo *frame = vctFrame[0];
+//        vctFrame.erase(vctFrame.begin());
+        
+        FrameInfo *frame = *(frameSet.begin());
+        frameSet.erase(frameSet.begin());
+        
         pthread_mutex_unlock(&mutexFrame);
         // ------------ 解锁mutexFrame ------------
         
         if (frame->type == EASY_SDK_VIDEO_FRAME_FLAG) {
             if (self.useHWDecoder) {
+                NSLog(@"%f", frame->timeStamp);
                 [_hwDec decodeVideoData:frame->pBuf len:frame->frameLen];
             } else {
                 [self decodeVideoFrame:frame];
@@ -226,6 +248,7 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
 
 #pragma mark - 解码视频帧
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)decodeVideoFrame:(FrameInfo *)video {
     if (_videoDecHandle == NULL) {
         DEC_CREATE_PARAM param;
@@ -311,14 +334,17 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
 - (void)removeCach {
     pthread_mutex_lock(&mutexFrame);
     
-    std::vector<FrameInfo *>::iterator it = vctFrame.begin();
-    while (it != vctFrame.end()) {
+//    std::vector<FrameInfo *>::iterator it = vctFrame.begin();
+    std::set<FrameInfo *>::iterator it = frameSet.begin();
+    while (it != frameSet.end()) {
+//    while (it != vctFrame.end()) {
         FrameInfo *frameInfo = *it;
         delete []frameInfo->pBuf;
         delete frameInfo;
         it++;
     }
-    vctFrame.clear();
+//    vctFrame.clear();
+    frameSet.clear();
     
     pthread_mutex_unlock(&mutexFrame);
     
@@ -392,7 +418,11 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
     memcpy(frameInfo->pBuf, pBuf, info->length);
     
     pthread_mutex_lock(&mutexFrame);    // 加锁
-    vctFrame.push_back(frameInfo);
+    
+    // 根据时间戳排序
+//    vctFrame.push_back(frameInfo);
+    frameSet.insert(frameInfo);
+    
     pthread_mutex_unlock(&mutexFrame);  // 解锁
 }
 

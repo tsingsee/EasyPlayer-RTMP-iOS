@@ -56,6 +56,8 @@ void didDecompress(void *decompressionOutputRefCon,
             bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
 //            size_t dataSize = CVPixelBufferGetDataSize(imageBuffer);
             
+            CVPixelBuffer
+            
             @autoreleasepool {
                 KxVideoFrameRGB *frame = [[KxVideoFrameRGB alloc] init];
                 frame.width = width;
@@ -64,6 +66,9 @@ void didDecompress(void *decompressionOutputRefCon,
                 frame.hasAlpha = YES;
                 frame.rgb = [NSData dataWithBytes:base length:bytesPerRow * height];
                 frame.duration = 0.04;
+                
+                NSLog(@"");
+                
                 [weakSelf.hwDelegate getDecodePictureData:frame];
             }
             
