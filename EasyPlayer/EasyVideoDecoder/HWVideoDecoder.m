@@ -56,8 +56,6 @@ void didDecompress(void *decompressionOutputRefCon,
             bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
 //            size_t dataSize = CVPixelBufferGetDataSize(imageBuffer);
             
-            CVPixelBuffer
-            
             @autoreleasepool {
                 KxVideoFrameRGB *frame = [[KxVideoFrameRGB alloc] init];
                 frame.width = width;
