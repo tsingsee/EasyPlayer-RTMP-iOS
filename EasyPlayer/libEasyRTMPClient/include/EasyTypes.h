@@ -62,25 +62,25 @@ typedef int Easy_Error;
 
 typedef enum __EASY_ACTIVATE_ERR_CODE_ENUM
 {
-	EASY_ACTIVATE_INVALID_KEY		=		-1,			/* ÎŞĞ§Key */
-	EASY_ACTIVATE_TIME_ERR			=		-2,			/* Ê±¼ä´íÎó */
-	EASY_ACTIVATE_PROCESS_NAME_LEN_ERR	=	-3,			/* ½ø³ÌÃû³Æ³¤¶È²»Æ¥Åä */
-	EASY_ACTIVATE_PROCESS_NAME_ERR	=		-4,			/* ½ø³ÌÃû³Æ²»Æ¥Åä */
-	EASY_ACTIVATE_VALIDITY_PERIOD_ERR=		-5,			/* ÓĞĞ§ÆÚĞ£Ñé²»Ò»ÖÂ */
-	EASY_ACTIVATE_PLATFORM_ERR		=		-6,			/* Æ½Ì¨²»Æ¥Åä */
-	EASY_ACTIVATE_COMPANY_ID_LEN_ERR=		-7,			/* ÊÚÈ¨Ê¹ÓÃÉÌ²»Æ¥Åä */
-	EASY_ACTIVATE_SUCCESS			=		0,			/* ¼¤»î³É¹¦ */
+	EASY_ACTIVATE_INVALID_KEY		=		-1,			/* æ— æ•ˆKey */
+	EASY_ACTIVATE_TIME_ERR			=		-2,			/* æ—¶é—´é”™è¯¯ */
+	EASY_ACTIVATE_PROCESS_NAME_LEN_ERR	=	-3,			/* è¿›ç¨‹åç§°é•¿åº¦ä¸åŒ¹é… */
+	EASY_ACTIVATE_PROCESS_NAME_ERR	=		-4,			/* è¿›ç¨‹åç§°ä¸åŒ¹é… */
+	EASY_ACTIVATE_VALIDITY_PERIOD_ERR=		-5,			/* æœ‰æ•ˆæœŸæ ¡éªŒä¸ä¸€è‡´ */
+	EASY_ACTIVATE_PLATFORM_ERR		=		-6,			/* å¹³å°ä¸åŒ¹é… */
+	EASY_ACTIVATE_COMPANY_ID_LEN_ERR=		-7,			/* æˆæƒä½¿ç”¨å•†ä¸åŒ¹é… */
+	EASY_ACTIVATE_SUCCESS			=		0,			/* æ¿€æ´»æˆåŠŸ */
 
 }EASY_ACTIVATE_ERR_CODE_ENUM;
 
 
-/* ÊÓÆµ±àÂë */
+/* è§†é¢‘ç¼–ç  */
 #define EASY_SDK_VIDEO_CODEC_H264	0x1C		/* H264  */
 #define EASY_SDK_VIDEO_CODEC_H265	0x48323635	/* 1211250229 */
 #define	EASY_SDK_VIDEO_CODEC_MJPEG	0x08		/* MJPEG */
 #define	EASY_SDK_VIDEO_CODEC_MPEG4	0x0D		/* MPEG4 */
 
-/* ÒôÆµ±àÂë */
+/* éŸ³é¢‘ç¼–ç  */
 #define EASY_SDK_AUDIO_CODEC_AAC	0x15002		/* AAC */
 #define EASY_SDK_AUDIO_CODEC_G711U	0x10006		/* G711 ulaw*/
 #define EASY_SDK_AUDIO_CODEC_G711A	0x10007		/* G711 alaw*/
@@ -89,37 +89,37 @@ typedef enum __EASY_ACTIVATE_ERR_CODE_ENUM
 #define EASY_SDK_EVENT_CODEC_ERROR	0x63657272	/* ERROR */
 #define EASY_SDK_EVENT_CODEC_EXIT	0x65786974	/* EXIT */
 
-/* ÒôÊÓÆµÖ¡±êÊ¶ */
-#define EASY_SDK_VIDEO_FRAME_FLAG	0x00000001		/* ÊÓÆµÖ¡±êÖ¾ */
-#define EASY_SDK_AUDIO_FRAME_FLAG	0x00000002		/* ÒôÆµÖ¡±êÖ¾ */
-#define EASY_SDK_EVENT_FRAME_FLAG	0x00000004		/* ÊÂ¼şÖ¡±êÖ¾ */
-#define EASY_SDK_RTP_FRAME_FLAG		0x00000008		/* RTPÖ¡±êÖ¾ */
-#define EASY_SDK_SDP_FRAME_FLAG		0x00000010		/* SDPÖ¡±êÖ¾ */
-#define EASY_SDK_MEDIA_INFO_FLAG	0x00000020		/* Ã½ÌåÀàĞÍ±êÖ¾*/
+/* éŸ³è§†é¢‘å¸§æ ‡è¯† */
+#define EASY_SDK_VIDEO_FRAME_FLAG	0x00000001		/* è§†é¢‘å¸§æ ‡å¿— */
+#define EASY_SDK_AUDIO_FRAME_FLAG	0x00000002		/* éŸ³é¢‘å¸§æ ‡å¿— */
+#define EASY_SDK_EVENT_FRAME_FLAG	0x00000004		/* äº‹ä»¶å¸§æ ‡å¿— */
+#define EASY_SDK_RTP_FRAME_FLAG		0x00000008		/* RTPå¸§æ ‡å¿— */
+#define EASY_SDK_SDP_FRAME_FLAG		0x00000010		/* SDPå¸§æ ‡å¿— */
+#define EASY_SDK_MEDIA_INFO_FLAG	0x00000020		/* åª’ä½“ç±»å‹æ ‡å¿—*/
 
-/* ÊÓÆµ¹Ø¼ü×Ö±êÊ¶ */
-#define EASY_SDK_VIDEO_FRAME_I		0x01		/* IÖ¡ */
-#define EASY_SDK_VIDEO_FRAME_P		0x02		/* PÖ¡ */
-#define EASY_SDK_VIDEO_FRAME_B		0x03		/* BÖ¡ */
+/* è§†é¢‘å…³é”®å­—æ ‡è¯† */
+#define EASY_SDK_VIDEO_FRAME_I		0x01		/* Iå¸§ */
+#define EASY_SDK_VIDEO_FRAME_P		0x02		/* På¸§ */
+#define EASY_SDK_VIDEO_FRAME_B		0x03		/* Bå¸§ */
 #define EASY_SDK_VIDEO_FRAME_J		0x04		/* JPEG */
 
-/* Á¬½ÓÀàĞÍ */
+/* è¿æ¥ç±»å‹ */
 typedef enum __EASY_RTP_CONNECT_TYPE
 {
 	EASY_RTP_OVER_TCP	=	0x01,		/* RTP Over TCP */
 	EASY_RTP_OVER_UDP					/* RTP Over UDP */
 }EASY_RTP_CONNECT_TYPE;
 
-/* Ã½ÌåĞÅÏ¢ */
+/* åª’ä½“ä¿¡æ¯ */
 typedef struct __EASY_MEDIA_INFO_T
 {
-	Easy_U32 u32VideoCodec;				/* ÊÓÆµ±àÂëÀàĞÍ */
-	Easy_U32 u32VideoFps;				/* ÊÓÆµÖ¡ÂÊ */
+	Easy_U32 u32VideoCodec;				/* è§†é¢‘ç¼–ç ç±»å‹ */
+	Easy_U32 u32VideoFps;				/* è§†é¢‘å¸§ç‡ */
 
-	Easy_U32 u32AudioCodec;				/* ÒôÆµ±àÂëÀàĞÍ */
-	Easy_U32 u32AudioSamplerate;		/* ÒôÆµ²ÉÑùÂÊ */
-	Easy_U32 u32AudioChannel;			/* ÒôÆµÍ¨µÀÊı */
-	Easy_U32 u32AudioBitsPerSample;		/* ÒôÆµ²ÉÑù¾«¶È */
+	Easy_U32 u32AudioCodec;				/* éŸ³é¢‘ç¼–ç ç±»å‹ */
+	Easy_U32 u32AudioSamplerate;		/* éŸ³é¢‘é‡‡æ ·ç‡ */
+	Easy_U32 u32AudioChannel;			/* éŸ³é¢‘é€šé“æ•° */
+	Easy_U32 u32AudioBitsPerSample;		/* éŸ³é¢‘é‡‡æ ·ç²¾åº¦ */
 
 	Easy_U32 u32VpsLength;
 	Easy_U32 u32SpsLength;
@@ -131,29 +131,29 @@ typedef struct __EASY_MEDIA_INFO_T
 	Easy_U8	 u8Sei[128];
 }EASY_MEDIA_INFO_T;
 
-/* Ö¡ĞÅÏ¢ */
+/* å¸§ä¿¡æ¯ */
 typedef struct 
 {
-	unsigned int	codec;				/* ÒôÊÓÆµ¸ñÊ½ */
+	unsigned int	codec;				/* éŸ³è§†é¢‘æ ¼å¼ */
 
-	unsigned int	type;				/* ÊÓÆµÖ¡ÀàĞÍ */
-	unsigned char	fps;				/* ÊÓÆµÖ¡ÂÊ */
-	unsigned short	width;				/* ÊÓÆµ¿í */
-	unsigned short  height;				/* ÊÓÆµ¸ß */
+	unsigned int	type;				/* è§†é¢‘å¸§ç±»å‹ */
+	unsigned char	fps;				/* è§†é¢‘å¸§ç‡ */
+	unsigned short	width;				/* è§†é¢‘å®½ */
+	unsigned short  height;				/* è§†é¢‘é«˜ */
 
-	unsigned int	reserved1;			/* ±£Áô²ÎÊı1 */
-	unsigned int	reserved2;			/* ±£Áô²ÎÊı2 */
+	unsigned int	reserved1;			/* ä¿ç•™å‚æ•°1 */
+	unsigned int	reserved2;			/* ä¿ç•™å‚æ•°2 */
 
-	unsigned int	sample_rate;		/* ÒôÆµ²ÉÑùÂÊ */
-	unsigned int	channels;			/* ÒôÆµÉùµÀÊı */
-	unsigned int	bits_per_sample;	/* ÒôÆµ²ÉÑù¾«¶È */
+	unsigned int	sample_rate;		/* éŸ³é¢‘é‡‡æ ·ç‡ */
+	unsigned int	channels;			/* éŸ³é¢‘å£°é“æ•° */
+	unsigned int	bits_per_sample;	/* éŸ³é¢‘é‡‡æ ·ç²¾åº¦ */
 
-	unsigned int	length;				/* ÒôÊÓÆµÖ¡´óĞ¡ */
-	unsigned int    timestamp_usec;		/* Ê±¼ä´Á,Î¢Ãî */
-	unsigned int	timestamp_sec;		/* Ê±¼ä´Á Ãë */
+	unsigned int	length;				/* éŸ³è§†é¢‘å¸§å¤§å° */
+	unsigned int    timestamp_usec;		/* æ—¶é—´æˆ³,å¾®å¦™ */
+	unsigned int	timestamp_sec;		/* æ—¶é—´æˆ³ ç§’ */
 	
-	float			bitrate;			/* ±ÈÌØÂÊ */
-	float			losspacket;			/* ¶ª°üÂÊ */
+	float			bitrate;			/* æ¯”ç‰¹ç‡ */
+	float			losspacket;			/* ä¸¢åŒ…ç‡ */
 }EASY_FRAME_INFO;
 
 #endif

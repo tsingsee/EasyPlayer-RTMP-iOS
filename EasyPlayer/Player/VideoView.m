@@ -46,8 +46,6 @@
     
     NSData  *_currentAudioFrame;
     NSUInteger _currentAudioFramePos;
-    
-    UIImage *currentImage;
 }
 
 @property (nonatomic, readwrite) CGFloat bufferdDuration;
@@ -240,7 +238,7 @@
     [[AudioManager sharedInstance] play];
     __weak VideoView *weakSelf = self;
     [AudioManager sharedInstance].source = self;
-    [AudioManager sharedInstance].outputBlock = ^(SInt16 *outData, UInt32 numFrames, UInt32 numChannels){
+    [AudioManager sharedInstance].outputBlock = ^(SInt16 *outData, UInt32 numFrames, UInt32 numChannels) {
         [weakSelf fillAudioData:outData numFrames:numFrames numChannels:numChannels];
     };
 }
@@ -457,11 +455,6 @@
     [kxGlView render:frame];
     _moviePosition = frame.position;
     
-    // 当前图片
-    if (!currentImage) {
-        currentImage = [kxGlView curImage];
-    }
-    
     return frame.duration;
 }
 
@@ -669,7 +662,7 @@
     // 截屏
     if (_screenShotPath) {
         // 把图片直接保存到指定的路径（同时应该把图片的路径imagePath存起来，下次就可以直接用来取）
-        [UIImagePNGRepresentation(currentImage) writeToFile:_screenShotPath atomically:YES];
+        [UIImagePNGRepresentation([kxGlView curImage]) writeToFile:_screenShotPath atomically:YES];
         _screenShotPath = nil;
         
         if (!isSnapshot) {

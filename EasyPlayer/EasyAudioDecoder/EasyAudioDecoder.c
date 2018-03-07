@@ -32,17 +32,17 @@ int EasyAudioDecode(EasyAudioHandle* pHandle, unsigned char* buffer, int offset,
     } else if (pHandle->code == EASY_SDK_AUDIO_CODEC_G711U) {
         short *pOut = (short *)(pcm_buffer);
         unsigned char *pIn = (unsigned char *)(buffer + offset);
-        for (int m=0; m<length; m++){
+        for (int m = 0; m < length; m++) {
             pOut[m] = ulaw2linear(pIn[m]);
         }
         *pcm_length = length*2;
     } else if (pHandle->code == EASY_SDK_AUDIO_CODEC_G711A) {
         short *pOut = (short *)(pcm_buffer);
         unsigned char *pIn = (unsigned char *)(buffer + offset);
-        for (int m=0; m<length; m++){
+        for (int m=0; m<length; m++) {
             pOut[m] = alaw2linear(pIn[m]);
         }
-        *pcm_length = length*2;
+        *pcm_length = length * 2;
     }
     
     return err;

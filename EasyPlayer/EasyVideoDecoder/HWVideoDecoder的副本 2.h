@@ -4,12 +4,13 @@
 //
 //  Created by admin on 15/2/14.
 //
+//
 
 #import <Foundation/Foundation.h>
 #import <VideoToolbox/VideoToolbox.h>
 #import "KxMovieDecoder.h"
 
-//#define iMicroVideo 0
+#define iMicroVideo 0
 
 typedef enum {
     DEC_264,

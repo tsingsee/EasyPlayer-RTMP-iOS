@@ -6,7 +6,7 @@
 #import <string.h>
 
 #import "HWVideoDecoder.h"
-//#include "MuxerToVideo.h"
+#include "MuxerToVideo.h"
 #include "VideoDecode.h"
 #include "EasyAudioDecoder.h"
 
@@ -20,11 +20,9 @@ struct FrameInfo {
     int height;
 };
 
-class com
-{
+class com {
 public:
-    bool operator ()(FrameInfo* lhs, FrameInfo* rhs) const
-    {
+    bool operator ()(FrameInfo *lhs, FrameInfo *rhs) const {
         return lhs->timeStamp < rhs->timeStamp;
     }
 };
@@ -70,7 +68,7 @@ public:
  _pBuf:         回调的数据部分，具体用法看Demo
  _frameInfo:    帧结构数据
  */
-int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf, EASY_FRAME_INFO *frameInfo) {
+int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf, EASY_FRAME_INFO *frameInfo) {
     if (channelPtr == NULL) {
         return 0;
     }
@@ -83,7 +81,7 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
     
     if (frameInfo != NULL) {
         if (frameType == EASY_SDK_AUDIO_FRAME_FLAG) {// EASY_SDK_AUDIO_FRAME_FLAG音频帧标志
-//            [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
+            [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
         } else if (frameType == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
                    frameInfo->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
             [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
@@ -166,7 +164,6 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
 - (void)threadFunc {
     // 在播放中 该线程一直运行
     while (_running) {
-        
         // ------------ 加锁mutexChan ------------
         pthread_mutex_lock(&mutexChan);
         if (rtspHandle == NULL) {
@@ -176,7 +173,7 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
                 NSLog(@"EasyRTMP_Init err");
             } else {
                 /* 设置数据回调 */
-                EasyRTMPClient_SetCallback(rtspHandle, __RTSPDataCallBack);
+                EasyRTMPClient_SetCallback(rtspHandle, RTSPDataCallBack);
                 
                 /* 打开网络流 */
                 EasyRTMPClient_StartStream(rtspHandle,
@@ -210,7 +207,6 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
         
         if (frame->type == EASY_SDK_VIDEO_FRAME_FLAG) {
             if (self.useHWDecoder) {
-                NSLog(@"%f", frame->timeStamp);
                 [_hwDec decodeVideoData:frame->pBuf len:frame->frameLen];
             } else {
                 [self decodeVideoFrame:frame];
@@ -248,7 +244,6 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
 
 #pragma mark - 解码视频帧
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)decodeVideoFrame:(FrameInfo *)video {
     if (_videoDecHandle == NULL) {
         DEC_CREATE_PARAM param;
@@ -413,16 +408,21 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
     frameInfo->pBuf = new unsigned char[info->length];
     frameInfo->width = info->width;
     frameInfo->height = info->height;
-    frameInfo->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000) / 1000.0;
+    // 1秒=1000毫秒 1秒=1000000微秒
+    frameInfo->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000.0) / 1000.0;
+    
+//    if (type == EASY_SDK_AUDIO_FRAME_FLAG) {// EASY_SDK_AUDIO_FRAME_FLAG音频帧标志
+//        NSLog(@"aaa : %f", frameInfo->timeStamp);
+//    } else if (type == EASY_SDK_VIDEO_FRAME_FLAG) {// EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
+//        NSLog(@"vvv : %f", frameInfo->timeStamp);
+//    }
     
     memcpy(frameInfo->pBuf, pBuf, info->length);
     
     pthread_mutex_lock(&mutexFrame);    // 加锁
-    
     // 根据时间戳排序
 //    vctFrame.push_back(frameInfo);
     frameSet.insert(frameInfo);
-    
     pthread_mutex_unlock(&mutexFrame);  // 解锁
 }
 
@@ -435,7 +435,7 @@ int __RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBu
 }
 
 -(void) getDecodePixelData:(CVImageBufferRef)frame {
-    NSLog(@" --> %@", frame);
+    NSLog(@"--> %@", frame);
 }
 
 #pragma mark - H264HWDecoderDelegate
