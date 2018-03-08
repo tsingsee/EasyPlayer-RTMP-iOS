@@ -164,6 +164,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
 - (void)threadFunc {
     // 在播放中 该线程一直运行
     while (_running) {
+        
         // ------------ 加锁mutexChan ------------
         pthread_mutex_lock(&mutexChan);
         if (rtspHandle == NULL) {
@@ -410,12 +411,6 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     frameInfo->height = info->height;
     // 1秒=1000毫秒 1秒=1000000微秒
     frameInfo->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000.0) / 1000.0;
-    
-//    if (type == EASY_SDK_AUDIO_FRAME_FLAG) {// EASY_SDK_AUDIO_FRAME_FLAG音频帧标志
-//        NSLog(@"aaa : %f", frameInfo->timeStamp);
-//    } else if (type == EASY_SDK_VIDEO_FRAME_FLAG) {// EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
-//        NSLog(@"vvv : %f", frameInfo->timeStamp);
-//    }
     
     memcpy(frameInfo->pBuf, pBuf, info->length);
     

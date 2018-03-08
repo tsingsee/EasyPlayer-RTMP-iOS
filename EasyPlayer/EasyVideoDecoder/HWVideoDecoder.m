@@ -19,8 +19,6 @@
     unsigned int innerLen;
 }
 
-@property (nonatomic, assign) int index;
-
 @end
 
 @implementation HWVideoDecoder
@@ -67,11 +65,7 @@ void didDecompress(void *decompressionOutputRefCon,
                 frame.rgb = [NSData dataWithBytes:base length:bytesPerRow * height];
                 frame.duration = 0.04;
                 
-//                weakSelf.index++;
-//                if (weakSelf.index == 4) {
-                    [weakSelf.hwDelegate getDecodePictureData:frame];
-//                    weakSelf.index = 0;
-//                }
+                [weakSelf.hwDelegate getDecodePictureData:frame];
             }
             CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
 #else
