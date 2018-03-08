@@ -49,6 +49,9 @@ public:
     
     // 视频硬解码器
     HWVideoDecoder *_hwDec;
+    
+    FILE *fp;
+    int fpIndex;
 }
 
 @property (nonatomic, readwrite) BOOL running;
@@ -123,6 +126,13 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         
         // 初始化硬解码器
         _hwDec = [[HWVideoDecoder alloc] initWithDelegate:self];
+        
+        NSString *path_document = NSHomeDirectory();
+        // 设置一个图片的存储路径
+        NSString *path = [path_document stringByAppendingString:@"/Documents/qwe.h264"];
+        if ((fp = fopen([path UTF8String], "wb")) == NULL) {
+            printf("cant open the file");
+        }
     }
     
     return self;
@@ -154,6 +164,8 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         EasyRTMPClient_Release(rtspHandle);
     }
     pthread_mutex_unlock(&mutexChan);
+    
+    fclose(fp);
     
     _running = false;
     [self.thread cancel];
@@ -207,6 +219,13 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         // ------------ 解锁mutexFrame ------------
         
         if (frame->type == EASY_SDK_VIDEO_FRAME_FLAG) {
+            
+            fpIndex++;
+            if (fpIndex < 1500) {
+                NSLog(@"-->>");
+                fwrite(frame->pBuf, sizeof(unsigned char), frame->frameLen, fp);
+            }
+            
             if (self.useHWDecoder) {
                 [_hwDec decodeVideoData:frame->pBuf len:frame->frameLen];
             } else {
