@@ -299,9 +299,7 @@
 
 - (void)stopPlay {
     // 关闭前，停止录像
-    if (_recordFilePath) {
-        _reader.recordFilePath = nil;
-    }
+    _reader.recordFilePath = nil;
     
     [self screenShotName:YES];
     

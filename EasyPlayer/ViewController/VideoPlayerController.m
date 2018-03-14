@@ -78,7 +78,7 @@
     // 回归竖屏
     [self normalScreenWithDuration:0];
     
-    [self stopAll];
+    [self.panel stopAll];
 }
 
 - (void)dealloc {
@@ -178,12 +178,6 @@
 
 - (void)enterBackground {
     [[AudioManager sharedInstance] deactivateAudioSession];
-    [self.panel stopAll];
-}
-
-#pragma mark - 播放控制
-
-- (void) stopAll {
     [self.panel stopAll];
 }
 

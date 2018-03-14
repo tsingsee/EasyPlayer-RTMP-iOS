@@ -502,9 +502,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             NSString *tempPath = [_recordFilePath copy];
             
             // h264、aac合成mp4
-            dispatch_queue_t queue = dispatch_queue_create("queue", NULL);
-            dispatch_async(queue, ^{
-                
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, NULL), ^{
                 muxerToMP4([[PathUnit recordH264WithURL:self.url] UTF8String],
                            [[PathUnit recordAACWithURL:self.url] UTF8String],
                            [tempPath UTF8String]);

@@ -36,13 +36,21 @@
     // 是否显示播放控制条
     _playerViewController.showsPlaybackControls = YES;
     // 设置显示的Frame
-    _playerViewController.view.frame = self.view.bounds;
+    _playerViewController.view.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 64);
     // 将播放器控制器添加到当前页面控制器中
     [self addChildViewController:_playerViewController];
     // view一定要添加，否则将不显示
     [self.view addSubview:_playerViewController.view];
     // 播放
     [_playerViewController.player play];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    if (_playerViewController) {
+        [_playerViewController.player pause];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
