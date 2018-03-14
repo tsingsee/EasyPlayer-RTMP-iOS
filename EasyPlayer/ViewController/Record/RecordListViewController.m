@@ -7,6 +7,7 @@
 //
 
 #import "RecordListViewController.h"
+#import "PlayRecordViewController.h"
 #import "ScreenShotListCell.h"
 #import "PathUnit.h"
 
@@ -36,8 +37,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ScreenShotListCell *cell = [ScreenShotListCell cellWithTableView:tableView];
     
-    
-    // TODO
     cell.infoIV.backgroundColor = [UIColor blackColor];
     NSString *file = [NSString stringWithFormat:@"%@/%@", [PathUnit baseRecordPathWithURL:_url], _records[indexPath.row]];
     cell.infoIV.image = [UIImage imageWithContentsOfFile:file];
@@ -49,6 +48,14 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 180;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *file = [NSString stringWithFormat:@"%@/%@", [PathUnit baseRecordPathWithURL:_url], _records[indexPath.row]];
+    
+    PlayRecordViewController *controller = [[PlayRecordViewController alloc] init];
+    controller.path = file;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

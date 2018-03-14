@@ -155,16 +155,16 @@
     [screenshotButton addTarget:self action:@selector(screenshotButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     screenshotButton.enabled = NO;
     
-//    recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [statusView addSubview:recordButton];
-//    [recordButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:size * 3];
-//    [recordButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0];
-//    [recordButton autoSetDimensionsToSize:CGSizeMake(size, size)];
-//    [recordButton setImage:[UIImage imageNamed:@"ic_action_record"] forState:UIControlStateDisabled];
-//    [recordButton setImage:[UIImage imageNamed:@"ic_action_record_enabled"] forState:UIControlStateNormal];
-//    [recordButton setImage:[UIImage imageNamed:@"ic_action_record_pressed"] forState:UIControlStateSelected];
-//    [recordButton addTarget:self action:@selector(recordButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    recordButton.enabled = NO;
+    recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [statusView addSubview:recordButton];
+    [recordButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:size * 3];
+    [recordButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0];
+    [recordButton autoSetDimensionsToSize:CGSizeMake(size, size)];
+    [recordButton setImage:[UIImage imageNamed:@"ic_action_record"] forState:UIControlStateDisabled];
+    [recordButton setImage:[UIImage imageNamed:@"ic_action_record_enabled"] forState:UIControlStateNormal];
+    [recordButton setImage:[UIImage imageNamed:@"ic_action_record_pressed"] forState:UIControlStateSelected];
+    [recordButton addTarget:self action:@selector(recordButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    recordButton.enabled = NO;
     
     playButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [statusView addSubview:playButton];

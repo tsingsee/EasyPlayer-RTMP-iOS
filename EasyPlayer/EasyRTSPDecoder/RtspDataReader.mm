@@ -3,12 +3,16 @@
 #include <pthread.h>
 #include <vector>
 #include <set>
-#import <string.h>
+#include <string.h>
 
 #import "HWVideoDecoder.h"
-#include "MuxerToVideo.h"
 #include "VideoDecode.h"
 #include "EasyAudioDecoder.h"
+
+#include "MuxerToVideo.h"
+#include "MuxerToMP4.h"
+
+#import "PathUnit.h"
 
 struct FrameInfo {
     FrameInfo() : pBuf(NULL), frameLen(0), type(0), timeStamp(0), width(0), height(0){}
@@ -44,14 +48,13 @@ public:
     EASY_MEDIA_INFO_T _mediaInfo;   // 媒体信息
     
     std::multiset<FrameInfo *, com> frameSet;
-//    std::vector<FrameInfo *> vctFrame;
     CGFloat _lastVideoFramePosition;
     
     // 视频硬解码器
     HWVideoDecoder *_hwDec;
     
-    FILE *fp;
-    int fpIndex;
+    FILE *h264FP;
+    FILE *accFP;
 }
 
 @property (nonatomic, readwrite) BOOL running;
@@ -126,13 +129,6 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         
         // 初始化硬解码器
         _hwDec = [[HWVideoDecoder alloc] initWithDelegate:self];
-        
-        NSString *path_document = NSHomeDirectory();
-        // 设置一个图片的存储路径
-        NSString *path = [path_document stringByAppendingString:@"/Documents/qwe.h264"];
-        if ((fp = fopen([path UTF8String], "wb")) == NULL) {
-            printf("cant open the file");
-        }
     }
     
     return self;
@@ -160,12 +156,17 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     pthread_mutex_lock(&mutexChan);
     if (rtspHandle != NULL) {
         EasyRTMPClient_SetCallback(rtspHandle, NULL);
-//        EasyRTMP_CloseStream(rtspHandle);// 关闭网络流
         EasyRTMPClient_Release(rtspHandle);
     }
     pthread_mutex_unlock(&mutexChan);
     
-    fclose(fp);
+    if (h264FP) {
+        fclose(h264FP);
+    }
+    
+    if (accFP) {
+        fclose(accFP);
+    }
     
     _running = false;
     [self.thread cancel];
@@ -201,16 +202,12 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         // ------------ 加锁mutexFrame ------------
         pthread_mutex_lock(&mutexFrame);
         
-//        int count = (int)vctFrame.size();
         int count = (int) frameSet.size();
         if (count == 0) {
             pthread_mutex_unlock(&mutexFrame);
             usleep(5 * 1000);
             continue;
         }
-        
-//        FrameInfo *frame = vctFrame[0];
-//        vctFrame.erase(vctFrame.begin());
         
         FrameInfo *frame = *(frameSet.begin());
         frameSet.erase(frameSet.begin());
@@ -219,11 +216,16 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         // ------------ 解锁mutexFrame ------------
         
         if (frame->type == EASY_SDK_VIDEO_FRAME_FLAG) {
-            
-            fpIndex++;
-            if (fpIndex < 1500) {
-                NSLog(@"-->>");
-                fwrite(frame->pBuf, sizeof(unsigned char), frame->frameLen, fp);
+            if (self.recordFilePath) {
+                if (h264FP == NULL) {
+                    if ((h264FP = fopen([[PathUnit recordH264WithURL:self.url] UTF8String], "wb")) == NULL) {
+                        printf("cant open the file");
+                    }
+                }
+                
+                if (h264FP) {
+                    fwrite(frame->pBuf, sizeof(unsigned char), frame->frameLen, h264FP);
+                }
             }
             
             if (self.useHWDecoder) {
@@ -234,6 +236,18 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             
             [self recordVideo:frame];
         } else {
+            if (self.recordFilePath) {
+                if (accFP == NULL) {
+                    if ((accFP = fopen([[PathUnit recordAACWithURL:self.url] UTF8String], "wb")) == NULL) {
+                        printf("cant open the file");
+                    }
+                }
+                
+                if (accFP) {
+                    fwrite(frame->pBuf, sizeof(unsigned char), frame->frameLen, accFP);
+                }
+            }
+            
             if (self.enableAudio) {
                 [self decodeAudioFrame:frame];
             }
@@ -349,21 +363,16 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
 - (void)removeCach {
     pthread_mutex_lock(&mutexFrame);
     
-//    std::vector<FrameInfo *>::iterator it = vctFrame.begin();
     std::set<FrameInfo *>::iterator it = frameSet.begin();
     while (it != frameSet.end()) {
-//    while (it != vctFrame.end()) {
         FrameInfo *frameInfo = *it;
         delete []frameInfo->pBuf;
         delete frameInfo;
         it++;
     }
-//    vctFrame.clear();
     frameSet.clear();
     
     pthread_mutex_unlock(&mutexFrame);
-    
-    NSLog(@"Reader %8@ removeCach", self);
 }
 
 #pragma mark - 录像
@@ -394,7 +403,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
 //                                                       _mediaInfo.u32AudioChannel,
 //                                                       16);
 //    }
-//    
+//
 //    // 录像：音频
 //    convertAudioToAVPacket([self.recordFilePath UTF8String], _recordAudioHandle, audio->pBuf, audio->frameLen);
 }
@@ -435,7 +444,6 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     
     pthread_mutex_lock(&mutexFrame);    // 加锁
     // 根据时间戳排序
-//    vctFrame.push_back(frameInfo);
     frameSet.insert(frameInfo);
     pthread_mutex_unlock(&mutexFrame);  // 解锁
 }
@@ -476,7 +484,6 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     if (rtspHandle != NULL) {
         /* 释放RTSPClient 参数为RTSPClient句柄 */
         EasyRTMPClient_Release(&rtspHandle);
-//        EasyRTMP_Deinit(&rtspHandle);
         rtspHandle = NULL;
     }
 }
@@ -485,6 +492,30 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
 
 - (EASY_MEDIA_INFO_T)mediaInfo {
     return _mediaInfo;
+}
+
+#pragma mark - setter
+
+- (void) setRecordFilePath:(NSString *)recordFilePath {
+    if (!recordFilePath && _recordFilePath) {
+        if (h264FP || accFP) {
+            NSString *tempPath = [_recordFilePath copy];
+            
+            // h264、aac合成mp4
+            dispatch_queue_t queue = dispatch_queue_create("queue", NULL);
+            dispatch_async(queue, ^{
+                
+                muxerToMP4([[PathUnit recordH264WithURL:self.url] UTF8String],
+                           [[PathUnit recordAACWithURL:self.url] UTF8String],
+                           [tempPath UTF8String]);
+                
+                h264FP = NULL;
+                accFP = NULL;
+            });
+        }
+    }
+    
+    _recordFilePath = recordFilePath;
 }
 
 @end

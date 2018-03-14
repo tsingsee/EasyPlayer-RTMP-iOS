@@ -11,11 +11,12 @@
 #include "EasyTypes.h"
 #include "g711.h"
 
-#pragma mark - FFMPEG
+#pragma mark - 文件的操作
 
-AVFormatContext *avFormatContext_out = NULL;   // Output AVFormatContext
 AVOutputFormat *ofmt = NULL;
-int ret = 0;
+AVFormatContext *ofmt_ctx = NULL;
+
+int result = -1;
 
 AVCodec *videoCodec;
 AVCodecContext *videoCodecCtx;
@@ -23,134 +24,130 @@ AVCodecContext *videoCodecCtx;
 AVCodec *audioCodec;
 AVCodecContext *audioCodecCtx;
 
-#pragma mark - 关闭输出文件
-
 /**
  关闭文件
 
  @return 0:成功
  */
 int closeOutPut() {
-    if (avFormatContext_out) {
+    if (ofmt_ctx) {
         // av_write_trailer()：写入文件尾 Write file trailer
-        av_write_trailer(avFormatContext_out);
+        av_write_trailer(ofmt_ctx);
         
         // close output
-        if (avFormatContext_out && !(ofmt->flags & AVFMT_NOFILE)) {
-            avio_close(avFormatContext_out->pb);
+        if (ofmt_ctx && !(ofmt->flags & AVFMT_NOFILE)) {
+            avio_close(ofmt_ctx->pb);
         }
         
-        avformat_free_context(avFormatContext_out);
-        avFormatContext_out = NULL;
+        avformat_free_context(ofmt_ctx);
+        ofmt_ctx = NULL;
     }
     
     return 0;
 }
 
-#pragma mark - 打开输出文件
-
 /**
  打开输入文件
-
+ 
  @param out_filename 路径
  @return 2:已经打开；1:打开成功;0:打开失败
  */
 int openOutPut(const char *out_filename) {
-    if (avFormatContext_out) {
-        return 2;
-    } else {
-        if (videoCodec != NULL && audioCodec != NULL && audioCodec == 0) {
-            av_register_all();
-            
-            // 初始化输出文件 Output
-            avformat_alloc_output_context2(&avFormatContext_out, NULL, NULL, out_filename);
-            if (avFormatContext_out == NULL) {
-                printf("Could not create output context\n");
-                ret = AVERROR_UNKNOWN;
-                
-                return closeOutPut();
-            }
-            ofmt = avFormatContext_out->oformat;
-            
-            // videoCodec
-            AVStream *video_out_stream = avformat_new_stream(avFormatContext_out, videoCodec);
-            // 赋值AVCodecContext的参数 Copy the settings of AVCodecContext
-            if (avcodec_copy_context(video_out_stream->codec, videoCodecCtx) < 0) {
-                printf( "Failed to copy context from input to output stream codec context\n");
-                return closeOutPut();
-            }
-            if (avFormatContext_out->oformat->flags & AVFMT_GLOBALHEADER) {
-                video_out_stream->codec->flags |= CODEC_FLAG_GLOBAL_HEADER;
-                videoCodecCtx->flags |= CODEC_FLAG_GLOBAL_HEADER;
-            }
-            
-            // audioCodec
-            AVStream *audio_out_stream = avformat_new_stream(avFormatContext_out, audioCodec);
-            if (avcodec_copy_context(audio_out_stream->codec, audioCodecCtx) < 0) {
-                printf( "Failed to copy context from input to output stream codec context\n");
-                return closeOutPut();
-            }
-            if (avFormatContext_out->oformat->flags & AVFMT_GLOBALHEADER) {
-                audioCodecCtx->flags |= CODEC_FLAG_GLOBAL_HEADER;
-            }
-            
-            printf("==========Output Information==========\n");
-            av_dump_format(avFormatContext_out, 0, out_filename, 1);
-            printf("======================================\n");
-            
-            // avio_open 打开输出文件
-            if (!(ofmt->flags & AVFMT_NOFILE)) {
-                if (avio_open(&avFormatContext_out->pb, out_filename, AVIO_FLAG_WRITE) < 0) {
-                    printf("Could not open output file '%s'", out_filename);
-                    
-                    return closeOutPut();
-                }
-            }
-            
-            // 写入文件头 Write file header
-            if (avformat_write_header(avFormatContext_out, NULL) < 0) {
-                printf("Error occurred when opening output file\n");
-                
-                return closeOutPut();
-            }
-            
-            printf(" --->>> openOutPut 1 : %p <<<--- \n", avFormatContext_out);
-            printf(" --->>> openOutPut 2 : %p <<<--- \n", ofmt);
-            return 2;
-        } else {
-            return 0;
+    av_register_all();
+    
+    // 1、初始化一个用于输出的AVFormatContext结构体
+    if (ofmt_ctx == NULL) {
+        avformat_alloc_output_context2(&ofmt_ctx, NULL, NULL, out_filename);
+        if (ofmt_ctx == NULL) {
+            printf("Could not create output context\n");
+            return closeOutPut();
+        }
+        ofmt = ofmt_ctx->oformat;
+    }
+    
+    // 2、在 ofmt_ctx 中创建 Video Stream 通道
+    if (videoCodec != NULL && videoCodecCtx != NULL) {
+        AVStream *video_out_stream = avformat_new_stream(ofmt_ctx, videoCodec);
+        if (avcodec_parameters_from_context(video_out_stream->codecpar, videoCodecCtx) < 0) {
+            printf( "Failed to copy context from input to output stream codec context\n");
+            return closeOutPut();
+        }
+        if (ofmt_ctx->oformat->flags & AVFMT_GLOBALHEADER) {
+            videoCodecCtx->flags |= CODEC_FLAG_GLOBAL_HEADER;
         }
     }
+    
+    // 3、在 ofmt_ctx 中创建 Audio Stream 通道
+    if (audioCodec != NULL && audioCodec == 0) {
+        AVStream *audio_out_stream = avformat_new_stream(ofmt_ctx, audioCodec);
+        if (avcodec_parameters_from_context(audio_out_stream->codecpar, audioCodecCtx) < 0) {
+            printf( "Failed to copy context from input to output stream codec context\n");
+            return closeOutPut();
+        }
+        if (ofmt_ctx->oformat->flags & AVFMT_GLOBALHEADER) {
+            audioCodecCtx->flags |= CODEC_FLAG_GLOBAL_HEADER;
+        }
+        
+        printf("==========Output Information==========\n");
+        av_dump_format(ofmt_ctx, 0, out_filename, 1);
+        printf("======================================\n");
+    }
+    
+    // avio_open 打开输出文件
+    if (!(ofmt->flags & AVFMT_NOFILE)) {
+        if (avio_open(&ofmt_ctx->pb, out_filename, AVIO_FLAG_WRITE) < 0) {
+            printf("Could not open output file '%s'", out_filename);
+            
+            return closeOutPut();
+        }
+    }
+    
+    // 写入文件头 Write file header
+    if (avformat_write_header(ofmt_ctx, NULL) < 0) {
+        printf("Error occurred when opening output file\n");
+        
+        return closeOutPut();
+    }
+    
+    return 2;
 }
 
-#pragma mark - avpacket写入文件
-
-int writeData(const char *out_filename, AVPacket pkt) {
+// avpacket写入文件
+int writeData(const char *out_filename, AVPacket pkt, AVCodecContext *pCodecCtx) {
     if (out_filename == NULL) {
         return closeOutPut();
     } else {
-        if (openOutPut(out_filename) == 2) {
-            
-            // av_compare_ts()：比较时间戳，决定写入视频还是写入音频 Get an AVPacket
-            
-            printf("Write 1 Packet. size:%5d\tpts:%lld\n", pkt.size, pkt.pts);
-            
-            // av_interleaved_write_frame()：写入一个AVPacket到输出文件
-            if (av_interleaved_write_frame(avFormatContext_out, &pkt) < 0) {
-                printf("Error muxing packet\n");
-            }
-            
-            av_free_packet(&pkt);
-            
-            return 1;
-        } else {
+        if (videoCodec == NULL || videoCodecCtx == NULL ||
+            audioCodec == NULL || audioCodecCtx == NULL) {
             return 0;
         }
+        
+        if (ofmt_ctx == NULL) {
+            openOutPut(out_filename);
+        }
+        
+        //Convert PTS/DTS
+        pkt.pts = av_rescale_q_rnd(pkt.pts, pCodecCtx->time_base, pCodecCtx->time_base, (AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
+        pkt.dts = av_rescale_q_rnd(pkt.dts, pCodecCtx->time_base, pCodecCtx->time_base, (AV_ROUND_NEAR_INF|AV_ROUND_PASS_MINMAX));
+        pkt.duration = 0;// av_rescale_q(pkt.duration, pCodecCtx->time_base, pCodecCtx->time_base);
+        pkt.pos = -1;
+        
+        printf("Write 1 Packet. size:%5d\tpts:%lld\n", pkt.size, pkt.pts);
+        
+        // av_interleaved_write_frame()：写入一个AVPacket到输出文件
+        if (av_interleaved_write_frame(ofmt_ctx, &pkt) < 0) {
+            printf("Error muxing packet\n");
+        }
+        
+        av_packet_unref(&pkt);
+        
+        return 1;
     }
 }
 
-#pragma mark - 将h264流转换为AVPacket
+#pragma mark - 转换为AVPacket
 
+// 将h264流转换为AVPacket
 int convertVideoToAVPacket(const char *out_filename, void *recordHandle, Muxer_Video_PARAM *pDecodeParam) {
     Muxer_Video_COMPONENT *pComponent = (Muxer_Video_COMPONENT *)recordHandle;
     if (pComponent == NULL || pComponent->pCodecCtx == NULL || pComponent->pFrame == NULL) {
@@ -169,6 +166,7 @@ int convertVideoToAVPacket(const char *out_filename, void *recordHandle, Muxer_V
         pComponent->pNewStream[pComponent->newStreamLen+2] = 1;
         memcpy(pComponent->pNewStream+3+pComponent->newStreamLen, pDecodeParam->pStream, pDecodeParam->nLen);
         pComponent->newStreamLen += pDecodeParam->nLen +3;
+        
         packet.size = pComponent->newStreamLen;
         packet.data = pComponent->pNewStream;
     } else {
@@ -176,13 +174,16 @@ int convertVideoToAVPacket(const char *out_filename, void *recordHandle, Muxer_V
         packet.data = pDecodeParam->pStream;
     }
     
-    writeData(out_filename, packet);
+    packet.stream_index = 0;
+    
+    if (videoCodecCtx) {
+        writeData(out_filename, packet, videoCodecCtx);
+    }
     
     return 0;
 }
 
-#pragma mark - 将aac流转换为AVPacket
-
+// 将aac流转换为AVPacket
 int convertAudioToAVPacket(const char *out_filename, void *audioDecHandle, unsigned char *pData, int nLen) {
     Muxer_Audio_Handle *pComponent = (Muxer_Audio_Handle *)audioDecHandle;
 
@@ -194,14 +195,17 @@ int convertAudioToAVPacket(const char *out_filename, void *audioDecHandle, unsig
         audioCodec = 0;
         audioCodecCtx = 0;
     }
-
+    
     AVPacket packet;
     av_init_packet(&packet);
-
+    
     packet.size = nLen;
     packet.data = pData;
-
-    writeData(out_filename, packet);
+    packet.stream_index = 0;
+    
+    if (audioCodecCtx) {
+        writeData(out_filename, packet, audioCodecCtx);
+    }
     
     return 0;
 }
@@ -375,7 +379,6 @@ Muxer_Audio_Handle* muxer_Audio_Handle_Create(int code, int sample_rate, int cha
     pHandle->code = code;
     pHandle->pContext = 0;
     if (code == EASY_SDK_AUDIO_CODEC_AAC || code == EASY_SDK_AUDIO_CODEC_G726) {
-//        av_register_all();
         pHandle->pContext = muxer_Audio_PARAM_Create(code, sample_rate, channels, sample_bit);
         if(NULL == pHandle->pContext) {
             free(pHandle);

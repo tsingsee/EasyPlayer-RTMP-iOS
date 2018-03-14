@@ -157,25 +157,40 @@ unsigned int DecodeVideo(void *DecHandle, DEC_DECODE_PARAM *pDecodeParam, DVDVid
         packet.size = pComponent->newStreamLen;
         packet.data = pComponent->pNewStream;
     } else {
-        packet.size = pDecodeParam->nLen;
-        packet.data = pDecodeParam->pStream;
+        packet.size = pDecodeParam->nLen;       // data的大小
+        packet.data = pDecodeParam->pStream;    // 压缩编码的数据
     }
 
     int got_picture = 0;
     int nRet = 0;
     if (packet.size > 0) {
         // [9]、解码一帧数据,输入一个压缩编码的结构体AVPacket-->输出一个解码后的结构体AVFrame
-        nRet = avcodec_decode_video2(pComponent->pCodecCtx, pComponent->pFrame, &got_picture, &packet);
+        nRet = avcodec_decode_video2(pComponent->pCodecCtx,
+                                     pComponent->pFrame,
+                                     &got_picture,
+                                     &packet);
+        
+        
+//        int re = avcodec_send_packet(pComponent->pCodecCtx, &packet);
+//        if (re != 0) {
+//            return -1;
+//        }
+//        while (avcodec_receive_frame(pComponent->pCodecCtx, pComponent->pFrame) == 0) {
+//            //读取到一帧音频或者视频
+//            //处理解码后音视频 frame
+//        }
+        
+        
         if (nRet == -1) {
             return nRet;
         }
     }
     
     // 释放packet
-    av_free_packet(&packet);
+    av_packet_unref(&packet);
     
     pComponent->newStreamLen = pComponent->uiOriginLen;
-    
+//    printf("帧类型AVPictureType：%d\n", pComponent->pFrame->pict_type);
     if (pComponent->pFrame->data[0] == NULL) {
         return 0;
     }
@@ -194,7 +209,7 @@ unsigned int DecodeVideo(void *DecHandle, DEC_DECODE_PARAM *pDecodeParam, DVDVid
             // data解码后的图像像素数据
             sws_scale(pComponent->pImgConvertCtx,
                       (const uint8_t* const*)pComponent->pFrame->data,
-                      pComponent->pFrame->linesize, // linesize对视频来说是一行像素的大小
+                      pComponent->pFrame->linesize, // linesize对视频来说是一行像素的大小。data中“一行”数据的大小。注意：未必等于图像的宽，一般大于图像的宽。
                       0,
                       pComponent->pCodecCtx->height,
                       pComponent->picture.data,
@@ -208,8 +223,10 @@ unsigned int DecodeVideo(void *DecHandle, DEC_DECODE_PARAM *pDecodeParam, DVDVid
             picture->color_primaries = pComponent->pCodecCtx->color_primaries;
             picture->color_transfer = pComponent->pCodecCtx->color_trc;
             
-            // TODO
+            // qscale_table:QP表。QP表指向一块内存，里面存储的是每个宏块的QP值。宏块的标号是从左往右，一行一行的来的。每个宏块对应1个QP。
             picture->qscale_table = pComponent->pFrame->qscale_table;
+            
+            //
             picture->qscale_stride = pComponent->pFrame->qstride;
             
             for (int i = 0; i < 4; i++) {

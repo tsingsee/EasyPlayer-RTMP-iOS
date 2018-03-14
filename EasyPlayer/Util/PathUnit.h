@@ -21,6 +21,10 @@
 // 摄像头的录像地址
 + (NSString *) recordWithURL:(NSString *)url;
 
+// 录像时 临时生成的h264、aac
++ (NSString *) recordH264WithURL:(NSString *)url;
++ (NSString *) recordAACWithURL:(NSString *)url;
+
 #pragma mark - image path
 
 // 删除摄像头的截屏地址
