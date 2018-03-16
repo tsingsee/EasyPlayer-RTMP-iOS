@@ -96,7 +96,7 @@
     // rtmp://www.easydss.com:10085/live/testid
     // rtmp://live.finding.com/live/C04?auth_key=1519629069-0-0-a37a75e09891fbe6d54c11dd4caf0cee
     
-    [_alertView textFieldAtIndex:0].text = @"rtmp://www.easydss.com:10085/live/12345";
+    [_alertView textFieldAtIndex:0].text = @"rtmp://";
     _alertView.tag = -1;
     [_alertView show];
 }

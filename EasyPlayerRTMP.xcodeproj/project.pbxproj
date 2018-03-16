@@ -26,8 +26,8 @@
 		6654F4CE2011BF6F00795BC9 /* DC_AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6654F4CB2011BF6F00795BC9 /* DC_AlertManager.m */; };
 		6654F4CF2011BF6F00795BC9 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 6654F4CC2011BF6F00795BC9 /* UIView+Toast.m */; };
 		66B5389E1FF38F53001EE17B /* MuxerToVideo.c in Sources */ = {isa = PBXBuildFile; fileRef = 66B5389C1FF38F53001EE17B /* MuxerToVideo.c */; };
+		66FEA9F7205B94B5009822E0 /* libEasyRTMPClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FEA9F6205B94B5009822E0 /* libEasyRTMPClient.a */; };
 		66FF6691202C5523004E76B2 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCAE1FBAC7690000213E /* libstdc++.tbd */; };
-		66FF66D2202C620A004E76B2 /* libEasyRTMPClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FF66D1202C620A004E76B2 /* libEasyRTMPClient.a */; };
 		66FF66D4202C80FE004E76B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FF66D3202C80FE004E76B2 /* Foundation.framework */; };
 		9B22BEF919E074DBB3BF4148 /* libPods-EasyPlayerRTMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 935683DE38E512BDABDB44EB /* libPods-EasyPlayerRTMP.a */; };
 		E19AC7B51FBBE686008E2FA7 /* AudioManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = E19AC7B41FBBE686008E2FA7 /* AudioManager.mm */; };
@@ -101,10 +101,10 @@
 		6654F4CD2011BF6F00795BC9 /* DC_AlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DC_AlertManager.h; sourceTree = "<group>"; };
 		66B5389C1FF38F53001EE17B /* MuxerToVideo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MuxerToVideo.c; sourceTree = "<group>"; };
 		66B5389D1FF38F53001EE17B /* MuxerToVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuxerToVideo.h; sourceTree = "<group>"; };
+		66FEA9F6205B94B5009822E0 /* libEasyRTMPClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyRTMPClient.a; sourceTree = "<group>"; };
 		66FF667A202C4A83004E76B2 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		66FF66CD202C611D004E76B2 /* EasyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTypes.h; sourceTree = "<group>"; };
 		66FF66CE202C611D004E76B2 /* EasyRTMPClientAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyRTMPClientAPI.h; sourceTree = "<group>"; };
-		66FF66D1202C620A004E76B2 /* libEasyRTMPClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyRTMPClient.a; sourceTree = "<group>"; };
 		66FF66D3202C80FE004E76B2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		88A495507751E0CCA18F7E33 /* Pods-EasyPlayerRTMP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyPlayerRTMP.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP.debug.xcconfig"; sourceTree = "<group>"; };
 		935683DE38E512BDABDB44EB /* libPods-EasyPlayerRTMP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyPlayerRTMP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,13 +266,13 @@
 				368B0B5E1FCBFFA300172BDB /* VideoToolbox.framework in Frameworks */,
 				66FF66D4202C80FE004E76B2 /* Foundation.framework in Frameworks */,
 				E1A6BCA91FBAC7330000213E /* libavutil.a in Frameworks */,
+				66FEA9F7205B94B5009822E0 /* libEasyRTMPClient.a in Frameworks */,
 				E1A6BCAB1FBAC7330000213E /* libswscale.a in Frameworks */,
 				E1A6BCA71FBAC7330000213E /* libavfilter.a in Frameworks */,
 				E1A6BCA61FBAC7330000213E /* libavdevice.a in Frameworks */,
 				E1A6BCA51FBAC7330000213E /* libavcodec.a in Frameworks */,
 				E1A6BCAA1FBAC7330000213E /* libswresample.a in Frameworks */,
 				E1A6BCA81FBAC7330000213E /* libavformat.a in Frameworks */,
-				66FF66D2202C620A004E76B2 /* libEasyRTMPClient.a in Frameworks */,
 				9B22BEF919E074DBB3BF4148 /* libPods-EasyPlayerRTMP.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,7 +399,7 @@
 		66FF66CB202C611D004E76B2 /* libEasyRTMPClient */ = {
 			isa = PBXGroup;
 			children = (
-				66FF66D1202C620A004E76B2 /* libEasyRTMPClient.a */,
+				66FEA9F6205B94B5009822E0 /* libEasyRTMPClient.a */,
 				66FF66CC202C611D004E76B2 /* include */,
 			);
 			path = libEasyRTMPClient;
