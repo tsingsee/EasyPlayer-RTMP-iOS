@@ -20,12 +20,12 @@
 		6635A76C1FF77CF500C25760 /* RecordListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A76B1FF77CF500C25760 /* RecordListViewController.m */; };
 		6635A76F1FF7837A00C25760 /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A76E1FF7837A00C25760 /* FileListViewController.m */; };
 		6635A7821FF7997200C25760 /* ScreenShotListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A7811FF7997200C25760 /* ScreenShotListCell.m */; };
-		664E4FE02058E5CB00798A0A /* MuxerToMP4.c in Sources */ = {isa = PBXBuildFile; fileRef = 664E4FDF2058E5CB00798A0A /* MuxerToMP4.c */; };
+		66487F61205F974100514203 /* Muxer.c in Sources */ = {isa = PBXBuildFile; fileRef = 66487F60205F974100514203 /* Muxer.c */; };
 		664E4FE62058FD0500798A0A /* PlayRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E4FE52058FD0500798A0A /* PlayRecordViewController.m */; };
 		664E4FE82058FD5100798A0A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664E4FE72058FD5100798A0A /* MediaPlayer.framework */; };
+		664FAB4920624B9500A2C767 /* RtspDataReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664FAB4820624B9500A2C767 /* RtspDataReader.mm */; };
 		6654F4CE2011BF6F00795BC9 /* DC_AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6654F4CB2011BF6F00795BC9 /* DC_AlertManager.m */; };
 		6654F4CF2011BF6F00795BC9 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 6654F4CC2011BF6F00795BC9 /* UIView+Toast.m */; };
-		66B5389E1FF38F53001EE17B /* MuxerToVideo.c in Sources */ = {isa = PBXBuildFile; fileRef = 66B5389C1FF38F53001EE17B /* MuxerToVideo.c */; };
 		66FEA9F7205B94B5009822E0 /* libEasyRTMPClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FEA9F6205B94B5009822E0 /* libEasyRTMPClient.a */; };
 		66FF6691202C5523004E76B2 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCAE1FBAC7690000213E /* libstdc++.tbd */; };
 		66FF66D4202C80FE004E76B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FF66D3202C80FE004E76B2 /* Foundation.framework */; };
@@ -49,7 +49,6 @@
 		E1A6BCB11FBAC7710000213E /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCB01FBAC7710000213E /* libiconv.tbd */; };
 		E1A6BCB31FBAC7760000213E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCB21FBAC7760000213E /* libz.tbd */; };
 		E1A6BCB51FBAC77C0000213E /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCB41FBAC77C0000213E /* libbz2.tbd */; };
-		E1A6BCB81FBAC7920000213E /* RtspDataReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = E1A6BCB71FBAC7920000213E /* RtspDataReader.mm */; };
 		E1A6BCBB1FBAC7D90000213E /* VideoDecode.c in Sources */ = {isa = PBXBuildFile; fileRef = E1A6BCB91FBAC7D90000213E /* VideoDecode.c */; };
 		E1A6BCE61FBACE820000213E /* KxMovieDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A6BCE31FBACE820000213E /* KxMovieDecoder.m */; };
 		E1A6BCE71FBACE820000213E /* KxMovieGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A6BCE51FBACE820000213E /* KxMovieGLView.m */; };
@@ -90,17 +89,17 @@
 		6635A76E1FF7837A00C25760 /* FileListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListViewController.m; sourceTree = "<group>"; };
 		6635A7801FF7997200C25760 /* ScreenShotListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenShotListCell.h; sourceTree = "<group>"; };
 		6635A7811FF7997200C25760 /* ScreenShotListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenShotListCell.m; sourceTree = "<group>"; };
-		664E4FDE2058E5CB00798A0A /* MuxerToMP4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuxerToMP4.h; sourceTree = "<group>"; };
-		664E4FDF2058E5CB00798A0A /* MuxerToMP4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MuxerToMP4.c; sourceTree = "<group>"; };
+		66487F5F205F974100514203 /* Muxer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Muxer.h; sourceTree = "<group>"; };
+		66487F60205F974100514203 /* Muxer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Muxer.c; sourceTree = "<group>"; };
 		664E4FE42058FD0500798A0A /* PlayRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayRecordViewController.h; sourceTree = "<group>"; };
 		664E4FE52058FD0500798A0A /* PlayRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayRecordViewController.m; sourceTree = "<group>"; };
 		664E4FE72058FD5100798A0A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		664FAB4720624B9400A2C767 /* RtspDataReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtspDataReader.h; sourceTree = "<group>"; };
+		664FAB4820624B9500A2C767 /* RtspDataReader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RtspDataReader.mm; sourceTree = "<group>"; };
 		6654F4CA2011BF6F00795BC9 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		6654F4CB2011BF6F00795BC9 /* DC_AlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DC_AlertManager.m; sourceTree = "<group>"; };
 		6654F4CC2011BF6F00795BC9 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		6654F4CD2011BF6F00795BC9 /* DC_AlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DC_AlertManager.h; sourceTree = "<group>"; };
-		66B5389C1FF38F53001EE17B /* MuxerToVideo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MuxerToVideo.c; sourceTree = "<group>"; };
-		66B5389D1FF38F53001EE17B /* MuxerToVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuxerToVideo.h; sourceTree = "<group>"; };
 		66FEA9F6205B94B5009822E0 /* libEasyRTMPClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyRTMPClient.a; sourceTree = "<group>"; };
 		66FF667A202C4A83004E76B2 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		66FF66CD202C611D004E76B2 /* EasyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTypes.h; sourceTree = "<group>"; };
@@ -224,8 +223,6 @@
 		E1A6BCB01FBAC7710000213E /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		E1A6BCB21FBAC7760000213E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E1A6BCB41FBAC77C0000213E /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
-		E1A6BCB61FBAC7920000213E /* RtspDataReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtspDataReader.h; sourceTree = "<group>"; };
-		E1A6BCB71FBAC7920000213E /* RtspDataReader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RtspDataReader.mm; sourceTree = "<group>"; };
 		E1A6BCB91FBAC7D90000213E /* VideoDecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VideoDecode.c; sourceTree = "<group>"; };
 		E1A6BCBA1FBAC7D90000213E /* VideoDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoDecode.h; sourceTree = "<group>"; };
 		E1A6BCE21FBACE820000213E /* KxMovieDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMovieDecoder.h; sourceTree = "<group>"; };
@@ -333,8 +330,8 @@
 		668665461FCE959400956A52 /* EasyRTSPDecoder */ = {
 			isa = PBXGroup;
 			children = (
-				E1A6BCB61FBAC7920000213E /* RtspDataReader.h */,
-				E1A6BCB71FBAC7920000213E /* RtspDataReader.mm */,
+				664FAB4720624B9400A2C767 /* RtspDataReader.h */,
+				664FAB4820624B9500A2C767 /* RtspDataReader.mm */,
 			);
 			path = EasyRTSPDecoder;
 			sourceTree = "<group>";
@@ -357,10 +354,8 @@
 		66D62EE41FED219F00C3B5C7 /* MuxerToVideo */ = {
 			isa = PBXGroup;
 			children = (
-				664E4FDE2058E5CB00798A0A /* MuxerToMP4.h */,
-				664E4FDF2058E5CB00798A0A /* MuxerToMP4.c */,
-				66B5389D1FF38F53001EE17B /* MuxerToVideo.h */,
-				66B5389C1FF38F53001EE17B /* MuxerToVideo.c */,
+				66487F5F205F974100514203 /* Muxer.h */,
+				66487F60205F974100514203 /* Muxer.c */,
 			);
 			path = MuxerToVideo;
 			sourceTree = "<group>";
@@ -829,16 +824,15 @@
 				E1A6BCE61FBACE820000213E /* KxMovieDecoder.m in Sources */,
 				E1A6BCF81FBAD2210000213E /* NSLayoutConstraint+PureLayout.m in Sources */,
 				368B0B5B1FCBFE9200172BDB /* HWVideoDecoder.m in Sources */,
-				664E4FE02058E5CB00798A0A /* MuxerToMP4.c in Sources */,
 				E19AC7C11FBBE987008E2FA7 /* EasyAudioDecoder.c in Sources */,
 				6635A7821FF7997200C25760 /* ScreenShotListCell.m in Sources */,
 				6654F4CE2011BF6F00795BC9 /* DC_AlertManager.m in Sources */,
 				E19AC7C31FBBE987008E2FA7 /* g711.c in Sources */,
 				6635A76C1FF77CF500C25760 /* RecordListViewController.m in Sources */,
 				6635A7691FF77CEB00C25760 /* ScreenShotListViewController.m in Sources */,
-				E1A6BCB81FBAC7920000213E /* RtspDataReader.mm in Sources */,
 				E1A6BCBB1FBAC7D90000213E /* VideoDecode.c in Sources */,
 				E19AC7B51FBBE686008E2FA7 /* AudioManager.mm in Sources */,
+				664FAB4920624B9500A2C767 /* RtspDataReader.mm in Sources */,
 				6635A75F1FF767C600C25760 /* PathUnit.m in Sources */,
 				6635A7621FF777A000C25760 /* NSUserDefaultsUnit.m in Sources */,
 				664E4FE62058FD0500798A0A /* PlayRecordViewController.m in Sources */,
@@ -850,7 +844,7 @@
 				E1A6BC201FBAC6EC0000213E /* main.m in Sources */,
 				6654F4CF2011BF6F00795BC9 /* UIView+Toast.m in Sources */,
 				363E00B01FBDB1F4008690E7 /* RootViewController.m in Sources */,
-				66B5389E1FF38F53001EE17B /* MuxerToVideo.c in Sources */,
+				66487F61205F974100514203 /* Muxer.c in Sources */,
 				E1A6BCEB1FBAD1E40000213E /* VideoView.m in Sources */,
 				E19AC7C01FBBE987008E2FA7 /* AACDecoder.c in Sources */,
 				E1A6BCF71FBAD2210000213E /* NSArray+PureLayout.m in Sources */,

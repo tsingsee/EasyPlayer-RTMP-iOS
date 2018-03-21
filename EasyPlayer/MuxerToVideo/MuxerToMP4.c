@@ -30,12 +30,12 @@
 int muxerToMP4(const char *in_filename_v, const char *in_filename_a, const char *out_filename) {
     
     // Output AVFormatContext
-    AVFormatContext *avFormatContext_out = NULL;
-    AVOutputFormat *avOutputFormat = NULL;
+    AVFormatContext *outFmtCtx = NULL;
+    AVOutputFormat *outFmt = NULL;
     
     // Input AVFormatContext
-    AVFormatContext *avFormatContext_video = NULL;
-    AVFormatContext *avFormatContext_audio = NULL;
+    AVFormatContext *inFmtCtx_v = NULL;
+    AVFormatContext *inFmtCtx_a = NULL;
     
     AVPacket avPacket;
     
@@ -51,104 +51,150 @@ int muxerToMP4(const char *in_filename_v, const char *in_filename_a, const char 
     av_register_all();
     
     // 打开输入文件 Input
-    if ((ret = avformat_open_input(&avFormatContext_video, in_filename_v, 0, 0)) < 0) {
+    if ((ret = avformat_open_input(&inFmtCtx_v, in_filename_v, 0, 0)) < 0) {
         printf( "Could not open input file.");
         goto end;
     }
-    if ((ret = avformat_find_stream_info(avFormatContext_video, 0)) < 0) {
+    if ((ret = avformat_find_stream_info(inFmtCtx_v, 0)) < 0) {
         printf( "Failed to retrieve input stream information");
         goto end;
     }
 
-    if ((ret = avformat_open_input(&avFormatContext_audio, in_filename_a, 0, 0)) < 0) {
+    if ((ret = avformat_open_input(&inFmtCtx_a, in_filename_a, 0, 0)) < 0) {
         printf( "Could not open input file.");
         goto end;
     }
-    if ((ret = avformat_find_stream_info(avFormatContext_audio, 0)) < 0) {
+    if ((ret = avformat_find_stream_info(inFmtCtx_a, 0)) < 0) {
         printf( "Failed to retrieve input stream information");
         goto end;
     }
     
-    printf("===========Input Information==========\n");
-    av_dump_format(avFormatContext_video, 0, in_filename_v, 0);
-    printf("--------------------------------------\n");
-    av_dump_format(avFormatContext_audio, 0, in_filename_a, 0);
-    printf("======================================\n");
+    printf("========== 输入流信息格式 ==========\n");
+    av_dump_format(inFmtCtx_v, 0, in_filename_v, 0);
+    printf("---------------------------------\n");
+    av_dump_format(inFmtCtx_a, 0, in_filename_a, 0);
+    printf("==================================\n");
     
     // 初始化输出文件 Output
-    avformat_alloc_output_context2(&avFormatContext_out, NULL, NULL, out_filename);
-    if (!avFormatContext_out) {
+    avformat_alloc_output_context2(&outFmtCtx, NULL, NULL, out_filename);
+    if (!outFmtCtx) {
         printf("Could not create output context\n");
         ret = AVERROR_UNKNOWN;
         goto end;
     }
-    avOutputFormat = avFormatContext_out->oformat;
+    outFmt = outFmtCtx->oformat;
     
     int i;
-    for (i = 0; i < avFormatContext_video->nb_streams; i++) {
+    for (i = 0; i < inFmtCtx_v->nb_streams; i++) {
         //Create output AVStream according to input AVStream
-        if(avFormatContext_video->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
-            AVStream *in_stream = avFormatContext_video->streams[i];
-            AVStream *out_stream = avformat_new_stream(avFormatContext_out, in_stream->codec->codec);
+        if(inFmtCtx_v->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+            AVStream *in_stream = inFmtCtx_v->streams[i];
+            
+            AVCodec *in_codec = avcodec_find_decoder(in_stream->codecpar->codec_id);
+            AVCodecContext *in_pCodecCtx = avcodec_alloc_context3(in_codec);// 需要使用avcodec_free_context释放
+            avcodec_parameters_to_context(in_pCodecCtx, in_stream->codecpar);
+            
+            AVStream *out_stream = avformat_new_stream(outFmtCtx, in_pCodecCtx->codec);
             videoindex_in = i;
             if (!out_stream) {
                 printf( "Failed allocating output stream\n");
                 ret = AVERROR_UNKNOWN;
+                
+                avcodec_free_context(&in_pCodecCtx);
+                
                 goto end;
             }
             
             videoindex_out = out_stream->index;
+            
             // 赋值AVCodecContext的参数 Copy the settings of AVCodecContext
-            if (avcodec_copy_context(out_stream->codec, in_stream->codec) < 0) {
+            ret = avcodec_parameters_from_context(out_stream->codecpar, in_pCodecCtx);
+            
+            avcodec_free_context(&in_pCodecCtx);
+            
+            if (ret < 0) {
                 printf( "Failed to copy context from input to output stream codec context\n");
                 goto end;
             }
-            out_stream->codec->codec_tag = 0;
-            if (avFormatContext_out->oformat->flags & AVFMT_GLOBALHEADER)
-                out_stream->codec->flags |= CODEC_FLAG_GLOBAL_HEADER;
+            
+            out_stream->codecpar->codec_tag = 0;
+            
+            if (outFmtCtx->oformat->flags & AVFMT_GLOBALHEADER) {
+                AVCodec *out_codec = avcodec_find_decoder(out_stream->codecpar->codec_id);
+                AVCodecContext *out_pCodecCtx = avcodec_alloc_context3(out_codec);// 需要使用avcodec_free_context释放
+                avcodec_parameters_to_context(out_pCodecCtx, out_stream->codecpar);
+                
+                out_pCodecCtx->flags |= CODEC_FLAG_GLOBAL_HEADER;
+                
+                avcodec_free_context(&out_pCodecCtx);
+            }
+            
             break;
         }
     }
 
-    for (i = 0; i < avFormatContext_audio->nb_streams; i++) {
+    for (i = 0; i < inFmtCtx_a->nb_streams; i++) {
         //Create output AVStream according to input AVStream
-        if(avFormatContext_audio->streams[i]->codec->codec_type==AVMEDIA_TYPE_AUDIO){
-            AVStream *in_stream = avFormatContext_audio->streams[i];
-            AVStream *out_stream = avformat_new_stream(avFormatContext_out, in_stream->codec->codec);
-            audioindex_in=i;
+        if(inFmtCtx_a->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
+            AVStream *in_stream = inFmtCtx_a->streams[i];
+            
+            AVCodec *in_codec = avcodec_find_decoder(in_stream->codecpar->codec_id);
+            AVCodecContext *in_pCodecCtx = avcodec_alloc_context3(in_codec);// 需要使用avcodec_free_context释放
+            avcodec_parameters_to_context(in_pCodecCtx, in_stream->codecpar);
+            
+            AVStream *out_stream = avformat_new_stream(outFmtCtx, in_pCodecCtx->codec);
+            audioindex_in = i;
             if (!out_stream) {
                 printf( "Failed allocating output stream\n");
                 ret = AVERROR_UNKNOWN;
+                
+                avcodec_free_context(&in_pCodecCtx);
+                
                 goto end;
             }
+            
             audioindex_out = out_stream->index;
-            //Copy the settings of AVCodecContext
-            if (avcodec_copy_context(out_stream->codec, in_stream->codec) < 0) {
+            
+            // 赋值AVCodecContext的参数 Copy the settings of AVCodecContext
+            ret = avcodec_parameters_from_context(out_stream->codecpar, in_pCodecCtx);
+            
+            avcodec_free_context(&in_pCodecCtx);
+            
+            if (ret < 0) {
                 printf( "Failed to copy context from input to output stream codec context\n");
                 goto end;
             }
-            out_stream->codec->codec_tag = 0;
-            if (avFormatContext_out->oformat->flags & AVFMT_GLOBALHEADER)
-                out_stream->codec->flags |= CODEC_FLAG_GLOBAL_HEADER;
+            
+            out_stream->codecpar->codec_tag = 0;
+            
+            if (outFmtCtx->oformat->flags & AVFMT_GLOBALHEADER) {
+                AVCodec *out_codec = avcodec_find_decoder(out_stream->codecpar->codec_id);
+                AVCodecContext *out_pCodecCtx = avcodec_alloc_context3(out_codec);// 需要使用avcodec_free_context释放
+                avcodec_parameters_to_context(out_pCodecCtx, out_stream->codecpar);
+                
+                out_pCodecCtx->flags |= CODEC_FLAG_GLOBAL_HEADER;
+                
+                avcodec_free_context(&out_pCodecCtx);
+            }
 
             break;
         }
     }
     
-    printf("==========Output Information==========\n");
-    av_dump_format(avFormatContext_out, 0, out_filename, 1);
-    printf("======================================\n");
+    printf("========== 输出流信息格式 ==========\n");
+    av_dump_format(outFmtCtx, 0, out_filename, 1);
+    printf("==================================\n");
     
     // avio_open 打开输出文件
-    if (!(avOutputFormat->flags & AVFMT_NOFILE)) {
-        if (avio_open(&avFormatContext_out->pb, out_filename, AVIO_FLAG_WRITE) < 0) {
+    if (!(outFmt->flags & AVFMT_NOFILE)) {
+        if (avio_open(&outFmtCtx->pb, out_filename, AVIO_FLAG_WRITE) < 0) {
             printf( "Could not open output file '%s'", out_filename);
             goto end;
         }
     }
 
     // 写入文件头 Write file header
-    if (avformat_write_header(avFormatContext_out, NULL) < 0) {
+    if (avformat_write_header(outFmtCtx, NULL) < 0) {
         printf( "Error occurred when opening output file\n");
         goto end;
     }
@@ -169,18 +215,18 @@ int muxerToMP4(const char *in_filename_v, const char *in_filename_a, const char 
         
         // av_compare_ts()：比较时间戳，决定写入视频还是写入音频 Get an AVPacket
         if(av_compare_ts(cur_video_pts,
-                         avFormatContext_video->streams[videoindex_in]->time_base,
+                         inFmtCtx_v->streams[videoindex_in]->time_base,
                          cur_audio_pts,
-                         avFormatContext_audio->streams[audioindex_in]->time_base) <= 0) {
+                         inFmtCtx_a->streams[audioindex_in]->time_base) <= 0) {
             // Video
-            ifmt_ctx = avFormatContext_video;
+            ifmt_ctx = inFmtCtx_v;
             stream_index = videoindex_out;
 
             // av_read_frame()：从输入文件读取一个AVPacket
             if(av_read_frame(ifmt_ctx, &avPacket) >= 0) {
                 do {
                     in_stream  = ifmt_ctx->streams[avPacket.stream_index];
-                    out_stream = avFormatContext_out->streams[stream_index];
+                    out_stream = outFmtCtx->streams[stream_index];
 
                     if(avPacket.stream_index == videoindex_in) {
                         // FIX：No PTS (Example: Raw H.264)
@@ -206,13 +252,13 @@ int muxerToMP4(const char *in_filename_v, const char *in_filename_a, const char 
             }
         } else {
             // Audio
-            ifmt_ctx = avFormatContext_audio;
+            ifmt_ctx = inFmtCtx_a;
             stream_index = audioindex_out;
             if(av_read_frame(ifmt_ctx, &avPacket) >= 0) {
                 do {
                     in_stream = ifmt_ctx->streams[avPacket.stream_index];
-                    out_stream = avFormatContext_out->streams[stream_index];
-
+                    out_stream = outFmtCtx->streams[stream_index];
+                    
                     if(avPacket.stream_index == audioindex_in) {
                         // FIX：No PTS
                         // Simple Write PTS
@@ -281,16 +327,16 @@ int muxerToMP4(const char *in_filename_v, const char *in_filename_a, const char 
         printf("Write 1 Packet. size:%5d\tpts:%lld\n", avPacket.size, avPacket.pts);
 
         // av_interleaved_write_frame()：写入一个AVPacket到输出文件
-        if (av_interleaved_write_frame(avFormatContext_out, &avPacket) < 0) {
+        if (av_interleaved_write_frame(outFmtCtx, &avPacket) < 0) {
             printf( "Error muxing packet\n");
             break;
         }
 
-        av_free_packet(&avPacket);
+        av_packet_unref(&avPacket);
     }
 
     // av_write_trailer()：写入文件尾 Write file trailer
-    av_write_trailer(avFormatContext_out);
+    av_write_trailer(outFmtCtx);
 
 #if USE_H264BSF
     av_bitstream_filter_close(h264bsfc);
@@ -300,15 +346,15 @@ int muxerToMP4(const char *in_filename_v, const char *in_filename_a, const char 
 #endif
 
 end:
-    avformat_close_input(&avFormatContext_video);
-    avformat_close_input(&avFormatContext_audio);
+    avformat_close_input(&inFmtCtx_v);
+    avformat_close_input(&inFmtCtx_a);
 
     // close output
-    if (avFormatContext_out && !(avOutputFormat->flags & AVFMT_NOFILE)) {
-        avio_close(avFormatContext_out->pb);
+    if (outFmtCtx && !(outFmt->flags & AVFMT_NOFILE)) {
+        avio_close(outFmtCtx->pb);
     }
 
-    avformat_free_context(avFormatContext_out);
+    avformat_free_context(outFmtCtx);
 
     if (ret < 0 && ret != AVERROR_EOF) {
         printf( "Error occurred.\n");

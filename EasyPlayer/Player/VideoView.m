@@ -403,12 +403,12 @@
     NSTimeInterval dTime = now - _tickCorrectionTime;
     NSTimeInterval correction = dPos - dTime;
     if (correction > 0) {
-        NSLog(@"tick correction reset %0.2f", correction);
+//        NSLog(@"tick correction reset %0.2f", correction);
         correction = 0;
     }
     
     if (_bufferdDuration >= 0.3) {
-        NSLog(@"bufferdDuration = %f play faster", _bufferdDuration);
+//        NSLog(@"bufferdDuration = %f play faster", _bufferdDuration);
         correction = -1;
     }
     
