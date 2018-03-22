@@ -35,7 +35,8 @@ public:
     }
 };
 
-std::multiset<FrameInfo *, com> recordFrameSet;
+std::multiset<FrameInfo *, com> videoFrameSet;
+std::multiset<FrameInfo *, com> audioFrameSet;
 
 @interface RtspDataReader()<HWVideoDecoderDelegate> {
     // RTSP拉流句柄
@@ -342,18 +343,28 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     
     pthread_mutex_unlock(&mutexFrame);
     
-    // ------------------ recordFrameSet ------------------
+    // ------------------ videoFrameSet ------------------
     pthread_mutex_lock(&mutexRecordFrame);
-    
-    std::set<FrameInfo *>::iterator recordItem = recordFrameSet.begin();
-    while (recordItem != recordFrameSet.end()) {
-        FrameInfo *frameInfo = *recordItem;
+    std::set<FrameInfo *>::iterator videoItem = videoFrameSet.begin();
+    while (videoItem != videoFrameSet.end()) {
+        FrameInfo *frameInfo = *videoItem;
         delete []frameInfo->pBuf;
         delete frameInfo;
-        recordItem++;
+        videoItem++;
     }
-    recordFrameSet.clear();
+    videoFrameSet.clear();
+    pthread_mutex_unlock(&mutexRecordFrame);
     
+    // ------------------ audioFrameSet ------------------
+    pthread_mutex_lock(&mutexRecordFrame);
+    std::set<FrameInfo *>::iterator audioItem = audioFrameSet.begin();
+    while (audioItem != audioFrameSet.end()) {
+        FrameInfo *frameInfo = *audioItem;
+        delete []frameInfo->pBuf;
+        delete frameInfo;
+        audioItem++;
+    }
+    audioFrameSet.clear();
     pthread_mutex_unlock(&mutexRecordFrame);
 }
 
@@ -367,15 +378,18 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
  @param buf_size buf_size
  @return 0
  */
-int read_packet(void *opaque, uint8_t *buf, int buf_size) {
-    int count = (int) recordFrameSet.size();
+int read_video_packet(void *opaque, uint8_t *buf, int buf_size) {
+    int count = (int) videoFrameSet.size();
     if (count == 0) {
-        printf("recordLength is 0 \n");
         return 0;
     }
     
-    FrameInfo *frame = *(recordFrameSet.begin());
-    recordFrameSet.erase(recordFrameSet.begin());
+    FrameInfo *frame = *(videoFrameSet.begin());
+    videoFrameSet.erase(videoFrameSet.begin());
+    
+    if (frame == NULL || frame->pBuf == NULL) {
+        return 0;
+    }
     
     int frameLen = frame->frameLen;
     memcpy(buf, frame->pBuf, frameLen);
@@ -383,7 +397,36 @@ int read_packet(void *opaque, uint8_t *buf, int buf_size) {
     delete []frame->pBuf;
     delete frame;
     
-    NSLog(@"--->>> size is %lu", recordFrameSet.size());
+    return frameLen;
+}
+
+/**
+ 注册av_read_frame的回调函数
+ 
+ @param opaque URLContext结构体
+ @param buf buf
+ @param buf_size buf_size
+ @return 0
+ */
+int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
+    int count = (int) audioFrameSet.size();
+    if (count == 0) {
+        return 0;
+    }
+    
+    FrameInfo *frame = *(audioFrameSet.begin());
+    audioFrameSet.erase(audioFrameSet.begin());
+    
+    if (frame == NULL || frame->pBuf == NULL) {
+        return 0;
+    }
+    
+    int frameLen = frame->frameLen;
+    memcpy(buf, frame->pBuf, frameLen);
+    
+    delete []frame->pBuf;
+    delete frame;
+    
     return frameLen;
 }
 
@@ -433,9 +476,18 @@ int read_packet(void *opaque, uint8_t *buf, int buf_size) {
         
         memcpy(frame->pBuf, pBuf, info->length);
         
-        pthread_mutex_lock(&mutexRecordFrame);    // 加锁
-        recordFrameSet.insert(frame);// 根据时间戳排序
-        pthread_mutex_unlock(&mutexRecordFrame);  // 解锁
+        if (type == EASY_SDK_AUDIO_FRAME_FLAG) {
+            pthread_mutex_lock(&mutexRecordFrame);    // 加锁
+            audioFrameSet.insert(frame);// 根据时间戳排序
+            pthread_mutex_unlock(&mutexRecordFrame);  // 解锁
+        }
+        
+        if (type == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
+            info->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
+            pthread_mutex_lock(&mutexRecordFrame);    // 加锁
+            videoFrameSet.insert(frame);// 根据时间戳排序
+            pthread_mutex_unlock(&mutexRecordFrame);  // 解锁
+        }
     }
 }
 
@@ -494,14 +546,15 @@ int read_packet(void *opaque, uint8_t *buf, int buf_size) {
         dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC));
         dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, NULL);
         dispatch_after(time, queue, ^{
-            muxer([recordFilePath UTF8String], read_packet);// 开始录像
+            // 开始录像
+            muxer([recordFilePath UTF8String], read_video_packet, read_audio_packet);
         });
     }
     
     if ((_recordFilePath) && (!recordFilePath)) {
         _recordFilePath = recordFilePath;
         
-        muxer(NULL, read_packet);// 停止录像
+        muxer(NULL, read_video_packet, read_audio_packet);
     }
     
     _recordFilePath = recordFilePath;
