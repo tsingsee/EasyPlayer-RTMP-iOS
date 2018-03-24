@@ -38,8 +38,12 @@
     ScreenShotListCell *cell = [ScreenShotListCell cellWithTableView:tableView];
     
     cell.infoIV.backgroundColor = [UIColor blackColor];
-    NSString *file = [NSString stringWithFormat:@"%@/%@", [PathUnit baseRecordPathWithURL:_url], _records[indexPath.row]];
-    cell.infoIV.image = [UIImage imageWithContentsOfFile:file];
+    NSString *path = [PathUnit snapshotWithURL:_url];
+    if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        cell.infoIV.image = [UIImage imageWithContentsOfFile:path];
+    } else {
+        cell.infoIV.image = [UIImage imageNamed:@"ImagePlaceholder"];
+    }
     
     return cell;
 }

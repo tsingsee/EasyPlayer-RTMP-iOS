@@ -14,113 +14,14 @@
 
 #define BUF_SIZE 1024 * 1024 * 1
 
-AVPacket avPacket;
-
-// 网络流的参数
-AVIOContext *video_pb = NULL;
-AVInputFormat *video_inFmt = NULL;
-AVFormatContext *video_inFmtCtx = NULL;
-
-AVIOContext *audio_pb = NULL;
-AVInputFormat *audio_inFmt = NULL;
-AVFormatContext *audio_inFmtCtx = NULL;
-
-int videoindex_in = -1, videoindex_out = -1;
-int audioindex_in = -1, audioindex_out = -1;
-
-int frame_index = 0;
-
-int64_t cur_video_pts = 0, cur_audio_pts = 0;
-
-int ret;
-
 int stopRecord;// 停止录像
 
-// 写入到文件的参数
-AVFormatContext *outFmtCtx = NULL;
-AVOutputFormat *outFmt = NULL;
+#pragma mark - 方法声明
 
-int muxerFromVideo(int (*read_packet)(void *opaque, uint8_t *buf, int buf_size)) {
-    // -------------- 1、申请一个AVIOContext --------------
-    uint8_t *buf = av_mallocz(sizeof(uint8_t) * BUF_SIZE);
-    video_pb = avio_alloc_context(buf, BUF_SIZE, 0, NULL, read_packet, NULL, NULL);
-    if (!video_pb) {
-        fprintf(stderr, "初始化<视频>video_pb失败!\n");
-        return -1;
-    }
-    
-    // -------------- 2、探测从内存中获取到的媒体流的格式 --------------
-    if (av_probe_input_buffer(video_pb, &video_inFmt, "", NULL, 0, 0) < 0) {
-        fprintf(stderr, "探测<视频>媒体流格式 失败!\n");
-        return -1;
-    } else {
-        fprintf(stdout, "探测<视频>媒体流格式 成功!\n");
-        fprintf(stdout, "format: %s[%s]\n", video_inFmt->name, video_inFmt->long_name);
-    }
-    
-    video_inFmtCtx = avformat_alloc_context();
-    // -------------- 3、这一步很关键 --------------
-    video_inFmtCtx->pb = video_pb;
-    
-    // -------------- 4、打开流 --------------
-    if (avformat_open_input(&video_inFmtCtx, "", video_inFmt, NULL) < 0) {
-        fprintf(stderr, "无法打开<视频>输入流\n");
-        return -1;
-    }
-    
-    // -------------- 5、读取一部分视频数据并且获得一些相关的信息 --------------
-    if (avformat_find_stream_info(video_inFmtCtx, 0) < 0) {
-        fprintf(stderr, "无法获取<视频>流信息.\n");
-        return -1;
-    }
-    
-    printf("========== <视频>输入流信息格式 ==========\n");
-    av_dump_format(video_inFmtCtx, 0, "", 0);
-    printf("=======================================\n");
-    
-    return 1;
-}
+AVFormatContext * muxerFromAudio(int (*read_packet)(void *opaque, uint8_t *buf, int buf_size));
+AVFormatContext * muxerFromVideo(int (*read_packet)(void *opaque, uint8_t *buf, int buf_size));
 
-int muxerFromAudio(int (*read_packet)(void *opaque, uint8_t *buf, int buf_size)) {
-    // -------------- 1、申请一个AVIOContext --------------
-    uint8_t *buf = av_mallocz(sizeof(uint8_t) * BUF_SIZE);
-    audio_pb = avio_alloc_context(buf, BUF_SIZE, 0, NULL, read_packet, NULL, NULL);
-    if (!audio_pb) {
-        fprintf(stderr, "初始化<音频>audio_pb失败!\n");
-        return -1;
-    }
-    
-    // -------------- 2、探测从内存中获取到的媒体流的格式 --------------
-    if (av_probe_input_buffer(audio_pb, &audio_inFmt, "", NULL, 0, 0) < 0) {
-        fprintf(stderr, "探测<音频>媒体流格式 失败!\n");
-        return -1;
-    } else {
-        fprintf(stdout, "探测<音频>媒体流格式 成功!\n");
-        fprintf(stdout, "format: %s[%s]\n", audio_inFmt->name, audio_inFmt->long_name);
-    }
-    
-    audio_inFmtCtx = avformat_alloc_context();
-    // -------------- 3、这一步很关键 --------------
-    audio_inFmtCtx->pb = audio_pb;
-    
-    // -------------- 4、打开流 --------------
-    if (avformat_open_input(&audio_inFmtCtx, "", audio_inFmt, NULL) < 0) {
-        fprintf(stderr, "无法打开<音频>输入流\n");
-        return -1;
-    }
-    
-    // -------------- 5、读取一部分音频数据并且获得一些相关的信息 --------------
-    if (avformat_find_stream_info(audio_inFmtCtx, 0) < 0) {
-        fprintf(stderr, "无法获取<音频>流信息.\n");
-        return -1;
-    }
-    
-    printf("========== <音频>输入流信息格式 ==========\n");
-    av_dump_format(audio_inFmtCtx, 0, "", 0);
-    printf("=======================================\n");
-    
-    return 1;
-}
+#pragma mark - 主方法
 
 int muxer(const char *out_filename,
           int (*read_video_packet)(void *opaque, uint8_t *buf, int buf_size),
@@ -134,8 +35,16 @@ int muxer(const char *out_filename,
         stopRecord = 1;
     }
     
-    muxerFromVideo(read_video_packet);
-    muxerFromAudio(read_audio_packet);
+    // 网络流的参数
+    AVFormatContext *video_inFmtCtx = NULL;
+    AVFormatContext *audio_inFmtCtx = NULL;
+    
+    video_inFmtCtx = muxerFromVideo(read_video_packet);
+    audio_inFmtCtx = muxerFromAudio(read_audio_packet);
+    
+    // 写入到文件的参数
+    AVFormatContext *outFmtCtx = NULL;
+    AVOutputFormat *outFmt = NULL;
     
     // -------------- 6、初始化输出文件 Output --------------
     avformat_alloc_output_context2(&outFmtCtx, NULL, NULL, out_filename);
@@ -144,6 +53,12 @@ int muxer(const char *out_filename,
         goto end;
     }
     outFmt = outFmtCtx->oformat;
+    
+    int ret;
+    int videoindex_in = -1, videoindex_out = -1;
+    int audioindex_in = -1, audioindex_out = -1;
+    int frame_index = 0;
+    int64_t cur_video_pts = 0, cur_audio_pts = 0;
     
     // -------------- 7、找出videoindex、audioindex并建立输出AVStream --------------
     int i;
@@ -160,7 +75,7 @@ int muxer(const char *out_filename,
                 AVStream *out_stream = avformat_new_stream(outFmtCtx, in_pCodecCtx->codec);
                 videoindex_in = i;
                 if (!out_stream) {
-                    printf( "Failed allocating output stream\n");
+                    printf("Failed allocating output stream\n");
                     ret = AVERROR_UNKNOWN;
                     
                     avcodec_free_context(&in_pCodecCtx);
@@ -176,7 +91,7 @@ int muxer(const char *out_filename,
                 avcodec_free_context(&in_pCodecCtx);
                 
                 if (ret < 0) {
-                    printf( "Failed to copy context from input to output stream codec context\n");
+                    printf("Failed to copy context from input to output stream codec context\n");
                     goto end;
                 }
                 
@@ -265,24 +180,34 @@ int muxer(const char *out_filename,
         goto end;
     }
     
+    AVPacket avPacket;
+    
     // -------------- 10、循环读取AVPacket --------------
     while (1) {
+        int write_video = -1;
+        
+        if (videoindex_in != -1 && audioindex_in == -1) {// 只合成视频
+            write_video = 1;
+        } else if (videoindex_in == -1 && audioindex_in != -1) {// 只合成音频
+            write_video = 0;
+        } else if (videoindex_in != -1 && audioindex_in != -1) {   // ---- 同时合成视频和音频 ----
+            // av_compare_ts()：比较时间戳，决定写入视频还是写入音频 Get an AVPacket
+            int ts = av_compare_ts(cur_video_pts,
+                                   video_inFmtCtx->streams[videoindex_in]->time_base,
+                                   cur_audio_pts,
+                                   audio_inFmtCtx->streams[audioindex_in]->time_base);
+            if(ts <= 0) {
+                write_video = 1;
+            } else {
+                write_video = 0;
+            }
+        }
+        
         AVFormatContext *ifmt_ctx;
-        int stream_index = 0;
         AVStream *in_stream, *out_stream;
+        int stream_index = 0;
         
-        AVRational video_time_base = {-1, -1};
-        if (videoindex_in != -1) {
-            video_time_base = video_inFmtCtx->streams[videoindex_in]->time_base;
-        }
-        
-        AVRational audio_time_base = {-1, -1};
-        if (audioindex_in != -1) {
-            audio_time_base = audio_inFmtCtx->streams[audioindex_in]->time_base;
-        }
-        
-        // av_compare_ts()：比较时间戳，决定写入视频还是写入音频 Get an AVPacket
-        if(av_compare_ts(cur_video_pts, video_time_base, cur_audio_pts, audio_time_base) <= 0) {
+        if(write_video == 1) {
             // Video
             ifmt_ctx = video_inFmtCtx;
             stream_index = videoindex_out;
@@ -317,20 +242,20 @@ int muxer(const char *out_filename,
                 avPacket.pts = av_rescale_q_rnd(avPacket.pts,
                                                 in_stream->time_base,
                                                 out_stream->time_base,
-                                                //                                   (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX)
+                                                // (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX)
                                                 5 | 8192
                                                 );
                 avPacket.dts = av_rescale_q_rnd(avPacket.dts,
                                                 in_stream->time_base,
                                                 out_stream->time_base,
-                                                //                                   (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX)
+                                                // (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX)
                                                 5 | 8192
                                                 );
                 avPacket.duration = (int)av_rescale_q(avPacket.duration, in_stream->time_base, out_stream->time_base);
                 avPacket.pos = -1;
                 avPacket.stream_index=stream_index;
                 
-                printf("Write 1 video Packet. size:%5d\tpts:%lld\n", avPacket.size, avPacket.pts);
+                //                printf("Write 1 video Packet. size:%5d\tpts:%lld\n", avPacket.size, avPacket.pts);
                 
                 // av_interleaved_write_frame()：写入一个AVPacket到输出文件
                 if (av_interleaved_write_frame(outFmtCtx, &avPacket) < 0) {
@@ -347,7 +272,7 @@ int muxer(const char *out_filename,
                     usleep(10 * 1000);
                 }
             }
-        } else {
+        } else if(write_video == 0) {
             // Audio
             ifmt_ctx = audio_inFmtCtx;
             stream_index = audioindex_out;
@@ -381,20 +306,20 @@ int muxer(const char *out_filename,
                 avPacket.pts = av_rescale_q_rnd(avPacket.pts,
                                                 in_stream->time_base,
                                                 out_stream->time_base,
-                                                //                                   (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX)
+                                                // (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX)
                                                 5 | 8192
                                                 );
                 avPacket.dts = av_rescale_q_rnd(avPacket.dts,
                                                 in_stream->time_base,
                                                 out_stream->time_base,
-                                                //                                   (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX)
+                                                // (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_PASS_MINMAX)
                                                 5 | 8192
                                                 );
                 avPacket.duration = (int)av_rescale_q(avPacket.duration, in_stream->time_base, out_stream->time_base);
                 avPacket.pos = -1;
                 avPacket.stream_index=stream_index;
                 
-                printf("Write 1 audio Packet. size:%5d\tpts:%lld\n", avPacket.size, avPacket.pts);
+                //                printf("Write 1 audio Packet. size:%5d\tpts:%lld\n", avPacket.size, avPacket.pts);
                 
                 // av_interleaved_write_frame()：写入一个AVPacket到输出文件
                 if (av_interleaved_write_frame(outFmtCtx, &avPacket) < 0) {
@@ -438,3 +363,91 @@ end:
     return 0;
 }
 
+#pragma mark - 分别生成AVIOContext，获取视频/音频的格式
+
+AVFormatContext * muxerFromVideo(int (*read_packet)(void *opaque, uint8_t *buf, int buf_size)) {
+    // -------------- 1、申请一个AVIOContext --------------
+    uint8_t *buf = av_mallocz(sizeof(uint8_t) * BUF_SIZE);
+    AVIOContext *pb = avio_alloc_context(buf, BUF_SIZE, 0, NULL, read_packet, NULL, NULL);
+    if (!pb) {
+        fprintf(stderr, "初始化<视频>video_pb失败!\n");
+        return NULL;
+    }
+    
+    AVInputFormat *inFmt = NULL;
+    
+    // -------------- 2、探测从内存中获取到的媒体流的格式 --------------
+    if (av_probe_input_buffer(pb, &inFmt, "", NULL, 0, 0) < 0) {
+        fprintf(stderr, "探测<视频>媒体流格式 失败!\n");
+        return NULL;
+    } else {
+        fprintf(stdout, "探测<视频>媒体流格式 成功!\n");
+        fprintf(stdout, "format: %s[%s]\n", inFmt->name, inFmt->long_name);
+    }
+    
+    AVFormatContext *video_inFmtCtx = avformat_alloc_context();
+    // -------------- 3、这一步很关键 --------------
+    video_inFmtCtx->pb = pb;
+    
+    // -------------- 4、打开流 --------------
+    if (avformat_open_input(&video_inFmtCtx, "", inFmt, NULL) < 0) {
+        fprintf(stderr, "无法打开<视频>输入流\n");
+        return NULL;
+    }
+    
+    // -------------- 5、读取一部分视频数据并且获得一些相关的信息 --------------
+    if (avformat_find_stream_info(video_inFmtCtx, 0) < 0) {
+        fprintf(stderr, "无法获取<视频>流信息.\n");
+        return NULL;;
+    }
+    
+    printf("========== <视频>输入流信息格式 ==========\n");
+    av_dump_format(video_inFmtCtx, 0, "", 0);
+    printf("=======================================\n");
+    
+    return video_inFmtCtx;
+}
+
+AVFormatContext * muxerFromAudio(int (*read_packet)(void *opaque, uint8_t *buf, int buf_size)) {
+    // -------------- 1、申请一个AVIOContext --------------
+    uint8_t *buf = av_mallocz(sizeof(uint8_t) * BUF_SIZE);
+    AVIOContext *pb = avio_alloc_context(buf, BUF_SIZE, 0, NULL, read_packet, NULL, NULL);
+    if (!pb) {
+        fprintf(stderr, "初始化<音频>audio_pb失败!\n");
+        return NULL;
+    }
+    
+    AVInputFormat *inFmt = NULL;
+    
+    // -------------- 2、探测从内存中获取到的媒体流的格式 --------------
+    int ret = av_probe_input_buffer(pb, &inFmt, "", NULL, 0, 0);
+    if (ret < 0) {
+        fprintf(stderr, "探测<音频>媒体流格式 失败!\n");
+        return NULL;
+    } else {
+        fprintf(stdout, "探测<音频>媒体流格式 成功!\n");
+        fprintf(stdout, "format: %s[%s]\n", inFmt->name, inFmt->long_name);
+    }
+    
+    AVFormatContext *audio_inFmtCtx = avformat_alloc_context();
+    // -------------- 3、这一步很关键 --------------
+    audio_inFmtCtx->pb = pb;
+    
+    // -------------- 4、打开流 --------------
+    if (avformat_open_input(&audio_inFmtCtx, "", inFmt, NULL) < 0) {
+        fprintf(stderr, "无法打开<音频>输入流\n");
+        return NULL;
+    }
+    
+    // -------------- 5、读取一部分音频数据并且获得一些相关的信息 --------------
+    if (avformat_find_stream_info(audio_inFmtCtx, 0) < 0) {
+        fprintf(stderr, "无法获取<音频>流信息.\n");
+        return NULL;
+    }
+    
+    printf("========== <音频>输入流信息格式 ==========\n");
+    av_dump_format(audio_inFmtCtx, 0, "", 0);
+    printf("=======================================\n");
+    
+    return audio_inFmtCtx;
+}

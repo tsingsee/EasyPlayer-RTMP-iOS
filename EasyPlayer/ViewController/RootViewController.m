@@ -175,7 +175,7 @@
     NSString *url = _dataArray[indexPath.row];
     
     NSString *path = [PathUnit snapshotWithURL:url];
-    if([[NSFileManager defaultManager] fileExistsAtPath:path]){
+    if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         cell.imageView.image = [UIImage imageWithContentsOfFile:path];
     } else {
         cell.imageView.image = [UIImage imageNamed:@"ImagePlaceholder"];

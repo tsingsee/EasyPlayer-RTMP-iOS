@@ -50,7 +50,7 @@
 }
 
 // 录像时 临时生成的h264、aac
-+ (NSString *) recordH264WithURL:(NSString *)url {
++ (NSString *) recordH264 {
     NSString *dir = [[self documentsDirectory] stringByAppendingPathComponent:@"record"];
     if(![[NSFileManager defaultManager] fileExistsAtPath:dir]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -60,7 +60,7 @@
     return path;
 }
 
-+ (NSString *) recordAACWithURL:(NSString *)url {
++ (NSString *) recordAAC {
     NSString *dir = [[self documentsDirectory] stringByAppendingPathComponent:@"record"];
     if(![[NSFileManager defaultManager] fileExistsAtPath:dir]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];

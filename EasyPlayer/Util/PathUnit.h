@@ -22,8 +22,8 @@
 + (NSString *) recordWithURL:(NSString *)url;
 
 // 录像时 临时生成的h264、aac
-+ (NSString *) recordH264WithURL:(NSString *)url;
-+ (NSString *) recordAACWithURL:(NSString *)url;
++ (NSString *) recordH264;
++ (NSString *) recordAAC;
 
 #pragma mark - image path
 
