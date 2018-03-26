@@ -14,8 +14,6 @@
 
 #define BUF_SIZE 1024 * 1024 * 1
 
-int stopRecord;// 停止录像
-
 #pragma mark - 方法声明
 
 AVFormatContext * muxerFromAudio(int (*read_packet)(void *opaque, uint8_t *buf, int buf_size));
@@ -24,15 +22,13 @@ AVFormatContext * muxerFromVideo(int (*read_packet)(void *opaque, uint8_t *buf, 
 #pragma mark - 主方法
 
 int muxer(const char *out_filename,
+          int *stopRecord,
           int (*read_video_packet)(void *opaque, uint8_t *buf, int buf_size),
           int (*read_audio_packet)(void *opaque, uint8_t *buf, int buf_size)) {
     if (out_filename == NULL) {
         printf("停止录像\n");
-        stopRecord = 0;
         
         return -1;
-    } else {
-        stopRecord = 1;
     }
     
     // 网络流的参数
@@ -266,7 +262,7 @@ int muxer(const char *out_filename,
                 av_packet_unref(&avPacket);
                 
             } else {
-                if (stopRecord == 0) {
+                if (*stopRecord == 1) {
                     break;
                 } else {
                     usleep(10 * 1000);
@@ -330,7 +326,7 @@ int muxer(const char *out_filename,
                 av_packet_unref(&avPacket);
                 
             } else {
-                if (stopRecord == 0) {
+                if (*stopRecord == 1) {
                     break;
                 } else {
                     usleep(10 * 1000);
@@ -343,22 +339,22 @@ int muxer(const char *out_filename,
     av_write_trailer(outFmtCtx);
     
 end:
-    // close output
-    if (outFmtCtx && !(outFmt->flags & AVFMT_NOFILE)) {
-        avio_close(outFmtCtx->pb);
-    }
-    
-    if (outFmtCtx) {
-        avformat_free_context(outFmtCtx);
-    }
-    
-    if (video_inFmtCtx) {
-        avformat_free_context(video_inFmtCtx);
-    }
-    
-    if (audio_inFmtCtx) {
-        avformat_free_context(audio_inFmtCtx);
-    }
+//    // close output
+//    if (outFmtCtx && !(outFmt->flags & AVFMT_NOFILE)) {
+//        avio_close(outFmtCtx->pb);
+//    }
+//
+//    if (outFmtCtx) {
+//        avformat_free_context(outFmtCtx);
+//    }
+//
+//    if (video_inFmtCtx) {
+//        avformat_free_context(video_inFmtCtx);
+//    }
+//
+//    if (audio_inFmtCtx) {
+//        avformat_free_context(audio_inFmtCtx);
+//    }
     
     return 0;
 }

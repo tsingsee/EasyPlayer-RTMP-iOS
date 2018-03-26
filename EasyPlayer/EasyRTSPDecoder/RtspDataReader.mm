@@ -39,6 +39,7 @@ std::multiset<FrameInfo *, com> videoFrameSet;
 std::multiset<FrameInfo *, com> audioFrameSet;
 
 int isKeyFrame = 0; // 是否到了I帧
+int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
 
 @interface RtspDataReader()<HWVideoDecoderDelegate> {
     // RTSP拉流句柄
@@ -477,7 +478,8 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
                 dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, NULL);
                 dispatch_after(time, queue, ^{
                     // 开始录像
-                    muxer([_recordFilePath UTF8String], read_video_packet, read_audio_packet);
+                    *stopRecord = 0;
+                    muxer([_recordFilePath UTF8String], stopRecord, read_video_packet, read_audio_packet);
                 });
             }
         }
@@ -563,7 +565,8 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     if ((_recordFilePath) && (!recordFilePath)) {
         _recordFilePath = recordFilePath;
         
-        muxer(NULL, read_video_packet, read_audio_packet);
+        *stopRecord = 1;
+        muxer(NULL, stopRecord, read_video_packet, read_audio_packet);
         isKeyFrame = 0;
     }
     
