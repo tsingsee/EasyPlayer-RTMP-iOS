@@ -18,6 +18,8 @@
     BOOL crossScreen;   // 是否横屏
     BOOL fullScreen;    // 是否全屏
     BOOL firstFullScreen;   // 先全屏还是先横屏
+    
+    BOOL statusBarHidden;
 }
 
 @property (nonatomic, retain) NSMutableArray *URLs;
@@ -116,7 +118,10 @@
 - (void) crossScreenWithDuration:(NSTimeInterval)duration isLeftCrossScreen:(BOOL)isLeft {
     [UIView animateWithDuration:duration animations:^{
         [self.navigationController setNavigationBarHidden:YES];
-        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        
+//        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        statusBarHidden = NO;
+        [self prefersStatusBarHidden];
         
         self.panel.frame = CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH);
         self.panel.center = self.view.center;
@@ -148,7 +153,10 @@
     
     [UIView animateWithDuration:duration animations:^{
         [self.navigationController setNavigationBarHidden:NO];
-        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+        
+//        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+        statusBarHidden = YES;
+        [self prefersStatusBarHidden];
         
         self.panel.frame = panelFrame;
         self.panel.transform = CGAffineTransformIdentity;
@@ -266,6 +274,12 @@
 - (void)becomeActive {
     [[AudioManager sharedInstance] activateAudioSession];
     [self.panel restore];
+}
+
+#pragma mark - StatusBar
+
+- (BOOL)prefersStatusBarHidden {
+    return statusBarHidden;
 }
 
 @end
