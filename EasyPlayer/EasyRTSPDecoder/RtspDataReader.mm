@@ -24,19 +24,15 @@ struct FrameInfo {
     int height;
 };
 
-class com {
+class compare {
 public:
     bool operator ()(FrameInfo *lhs, FrameInfo *rhs) const {
-        if (lhs == NULL || rhs == NULL) {
-            return true;
-        }
-        
         return lhs->timeStamp < rhs->timeStamp;
     }
 };
 
-std::multiset<FrameInfo *, com> recordVideoFrameSet;
-std::multiset<FrameInfo *, com> recordAudioFrameSet;
+std::multiset<FrameInfo *, compare> recordVideoFrameSet;
+std::multiset<FrameInfo *, compare> recordAudioFrameSet;
 
 int isKeyFrame = 0; // 是否到了I帧
 int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
@@ -56,8 +52,8 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
     
     EASY_MEDIA_INFO_T _mediaInfo;   // 媒体信息
     
-    std::multiset<FrameInfo *, com> videoFrameSet;
-    std::multiset<FrameInfo *, com> audioFrameSet;
+    std::multiset<FrameInfo *, compare> videoFrameSet;
+    std::multiset<FrameInfo *, compare> audioFrameSet;
     
     CGFloat lastFrameTimeStamp;
     NSTimeInterval beforeDecoderTimeStamp;
@@ -265,7 +261,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         FrameInfo *frame = *(videoFrameSet.begin());
         videoFrameSet.erase(videoFrameSet.begin());// erase()函数的功能是用来删除容器中的元素
         
-        beforeDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
+        beforeDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;// 毫秒数
         
         pthread_mutex_unlock(&mutexVideoFrame);
         // ------------ 解锁mutexFrame ------------
@@ -281,13 +277,11 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
         afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
         if (lastFrameTimeStamp != 0) {
-            float t = frame->timeStamp - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp);
+            float t = frame->timeStamp * 1000.0 - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp);
             usleep(t);
-            
-            //            NSLog(@" --->> %f :  %f, %f ", t, frame->timeStamp - lastFrameTimeStamp, afterDecoderTimeStamp - beforeDecoderTimeStamp);
         }
         
-        lastFrameTimeStamp = frame->timeStamp;
+        lastFrameTimeStamp = frame->timeStamp * 1000.0;
         
         delete frame;
     }
@@ -352,6 +346,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             _lastVideoFramePosition = video->timeStamp;
             
             afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
+            
             if (self.frameOutputBlock) {
                 self.frameOutputBlock(frame);
             }
@@ -460,7 +455,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
  */
 int read_video_packet(void *opaque, uint8_t *buf, int buf_size) {
     int count = (int) recordVideoFrameSet.size();
-    if (count == 0) {
+    if (count <= 1) {
         return 0;
     }
     
@@ -490,7 +485,7 @@ int read_video_packet(void *opaque, uint8_t *buf, int buf_size) {
  */
 int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     int count = (int) recordAudioFrameSet.size();
-    if (count == 0) {
+    if (count <= 1) {
         return 0;
     }
     
@@ -524,7 +519,7 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
 }
 
 - (void)pushFrame:(char *)pBuf frameInfo:(EASY_FRAME_INFO *)info type:(int)type {
-    if (!_running || pBuf == NULL) {
+    if (!_running || pBuf == NULL || info->length == 0) {
         return;
     }
     
@@ -534,9 +529,11 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     frameInfo->pBuf = new unsigned char[info->length];
     frameInfo->width = info->width;
     frameInfo->height = info->height;
+    
+    // 秒为单位(1秒=1000毫秒 1秒=1000000微秒)
+    frameInfo->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000.0) / 1000.0;
     // 毫秒为单位(1秒=1000毫秒 1秒=1000000微秒)
-    //    frame->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000.0) / 1000.0;
-    frameInfo->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
+//    frameInfo->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
     
     memcpy(frameInfo->pBuf, pBuf, info->length);
     
@@ -575,20 +572,15 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
             frame->pBuf = new unsigned char[info->length];
             frame->width = info->width;
             frame->height = info->height;
-            // 毫秒为单位(1秒=1000毫秒 1秒=1000000微秒)
-            //            frame->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000.0) / 1000.0;
-            frameInfo->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
+            // 秒为单位(1秒=1000毫秒 1秒=1000000微秒)
+            frame->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000.0) / 1000.0;
             
             memcpy(frame->pBuf, pBuf, info->length);
             
             if (type == EASY_SDK_AUDIO_FRAME_FLAG) {
-                //                pthread_mutex_lock(&mutexRecordFrame);    // 加锁
-                //                recordAudioFrameSet.insert(frame);// 根据时间戳排序
-                //                pthread_mutex_unlock(&mutexRecordFrame);  // 解锁
-                
-                // 暂时不录制音频
-                delete []frame->pBuf;
-                delete frame;
+                pthread_mutex_lock(&mutexRecordFrame);    // 加锁
+                recordAudioFrameSet.insert(frame);// 根据时间戳排序
+                pthread_mutex_unlock(&mutexRecordFrame);  // 解锁
             }
             
             if (type == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志

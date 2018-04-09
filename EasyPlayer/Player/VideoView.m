@@ -24,8 +24,6 @@
     
     BOOL needChangeViewFrame;
     
-//    dispatch_queue_t requestQueue;
-    
     KxMovieGLView *kxGlView;
     
     CADisplayLink *displayLink;
@@ -221,7 +219,7 @@
             CGFloat height = rc.size.height;
             kxGlView.frame = CGRectMake(0, 0, width, height);
             scrollView.contentSize = CGSizeMake(width, height);
-            NSLog(@"displayWidth = %d displayHeight = %d %f %f frameWidht = %f frameHeight = %f", displayWidth, displayHeight, width, height, self.frame.size.width, self.frame.size.height);
+//            NSLog(@"displayWidth = %d displayHeight = %d %f %f frameWidht = %f frameHeight = %f", displayWidth, displayHeight, width, height, self.frame.size.width, self.frame.size.height);
             scrollView.contentOffset = CGPointMake((width - rc.size.width) / 2, 0);
             
             [self reCalculateArcPos];
@@ -471,7 +469,7 @@
                         [_audioFrames removeObjectAtIndex:0];
                         
                         if (differ > 5 && count > 1) {
-                            NSLog(@"audio skip movPos = %.4f audioPos = %.4f", _moviePosition, frame.position);
+//                            NSLog(@"audio skip movPos = %.4f audioPos = %.4f", _moviePosition, frame.position);
                             continue;
                         }
                         

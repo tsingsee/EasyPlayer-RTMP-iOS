@@ -265,7 +265,7 @@ int muxer(const char *out_filename,
                 if (*stopRecord == 1) {
                     break;
                 } else {
-                    usleep(10 * 1000);
+                    usleep(3 * 1000);
                 }
             }
         } else if(write_video == 0) {
@@ -329,7 +329,7 @@ int muxer(const char *out_filename,
                 if (*stopRecord == 1) {
                     break;
                 } else {
-                    usleep(10 * 1000);
+                    usleep(3 * 1000);
                 }
             }
         }

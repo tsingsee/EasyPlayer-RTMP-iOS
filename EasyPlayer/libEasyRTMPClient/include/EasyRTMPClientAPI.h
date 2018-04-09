@@ -65,7 +65,7 @@ extern "C"
 #endif
 
 	/* ¥¥Ω®EasyRTMPClientæ‰±˙  ∑µªÿŒ™æ‰±˙÷µ */
-	Easy_API Easy_RTMP_Handle EasyRTMPClient_Create();
+    Easy_API Easy_RTMP_Handle EasyRTMPClient_Create(void);
 
 	/*  Õ∑≈EasyRTMPClient ≤Œ ˝Œ™EasyRTMPæ‰±˙ */
 	Easy_API int EasyRTMPClient_Release(Easy_RTMP_Handle handle);
