@@ -277,11 +277,11 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
         afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
         if (lastFrameTimeStamp != 0) {
-            float t = frame->timeStamp * 1000.0 - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp);
+            float t = frame->timeStamp - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp);
             usleep(t);
         }
         
-        lastFrameTimeStamp = frame->timeStamp * 1000.0;
+        lastFrameTimeStamp = frame->timeStamp;
         
         delete frame;
     }
@@ -321,8 +321,11 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     picture.iDisplayHeight = video->height;
     
     NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+    
     int nRet = DecodeVideo(_videoDecHandle, &param, &picture);
-    NSTimeInterval decodeInterval = [NSDate timeIntervalSinceReferenceDate] - now;
+    
+    NSTimeInterval decodeInterval = 1000.0 * ([NSDate timeIntervalSinceReferenceDate] - now);
+    
     if (nRet) {
         @autoreleasepool {
             KxVideoFrameRGB *frame = [[KxVideoFrameRGB alloc] init];
@@ -331,18 +334,18 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             frame.linesize = param.nOutWidth * 3;
             frame.hasAlpha = NO;
             frame.rgb = [NSData dataWithBytes:param.pImgRGB length:param.nLineSize * param.nOutHeight];
-            frame.position = video->timeStamp;
+            frame.position = video->timeStamp / 1000.0;
             
             if (_lastVideoFramePosition == 0) {
                 _lastVideoFramePosition = video->timeStamp;
             }
             
-            CGFloat duration = video->timeStamp - _lastVideoFramePosition - decodeInterval;
+            CGFloat duration = (video->timeStamp - _lastVideoFramePosition - decodeInterval) / 1000.0;
             if (duration >= 1.0 || duration <= -1.0) {
                 duration = 0.02;
             }
-            
             frame.duration = duration;
+            
             _lastVideoFramePosition = video->timeStamp;
             
             afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
@@ -376,7 +379,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         @autoreleasepool {
             KxAudioFrame *frame = [[KxAudioFrame alloc] init];
             frame.samples = [NSData dataWithBytes:pcmBuf length:pcmLen];
-            frame.position = audio->timeStamp;
+            frame.position = audio->timeStamp / 1000.0;
             if (self.frameOutputBlock) {
                 self.frameOutputBlock(frame);
             }
@@ -529,11 +532,8 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     frameInfo->pBuf = new unsigned char[info->length];
     frameInfo->width = info->width;
     frameInfo->height = info->height;
-    
-    // 秒为单位(1秒=1000毫秒 1秒=1000000微秒)
-    frameInfo->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000.0) / 1000.0;
     // 毫秒为单位(1秒=1000毫秒 1秒=1000000微秒)
-//    frameInfo->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
+    frameInfo->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
     
     memcpy(frameInfo->pBuf, pBuf, info->length);
     
@@ -572,8 +572,7 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
             frame->pBuf = new unsigned char[info->length];
             frame->width = info->width;
             frame->height = info->height;
-            // 秒为单位(1秒=1000毫秒 1秒=1000000微秒)
-            frame->timeStamp = info->timestamp_sec + (float)(info->timestamp_usec / 1000.0) / 1000.0;
+            frame->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
             
             memcpy(frame->pBuf, pBuf, info->length);
             
