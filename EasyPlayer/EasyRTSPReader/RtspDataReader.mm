@@ -31,6 +31,9 @@ public:
     }
 };
 
+pthread_mutex_t mutexRecordVideoFrame;
+pthread_mutex_t mutexRecordAudioFrame;
+
 std::multiset<FrameInfo *, compare> recordVideoFrameSet;
 std::multiset<FrameInfo *, compare> recordAudioFrameSet;
 
@@ -45,7 +48,6 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
     pthread_mutex_t mutexVideoFrame;
     pthread_mutex_t mutexAudioFrame;
     pthread_mutex_t mutexChan;
-    pthread_mutex_t mutexRecordFrame;
     
     void *_videoDecHandle;  // 视频解码句柄
     void *_audioDecHandle;  // 音频解码句柄
@@ -131,7 +133,8 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         pthread_mutex_init(&mutexVideoFrame, 0);
         pthread_mutex_init(&mutexAudioFrame, 0);
         pthread_mutex_init(&mutexChan, 0);
-        pthread_mutex_init(&mutexRecordFrame, 0);
+        pthread_mutex_init(&mutexRecordVideoFrame, 0);
+        pthread_mutex_init(&mutexRecordAudioFrame, 0);
         
         _videoDecHandle = NULL;
         _audioDecHandle = NULL;
@@ -211,7 +214,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             continue;
         }
         
-        // ------------ 加锁mutexFrame ------------
+        // ------------ 加锁mutexAudioFrame ------------
         pthread_mutex_lock(&mutexAudioFrame);
         
         int count = (int) audioFrameSet.size();
@@ -225,7 +228,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         audioFrameSet.erase(audioFrameSet.begin());// erase()函数的功能是用来删除容器中的元素
         
         pthread_mutex_unlock(&mutexAudioFrame);
-        // ------------ 解锁mutexFrame ------------
+        // ------------ 解锁mutexAudioFrame ------------
         
         if (self.enableAudio) {
             [self decodeAudioFrame:frame];
@@ -248,7 +251,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     while (_running) {
         [self initRtspHandle];
         
-        // ------------ 加锁mutexFrame ------------
+        // ------------ 加锁mutexVideoFrame ------------
         pthread_mutex_lock(&mutexVideoFrame);
         
         int count = (int) videoFrameSet.size();
@@ -264,7 +267,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         beforeDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;// 毫秒数
         
         pthread_mutex_unlock(&mutexVideoFrame);
-        // ------------ 解锁mutexFrame ------------
+        // ------------ 解锁mutexVideoFrame ------------
         
         if (self.useHWDecoder) {
             [_hwDec decodeVideoData:frame->pBuf len:frame->frameLen];
@@ -422,7 +425,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
 
 - (void) removeRecordFrameSet {
     // ------------------ recordVideoFrameSet ------------------
-    pthread_mutex_lock(&mutexRecordFrame);
+    pthread_mutex_lock(&mutexRecordVideoFrame);
     std::set<FrameInfo *>::iterator videoItem = recordVideoFrameSet.begin();
     while (videoItem != recordVideoFrameSet.end()) {
         FrameInfo *frameInfo = *videoItem;
@@ -431,10 +434,10 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         videoItem++;
     }
     recordVideoFrameSet.clear();
-    pthread_mutex_unlock(&mutexRecordFrame);
+    pthread_mutex_unlock(&mutexRecordVideoFrame);
     
     // ------------------ recordAudioFrameSet ------------------
-    pthread_mutex_lock(&mutexRecordFrame);
+    pthread_mutex_lock(&mutexRecordAudioFrame);
     std::set<FrameInfo *>::iterator audioItem = recordAudioFrameSet.begin();
     while (audioItem != recordAudioFrameSet.end()) {
         FrameInfo *frameInfo = *audioItem;
@@ -443,7 +446,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         audioItem++;
     }
     recordAudioFrameSet.clear();
-    pthread_mutex_unlock(&mutexRecordFrame);
+    pthread_mutex_unlock(&mutexRecordAudioFrame);
 }
 
 #pragma mark - 录像
@@ -457,17 +460,18 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
  @return 0
  */
 int read_video_packet(void *opaque, uint8_t *buf, int buf_size) {
+    pthread_mutex_lock(&mutexRecordVideoFrame);
+    
     int count = (int) recordVideoFrameSet.size();
-    if (count <= 1) {
+    if (count == 0) {
+        pthread_mutex_unlock(&mutexRecordVideoFrame);
         return 0;
     }
     
     FrameInfo *frame = *(recordVideoFrameSet.begin());
     recordVideoFrameSet.erase(recordVideoFrameSet.begin());
     
-    if (frame == NULL || frame->pBuf == NULL) {
-        return 0;
-    }
+    pthread_mutex_unlock(&mutexRecordVideoFrame);
     
     int frameLen = frame->frameLen;
     memcpy(buf, frame->pBuf, frameLen);
@@ -487,17 +491,18 @@ int read_video_packet(void *opaque, uint8_t *buf, int buf_size) {
  @return 0
  */
 int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
+    pthread_mutex_lock(&mutexRecordAudioFrame);
+    
     int count = (int) recordAudioFrameSet.size();
-    if (count <= 1) {
+    if (count == 0) {
+        pthread_mutex_unlock(&mutexRecordAudioFrame);
         return 0;
     }
     
     FrameInfo *frame = *(recordAudioFrameSet.begin());
     recordAudioFrameSet.erase(recordAudioFrameSet.begin());
     
-    if (frame == NULL || frame->pBuf == NULL) {
-        return 0;
-    }
+    pthread_mutex_unlock(&mutexRecordAudioFrame);
     
     int frameLen = frame->frameLen;
     memcpy(buf, frame->pBuf, frameLen);
@@ -577,16 +582,16 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
             memcpy(frame->pBuf, pBuf, info->length);
             
             if (type == EASY_SDK_AUDIO_FRAME_FLAG) {
-                pthread_mutex_lock(&mutexRecordFrame);    // 加锁
+                pthread_mutex_lock(&mutexRecordAudioFrame);    // 加锁
                 recordAudioFrameSet.insert(frame);// 根据时间戳排序
-                pthread_mutex_unlock(&mutexRecordFrame);  // 解锁
+                pthread_mutex_unlock(&mutexRecordAudioFrame);  // 解锁
             }
             
             if (type == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
                 info->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
-                pthread_mutex_lock(&mutexRecordFrame);    // 加锁
+                pthread_mutex_lock(&mutexRecordVideoFrame);    // 加锁
                 recordVideoFrameSet.insert(frame);// 根据时间戳排序
-                pthread_mutex_unlock(&mutexRecordFrame);  // 解锁
+                pthread_mutex_unlock(&mutexRecordVideoFrame);  // 解锁
             }
         }
     }
@@ -617,7 +622,8 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     pthread_mutex_destroy(&mutexVideoFrame);
     pthread_mutex_destroy(&mutexAudioFrame);
     pthread_mutex_destroy(&mutexChan);
-    pthread_mutex_destroy(&mutexRecordFrame);
+    pthread_mutex_destroy(&mutexRecordVideoFrame);
+    pthread_mutex_destroy(&mutexRecordAudioFrame);
     
     if (rtspHandle != NULL) {
         /* 释放RTSPClient 参数为RTSPClient句柄 */

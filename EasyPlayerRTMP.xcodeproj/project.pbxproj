@@ -542,13 +542,13 @@
 			path = EasyVideoDecoder;
 			sourceTree = "<group>";
 		};
-		668665461FCE959400956A52 /* EasyRTSPDecoder */ = {
+		668665461FCE959400956A52 /* EasyRTSPReader */ = {
 			isa = PBXGroup;
 			children = (
 				664FAB4720624B9400A2C767 /* RtspDataReader.h */,
 				664FAB4820624B9500A2C767 /* RtspDataReader.mm */,
 			);
-			path = EasyRTSPDecoder;
+			path = EasyRTSPReader;
 			sourceTree = "<group>";
 		};
 		668665471FCE95A600956A52 /* Player */ = {
@@ -670,7 +670,7 @@
 				66D62EEB1FEE899A00C3B5C7 /* ViewController */,
 				66D62EEC1FEE89A800C3B5C7 /* View */,
 				668665471FCE95A600956A52 /* Player */,
-				668665461FCE959400956A52 /* EasyRTSPDecoder */,
+				668665461FCE959400956A52 /* EasyRTSPReader */,
 				66D62EE41FED219F00C3B5C7 /* MuxerToVideo */,
 				668665451FCE957200956A52 /* EasyVideoDecoder */,
 				E19AC7B61FBBE987008E2FA7 /* EasyAudioDecoder */,
