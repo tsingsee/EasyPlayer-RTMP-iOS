@@ -21,6 +21,9 @@
 		6635A76F1FF7837A00C25760 /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A76E1FF7837A00C25760 /* FileListViewController.m */; };
 		6635A7821FF7997200C25760 /* ScreenShotListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A7811FF7997200C25760 /* ScreenShotListCell.m */; };
 		66487F61205F974100514203 /* Muxer.c in Sources */ = {isa = PBXBuildFile; fileRef = 66487F60205F974100514203 /* Muxer.c */; };
+		664B2221209A026E00A926FC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B2220209A026E00A926FC /* SystemConfiguration.framework */; };
+		664B2223209A029400A926FC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B2222209A029400A926FC /* Security.framework */; };
+		664B2225209A02A900A926FC /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B2224209A02A900A926FC /* libc++.tbd */; };
 		664E4FE62058FD0500798A0A /* PlayRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E4FE52058FD0500798A0A /* PlayRecordViewController.m */; };
 		664E4FE82058FD5100798A0A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664E4FE72058FD5100798A0A /* MediaPlayer.framework */; };
 		664FAB4920624B9500A2C767 /* RtspDataReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 664FAB4820624B9500A2C767 /* RtspDataReader.mm */; };
@@ -62,6 +65,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B3C992BEA1644B6BAE64061 /* Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig"; path = "Pods/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig"; sourceTree = "<group>"; };
 		363E00AC1FBDB1F3008690E7 /* VideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCell.h; sourceTree = "<group>"; };
 		363E00AD1FBDB1F3008690E7 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		363E00AE1FBDB1F4008690E7 /* VideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCell.m; sourceTree = "<group>"; };
@@ -91,6 +95,9 @@
 		6635A7811FF7997200C25760 /* ScreenShotListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenShotListCell.m; sourceTree = "<group>"; };
 		66487F5F205F974100514203 /* Muxer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Muxer.h; sourceTree = "<group>"; };
 		66487F60205F974100514203 /* Muxer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Muxer.c; sourceTree = "<group>"; };
+		664B2220209A026E00A926FC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		664B2222209A029400A926FC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		664B2224209A02A900A926FC /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		664E4FE42058FD0500798A0A /* PlayRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayRecordViewController.h; sourceTree = "<group>"; };
 		664E4FE52058FD0500798A0A /* PlayRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayRecordViewController.m; sourceTree = "<group>"; };
 		664E4FE72058FD5100798A0A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -274,21 +281,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				664FAC0020638E3200A2C767 /* libavfilter.a in Frameworks */,
+				664B2225209A02A900A926FC /* libc++.tbd in Frameworks */,
 				E1A6BCB51FBAC77C0000213E /* libbz2.tbd in Frameworks */,
 				E1A6BCB31FBAC7760000213E /* libz.tbd in Frameworks */,
-				664FAC0120638E3200A2C767 /* libavcodec.a in Frameworks */,
 				E1A6BCB11FBAC7710000213E /* libiconv.tbd in Frameworks */,
 				66FF6691202C5523004E76B2 /* libstdc++.tbd in Frameworks */,
-				664FABFF20638E3200A2C767 /* libavutil.a in Frameworks */,
+				664B2223209A029400A926FC /* Security.framework in Frameworks */,
+				664B2221209A026E00A926FC /* SystemConfiguration.framework in Frameworks */,
 				664E4FE82058FD5100798A0A /* MediaPlayer.framework in Frameworks */,
-				664FAC0420638E3200A2C767 /* libswresample.a in Frameworks */,
 				368B0B601FCBFFB600172BDB /* CoreMedia.framework in Frameworks */,
+				368B0B5E1FCBFFA300172BDB /* VideoToolbox.framework in Frameworks */,
+				66FF66D4202C80FE004E76B2 /* Foundation.framework in Frameworks */,
+				664FAC0020638E3200A2C767 /* libavfilter.a in Frameworks */,
+				664FAC0120638E3200A2C767 /* libavcodec.a in Frameworks */,
+				664FABFF20638E3200A2C767 /* libavutil.a in Frameworks */,
+				664FAC0420638E3200A2C767 /* libswresample.a in Frameworks */,
 				664FAC0220638E3200A2C767 /* libavformat.a in Frameworks */,
 				664FAC0320638E3200A2C767 /* libavdevice.a in Frameworks */,
 				664FAC0520638E3200A2C767 /* libswscale.a in Frameworks */,
-				368B0B5E1FCBFFA300172BDB /* VideoToolbox.framework in Frameworks */,
-				66FF66D4202C80FE004E76B2 /* Foundation.framework in Frameworks */,
 				66FEA9F7205B94B5009822E0 /* libEasyRTMPClient.a in Frameworks */,
 				9B22BEF919E074DBB3BF4148 /* libPods-EasyPlayerRTMP.a in Frameworks */,
 			);
@@ -629,6 +639,7 @@
 			children = (
 				88A495507751E0CCA18F7E33 /* Pods-EasyPlayerRTMP.debug.xcconfig */,
 				F7C07AC343C5660159C3420F /* Pods-EasyPlayerRTMP.release.xcconfig */,
+				0B3C992BEA1644B6BAE64061 /* Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -700,6 +711,9 @@
 		E1A6BCAD1FBAC7690000213E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				664B2224209A02A900A926FC /* libc++.tbd */,
+				664B2222209A029400A926FC /* Security.framework */,
+				664B2220209A026E00A926FC /* SystemConfiguration.framework */,
 				664E4FE72058FD5100798A0A /* MediaPlayer.framework */,
 				66FF66D3202C80FE004E76B2 /* Foundation.framework */,
 				66FF667A202C4A83004E76B2 /* libstdc++.6.0.9.tbd */,
@@ -915,6 +929,101 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		664B221E2099F25600A926FC /* ad hoc distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: xin sun (33USAS7KQX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: xin sun (33USAS7KQX)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "ad hoc distribution";
+		};
+		664B221F2099F25600A926FC /* ad hoc distribution */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0B3C992BEA1644B6BAE64061 /* Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BOOL_CONVERSION = NO;
+				CLANG_WARN_CONSTANT_CONVERSION = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
+				CLANG_WARN_EMPTY_BODY = NO;
+				CLANG_WARN_SUSPICIOUS_MOVE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)",
+					"$(inherited)",
+				);
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"$(PROJECT_DIR)/EasyPlayer/ffmpeg/include",
+				);
+				INFOPLIST_FILE = EasyPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EasyPlayer/libEasyRTMPClient",
+					"$(PROJECT_DIR)/EasyPlayer/ffmpeg/lib",
+				);
+				ORDER_FILE = "";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_BUNDLE_IDENTIFIER = org.easydarwin.easyplayertrmp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+			};
+			name = "ad hoc distribution";
+		};
 		E1A6BC301FBAC6EC0000213E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1027,7 +1136,9 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = NO;
 				CLANG_WARN_SUSPICIOUS_MOVE = NO;
-				DEVELOPMENT_TEAM = 33USAS7KQX;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
@@ -1064,6 +1175,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.easydarwin.easyplayertrmp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1079,7 +1192,9 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
 				CLANG_WARN_EMPTY_BODY = NO;
 				CLANG_WARN_SUSPICIOUS_MOVE = NO;
-				DEVELOPMENT_TEAM = 33USAS7KQX;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
@@ -1107,6 +1222,8 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = org.easydarwin.easyplayertrmp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -1118,6 +1235,7 @@
 			buildConfigurations = (
 				E1A6BC301FBAC6EC0000213E /* Debug */,
 				E1A6BC311FBAC6EC0000213E /* Release */,
+				664B221E2099F25600A926FC /* ad hoc distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1127,6 +1245,7 @@
 			buildConfigurations = (
 				E1A6BC331FBAC6EC0000213E /* Debug */,
 				E1A6BC341FBAC6EC0000213E /* Release */,
+				664B221F2099F25600A926FC /* ad hoc distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

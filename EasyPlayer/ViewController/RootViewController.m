@@ -214,7 +214,7 @@
             // rtmp://www.easydss.com:10085/live/stream_270878
             // rtmp://www.easydss.com:10085/live/testid
             
-            textField.text = @"rtmp://live.finding.com/live/C04?auth_key=1519629069-0-0-a37a75e09891fbe6d54c11dd4caf0cee";
+            textField.text = @"rtmp://47.105.36.229:1935/hls/stream?abc=3";
         } else {
             NSString *url = _dataArray[index];
             textField.text = url;
