@@ -318,6 +318,10 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         _videoDecHandle = DecodeCreate(&param);
     }
     
+    if (_videoDecHandle == NULL) {
+        return;
+    }
+    
     DEC_DECODE_PARAM param;
     param.pStream = video->pBuf;
     param.nLen = video->frameLen;
