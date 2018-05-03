@@ -234,7 +234,10 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             [self decodeAudioFrame:frame];
         }
         
-        delete []frame->pBuf;
+        if (frame->pBuf != NULL) {
+            delete []frame->pBuf;
+        }
+        
         delete frame;
     }
     
@@ -275,7 +278,9 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             [self decodeVideoFrame:frame];
         }
         
-        delete []frame->pBuf;
+        if (frame->pBuf != NULL) {
+            delete []frame->pBuf;
+        }
         
         // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
         afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
@@ -368,6 +373,10 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
                                                 _mediaInfo.u32AudioSamplerate,
                                                 _mediaInfo.u32AudioChannel,
                                                 16);
+    }
+    
+    if (_audioDecHandle == NULL) {
+        return;
     }
     
     unsigned char pcmBuf[10 * 1024] = { 0 };
@@ -476,7 +485,9 @@ int read_video_packet(void *opaque, uint8_t *buf, int buf_size) {
     int frameLen = frame->frameLen;
     memcpy(buf, frame->pBuf, frameLen);
     
-    delete []frame->pBuf;
+    if (frame->pBuf != NULL) {
+        delete []frame->pBuf;
+    }
     delete frame;
     
     return frameLen;
@@ -507,7 +518,9 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     int frameLen = frame->frameLen;
     memcpy(buf, frame->pBuf, frameLen);
     
-    delete []frame->pBuf;
+    if (frame->pBuf != NULL) {
+        delete []frame->pBuf;
+    }
     delete frame;
     
     return frameLen;
