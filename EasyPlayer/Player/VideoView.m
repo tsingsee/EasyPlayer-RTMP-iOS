@@ -307,8 +307,13 @@
     displayLink = nil;
     
     self.videoStatus = Stopped;
-    [self stopAudio];
-    [_reader stop];
+    
+    // TODO
+    dispatch_queue_t queue = dispatch_queue_create("stop_all_video", NULL);
+    dispatch_async(queue, ^{
+        [self stopAudio];
+        [_reader stop];
+    });
     
     @synchronized(rgbFrameArray) {
         [rgbFrameArray removeAllObjects];

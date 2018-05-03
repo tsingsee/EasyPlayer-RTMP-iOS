@@ -98,7 +98,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     
     if (frameInfo != NULL) {
         if (frameType == EASY_SDK_AUDIO_FRAME_FLAG) {// EASY_SDK_AUDIO_FRAME_FLAG音频帧标志
-            [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
+//            [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
         } else if (frameType == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
                    frameInfo->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
             [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
@@ -234,10 +234,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             [self decodeAudioFrame:frame];
         }
         
-        if (frame->pBuf != NULL) {
-            delete []frame->pBuf;
-        }
-        
+        delete []frame->pBuf;
         delete frame;
     }
     
@@ -278,9 +275,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             [self decodeVideoFrame:frame];
         }
         
-        if (frame->pBuf != NULL) {
-            delete []frame->pBuf;
-        }
+        delete []frame->pBuf;
         
         // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
         afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
@@ -489,9 +484,7 @@ int read_video_packet(void *opaque, uint8_t *buf, int buf_size) {
     int frameLen = frame->frameLen;
     memcpy(buf, frame->pBuf, frameLen);
     
-    if (frame->pBuf != NULL) {
-        delete []frame->pBuf;
-    }
+    delete []frame->pBuf;
     delete frame;
     
     return frameLen;
@@ -522,9 +515,7 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     int frameLen = frame->frameLen;
     memcpy(buf, frame->pBuf, frameLen);
     
-    if (frame->pBuf != NULL) {
-        delete []frame->pBuf;
-    }
+    delete []frame->pBuf;
     delete frame;
     
     return frameLen;
@@ -571,47 +562,47 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     }
     
     // 录像：保存视频的内容
-    if (_recordFilePath) {
-        
-        if (isKeyFrame == 0) {
-            if (info->type == EASY_SDK_VIDEO_FRAME_I) {// 视频帧类型
-                isKeyFrame = 1;
-                
-                dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC));
-                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, NULL);
-                dispatch_after(time, queue, ^{
-                    // 开始录像
-                    *stopRecord = 0;
-                    muxer([_recordFilePath UTF8String], stopRecord, read_video_packet, read_audio_packet);
-                });
-            }
-        }
-        
-        if (isKeyFrame == 1) {
-            FrameInfo *frame = (FrameInfo *)malloc(sizeof(FrameInfo));
-            frame->type = type;
-            frame->frameLen = info->length;
-            frame->pBuf = new unsigned char[info->length];
-            frame->width = info->width;
-            frame->height = info->height;
-            frame->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
-            
-            memcpy(frame->pBuf, pBuf, info->length);
-            
-            if (type == EASY_SDK_AUDIO_FRAME_FLAG) {
-                pthread_mutex_lock(&mutexRecordAudioFrame);    // 加锁
-                recordAudioFrameSet.insert(frame);// 根据时间戳排序
-                pthread_mutex_unlock(&mutexRecordAudioFrame);  // 解锁
-            }
-            
-            if (type == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
-                info->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
-                pthread_mutex_lock(&mutexRecordVideoFrame);    // 加锁
-                recordVideoFrameSet.insert(frame);// 根据时间戳排序
-                pthread_mutex_unlock(&mutexRecordVideoFrame);  // 解锁
-            }
-        }
-    }
+//    if (_recordFilePath) {
+//
+//        if (isKeyFrame == 0) {
+//            if (info->type == EASY_SDK_VIDEO_FRAME_I) {// 视频帧类型
+//                isKeyFrame = 1;
+//
+//                dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC));
+//                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, NULL);
+//                dispatch_after(time, queue, ^{
+//                    // 开始录像
+//                    *stopRecord = 0;
+//                    muxer([_recordFilePath UTF8String], stopRecord, read_video_packet, read_audio_packet);
+//                });
+//            }
+//        }
+//
+//        if (isKeyFrame == 1) {
+//            FrameInfo *frame = (FrameInfo *)malloc(sizeof(FrameInfo));
+//            frame->type = type;
+//            frame->frameLen = info->length;
+//            frame->pBuf = new unsigned char[info->length];
+//            frame->width = info->width;
+//            frame->height = info->height;
+//            frame->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
+//
+//            memcpy(frame->pBuf, pBuf, info->length);
+//
+//            if (type == EASY_SDK_AUDIO_FRAME_FLAG) {
+//                pthread_mutex_lock(&mutexRecordAudioFrame);    // 加锁
+//                recordAudioFrameSet.insert(frame);// 根据时间戳排序
+//                pthread_mutex_unlock(&mutexRecordAudioFrame);  // 解锁
+//            }
+//
+//            if (type == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
+//                info->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
+//                pthread_mutex_lock(&mutexRecordVideoFrame);    // 加锁
+//                recordVideoFrameSet.insert(frame);// 根据时间戳排序
+//                pthread_mutex_unlock(&mutexRecordVideoFrame);  // 解锁
+//            }
+//        }
+//    }
 }
 
 #pragma mark - HWVideoDecoderDelegate
@@ -655,17 +646,17 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     return _mediaInfo;
 }
 
-// 设置录像的路径
-- (void) setRecordFilePath:(NSString *)recordFilePath {
-    if ((_recordFilePath) && (!recordFilePath)) {
-        _recordFilePath = recordFilePath;
-        
-        *stopRecord = 1;
-        muxer(NULL, stopRecord, read_video_packet, read_audio_packet);
-        isKeyFrame = 0;
-    }
-    
-    _recordFilePath = recordFilePath;
-}
+//// 设置录像的路径
+//- (void) setRecordFilePath:(NSString *)recordFilePath {
+//    if ((_recordFilePath) && (!recordFilePath)) {
+//        _recordFilePath = recordFilePath;
+//
+//        *stopRecord = 1;
+//        muxer(NULL, stopRecord, read_video_packet, read_audio_packet);
+//        isKeyFrame = 0;
+//    }
+//
+//    _recordFilePath = recordFilePath;
+//}
 
 @end
