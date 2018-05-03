@@ -10,10 +10,13 @@
 #import "RtspDataReader.h"
 #import "RootViewController.h"
 #import "NSUserDefaultsUnit.h"
+#import <Bugly/Bugly.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [Bugly startWithAppId:@"8a4c2e394d"];
     
     if (![NSUserDefaultsUnit urls]) {
         NSMutableArray *a = [[NSMutableArray alloc] init];
