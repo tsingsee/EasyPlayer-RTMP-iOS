@@ -6,7 +6,7 @@
 #import "UIColor+HexColor.h"
 #import "KxMovieGLView.h"
 #import "PureLayout.h"
-#import "AudioManager.h"
+//#import "AudioManager.h"
 #import "PathUnit.h"
 #import "NSUserDefaultsUnit.h"
 #import "DC_AlertManager.h"
@@ -230,23 +230,25 @@
 #pragma mark - 播放控制
 
 - (void)startAudio {
-    self.audioPlaying = YES;
-    [AudioManager sharedInstance].sampleRate = _reader.mediaInfo.u32AudioSamplerate;
-    [AudioManager sharedInstance].channel = _reader.mediaInfo.u32AudioChannel;
-    [[AudioManager sharedInstance] play];
-    __weak VideoView *weakSelf = self;
-    [AudioManager sharedInstance].source = self;
-    [AudioManager sharedInstance].outputBlock = ^(SInt16 *outData, UInt32 numFrames, UInt32 numChannels) {
-        [weakSelf fillAudioData:outData numFrames:numFrames numChannels:numChannels];
-    };
+    // TODO
+//    self.audioPlaying = YES;
+//    [AudioManager sharedInstance].sampleRate = _reader.mediaInfo.u32AudioSamplerate;
+//    [AudioManager sharedInstance].channel = _reader.mediaInfo.u32AudioChannel;
+//    [[AudioManager sharedInstance] play];
+//    __weak VideoView *weakSelf = self;
+//    [AudioManager sharedInstance].source = self;
+//    [AudioManager sharedInstance].outputBlock = ^(SInt16 *outData, UInt32 numFrames, UInt32 numChannels) {
+//        [weakSelf fillAudioData:outData numFrames:numFrames numChannels:numChannels];
+//    };
 }
 
 - (void)stopAudio {
-    if ([AudioManager sharedInstance].source == self) {
-        [[AudioManager sharedInstance] stop];
-        [AudioManager sharedInstance].outputBlock = nil;
-    }
-    self.audioPlaying = NO;
+    // TODO
+//    if ([AudioManager sharedInstance].source == self) {
+//        [[AudioManager sharedInstance] stop];
+//        [AudioManager sharedInstance].outputBlock = nil;
+//    }
+//    self.audioPlaying = NO;
 }
 
 - (void)startPlay {
@@ -558,8 +560,9 @@
         [self startAudio];
     } else {
         self.audioPlaying = NO;
-        [[AudioManager sharedInstance] pause];
-        [AudioManager sharedInstance].outputBlock = nil;
+        // TODO
+//        [[AudioManager sharedInstance] pause];
+//        [AudioManager sharedInstance].outputBlock = nil;
     }
 }
 
