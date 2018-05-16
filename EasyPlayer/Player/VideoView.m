@@ -6,7 +6,7 @@
 #import "UIColor+HexColor.h"
 #import "KxMovieGLView.h"
 #import "PureLayout.h"
-//#import "AudioManager.h"
+#import "AudioManager.h"
 #import "PathUnit.h"
 #import "NSUserDefaultsUnit.h"
 #import "DC_AlertManager.h"
@@ -219,7 +219,7 @@
             CGFloat height = rc.size.height;
             kxGlView.frame = CGRectMake(0, 0, width, height);
             scrollView.contentSize = CGSizeMake(width, height);
-//            NSLog(@"displayWidth = %d displayHeight = %d %f %f frameWidht = %f frameHeight = %f", displayWidth, displayHeight, width, height, self.frame.size.width, self.frame.size.height);
+            NSLog(@"displayWidth = %d displayHeight = %d %f %f frameWidht = %f frameHeight = %f", displayWidth, displayHeight, width, height, self.frame.size.width, self.frame.size.height);
             scrollView.contentOffset = CGPointMake((width - rc.size.width) / 2, 0);
             
             [self reCalculateArcPos];
@@ -230,25 +230,23 @@
 #pragma mark - 播放控制
 
 - (void)startAudio {
-    // TODO
-//    self.audioPlaying = YES;
-//    [AudioManager sharedInstance].sampleRate = _reader.mediaInfo.u32AudioSamplerate;
-//    [AudioManager sharedInstance].channel = _reader.mediaInfo.u32AudioChannel;
-//    [[AudioManager sharedInstance] play];
-//    __weak VideoView *weakSelf = self;
-//    [AudioManager sharedInstance].source = self;
-//    [AudioManager sharedInstance].outputBlock = ^(SInt16 *outData, UInt32 numFrames, UInt32 numChannels) {
-//        [weakSelf fillAudioData:outData numFrames:numFrames numChannels:numChannels];
-//    };
+    self.audioPlaying = YES;
+    [AudioManager sharedInstance].sampleRate = _reader.mediaInfo.u32AudioSamplerate;
+    [AudioManager sharedInstance].channel = _reader.mediaInfo.u32AudioChannel;
+    [[AudioManager sharedInstance] play];
+    __weak VideoView *weakSelf = self;
+    [AudioManager sharedInstance].source = self;
+    [AudioManager sharedInstance].outputBlock = ^(SInt16 *outData, UInt32 numFrames, UInt32 numChannels) {
+        [weakSelf fillAudioData:outData numFrames:numFrames numChannels:numChannels];
+    };
 }
 
 - (void)stopAudio {
-    // TODO
-//    if ([AudioManager sharedInstance].source == self) {
-//        [[AudioManager sharedInstance] stop];
-//        [AudioManager sharedInstance].outputBlock = nil;
-//    }
-//    self.audioPlaying = NO;
+    if ([AudioManager sharedInstance].source == self) {
+        [[AudioManager sharedInstance] stop];
+        [AudioManager sharedInstance].outputBlock = nil;
+    }
+    self.audioPlaying = NO;
 }
 
 - (void)startPlay {
@@ -310,7 +308,6 @@
     
     self.videoStatus = Stopped;
     
-    // TODO
     dispatch_queue_t queue = dispatch_queue_create("stop_all_video", NULL);
     dispatch_async(queue, ^{
         [self stopAudio];
@@ -408,12 +405,12 @@
     NSTimeInterval dTime = now - _tickCorrectionTime;
     NSTimeInterval correction = dPos - dTime;
     if (correction > 0) {
-//        NSLog(@"tick correction reset %0.2f", correction);
+        NSLog(@"tick correction reset %0.2f", correction);
         correction = 0;
     }
     
     if (_bufferdDuration >= 0.3) {
-//        NSLog(@"bufferdDuration = %f play faster", _bufferdDuration);
+        NSLog(@"bufferdDuration = %f play faster", _bufferdDuration);
         correction = -1;
     }
     
@@ -476,7 +473,7 @@
                         [_audioFrames removeObjectAtIndex:0];
                         
                         if (differ > 5 && count > 1) {
-//                            NSLog(@"audio skip movPos = %.4f audioPos = %.4f", _moviePosition, frame.position);
+                            NSLog(@"audio skip movPos = %.4f audioPos = %.4f", _moviePosition, frame.position);
                             continue;
                         }
                         
@@ -560,9 +557,8 @@
         [self startAudio];
     } else {
         self.audioPlaying = NO;
-        // TODO
-//        [[AudioManager sharedInstance] pause];
-//        [AudioManager sharedInstance].outputBlock = nil;
+        [[AudioManager sharedInstance] pause];
+        [AudioManager sharedInstance].outputBlock = nil;
     }
 }
 
@@ -634,13 +630,6 @@
     } else {
         statusView.hidden = YES;
     }
-}
-
-- (void)setActive:(BOOL)active {
-    _active = active;
-    
-//    self.layer.borderWidth = _active && _showActiveStatus ? 1 : 0;
-//    self.layer.borderColor = [UIColor colorFromHex:0xc19948].CGColor;
 }
 
 - (void)setShowActiveStatus:(BOOL)showActiveStatus {

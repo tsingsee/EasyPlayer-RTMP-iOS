@@ -49,6 +49,9 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
     pthread_mutex_t mutexAudioFrame;
     pthread_mutex_t mutexChan;
     
+    pthread_mutex_t mutexCloseAudio;
+    pthread_mutex_t mutexCloseVideo;
+    
     void *_videoDecHandle;  // 视频解码句柄
     void *_audioDecHandle;  // 音频解码句柄
     
@@ -98,8 +101,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     
     if (frameInfo != NULL) {
         if (frameType == EASY_SDK_AUDIO_FRAME_FLAG) {// EASY_SDK_AUDIO_FRAME_FLAG音频帧标志
-            // TODO
-//            [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
+            [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
         } else if (frameType == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
                    frameInfo->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
             [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
@@ -136,6 +138,9 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         pthread_mutex_init(&mutexChan, 0);
         pthread_mutex_init(&mutexRecordVideoFrame, 0);
         pthread_mutex_init(&mutexRecordAudioFrame, 0);
+        
+        pthread_mutex_init(&mutexCloseAudio, 0);
+        pthread_mutex_init(&mutexCloseVideo, 0);
         
         _videoDecHandle = NULL;
         _audioDecHandle = NULL;
@@ -241,10 +246,12 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     
     [self removeAudioFrameSet];
     
+    pthread_mutex_lock(&mutexCloseVideo);
     if (_audioDecHandle != NULL) {
         EasyAudioDecodeClose((EasyAudioHandle *)_audioDecHandle);
         _audioDecHandle = NULL;
     }
+    pthread_mutex_unlock(&mutexCloseVideo);
 }
 
 - (void)videoThreadFunc {
@@ -292,10 +299,12 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     
     [self removeVideoFrameSet];
     
+    pthread_mutex_lock(&mutexCloseVideo);
     if (_videoDecHandle != NULL) {
         DecodeClose(_videoDecHandle);
         _videoDecHandle = NULL;
     }
+    pthread_mutex_unlock(&mutexCloseVideo);
     
     if (self.useHWDecoder) {
         [_hwDec closeDecoder];
@@ -633,6 +642,9 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     pthread_mutex_destroy(&mutexChan);
     pthread_mutex_destroy(&mutexRecordVideoFrame);
     pthread_mutex_destroy(&mutexRecordAudioFrame);
+    
+    pthread_mutex_destroy(&mutexCloseVideo);
+    pthread_mutex_destroy(&mutexCloseAudio);
     
     if (rtspHandle != NULL) {
         /* 释放RTSPClient 参数为RTSPClient句柄 */
