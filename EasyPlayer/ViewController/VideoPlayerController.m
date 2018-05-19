@@ -77,8 +77,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    // 回归竖屏
-    [self normalScreenWithDuration:0];
+    [self normalScreenWithDuration:0];// 回归竖屏
     
     [self.panel stopAll];
 }
@@ -119,7 +118,6 @@
     [UIView animateWithDuration:duration animations:^{
         [self.navigationController setNavigationBarHidden:YES];
         
-//        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         statusBarHidden = NO;
         [self prefersStatusBarHidden];
         
@@ -154,7 +152,6 @@
     [UIView animateWithDuration:duration animations:^{
         [self.navigationController setNavigationBarHidden:NO];
         
-//        [[UIApplication sharedApplication] setStatusBarHidden:NO];
         statusBarHidden = YES;
         [self prefersStatusBarHidden];
         
@@ -205,8 +202,7 @@
 }
 
 - (void)videoViewWillAddNewRes:(VideoView *)view index:(int)index {
-    // 回归竖屏
-    [self normalScreenWithDuration:0];
+    [self normalScreenWithDuration:0];// 回归竖屏
     
     RootViewController *vc = [[RootViewController alloc] init];
     vc.previewMore = ^(NSString *url) {

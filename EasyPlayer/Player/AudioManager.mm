@@ -229,8 +229,13 @@ static OSStatus outputRenderCallback(void                        *inRefCon,
         if (_outputBlock != nil) {
             _outputBlock(_outData, inNumberFrames, self.channel);
             
-            for (int iBuffer=0; iBuffer < ioData->mNumberBuffers; ++iBuffer) {
+            for (int iBuffer = 0; iBuffer < ioData->mNumberBuffers; ++iBuffer) {
                 int thisNumChannels = ioData->mBuffers[iBuffer].mNumberChannels;
+                
+                if (thisNumChannels <= 0 || thisNumChannels > 2) {
+                    thisNumChannels = 1;
+                }
+                
                 SInt16 *frameBuffer = (SInt16 *)ioData->mBuffers[iBuffer].mData;
                 memcpy(frameBuffer, _outData, inNumberFrames * thisNumChannels * sizeof(SInt16));
             }

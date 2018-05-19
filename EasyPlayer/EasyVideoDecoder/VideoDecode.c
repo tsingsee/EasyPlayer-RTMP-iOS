@@ -170,17 +170,6 @@ unsigned int DecodeVideo(void *DecHandle, DEC_DECODE_PARAM *pDecodeParam, DVDVid
                                      &got_picture,
                                      &packet);
         
-        
-//        int re = avcodec_send_packet(pComponent->pCodecCtx, &packet);
-//        if (re != 0) {
-//            return -1;
-//        }
-//        while (avcodec_receive_frame(pComponent->pCodecCtx, pComponent->pFrame) == 0) {
-//            //读取到一帧音频或者视频
-//            //处理解码后音视频 frame
-//        }
-        
-        
         if (nRet == -1) {
             return nRet;
         }
