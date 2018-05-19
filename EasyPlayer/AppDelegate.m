@@ -18,16 +18,18 @@
     
     [Bugly startWithAppId:@"8a4c2e394d"];
     
-    if (![NSUserDefaultsUnit urls]) {
-        NSMutableArray *a = [[NSMutableArray alloc] init];
-        [a addObject:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
-        [NSUserDefaultsUnit updateURL:a];
-        
-        [NSUserDefaultsUnit setFFMpeg:YES];// 默认软解码
-    }
+//    if (![NSUserDefaultsUnit urls]) {
+//        NSMutableArray *a = [[NSMutableArray alloc] init];
+//        [a addObject:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
+//        [NSUserDefaultsUnit updateURL:a];
+//
+//        [NSUserDefaultsUnit setFFMpeg:YES];// 默认软解码
+//    }
     
+    // ------------- 1.启动编解码器 -------------
     [RtspDataReader startUp];
     
+    // ------------- 2.设置激活码 ------------- 
     int err = EasyRTMPClient_Activate(
 "59617A414C662B32734B79415170646170576938792F464659584E355547786865575679556C524E55477858444661672F307667523246326157346D516D466962334E68514449774D545A4659584E355247467964326C75564756686257566863336B3D");
     NSLog(@"---->>>  %d", err);

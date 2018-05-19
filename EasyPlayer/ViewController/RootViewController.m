@@ -170,12 +170,12 @@
     
     //添加确定到UIAlertController中
     UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSString* url = [_dataArray objectAtIndex:index];
+        NSString* url = [self.dataArray objectAtIndex:index];
         [PathUnit deleteBaseRecordPathWithURL:url];
         [PathUnit deleteBaseShotPathWithURL:url];
         
-        [_dataArray removeObjectAtIndex:index];
-        [NSUserDefaultsUnit updateURL:_dataArray];
+        [self.dataArray removeObjectAtIndex:index];
+        [NSUserDefaultsUnit updateURL:self.dataArray];
         [self.collectionView reloadData];
     }];
     [alertController addAction:OKAction];
@@ -194,13 +194,13 @@
         UITextField *tf = alertController.textFields.firstObject;
         NSString* url = [tf.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if(index < 0) {
-            [_dataArray insertObject:url atIndex:0];
+            [self.dataArray insertObject:url atIndex:0];
         } else {
-            [_dataArray removeObjectAtIndex:index];
-            [_dataArray insertObject:url atIndex:index];
+            [self.dataArray removeObjectAtIndex:index];
+            [self.dataArray insertObject:url atIndex:index];
         }
         
-        [NSUserDefaultsUnit updateURL:_dataArray];
+        [NSUserDefaultsUnit updateURL:self.dataArray];
         
         [self.collectionView reloadData];
     }];
@@ -211,12 +211,9 @@
         
         if(index < 0) {
             // rtmp://live.hkstv.hk.lxdns.com/live/hks
-            // rtmp://www.easydss.com:10085/live/stream_270878
-            // rtmp://www.easydss.com:10085/live/testid
-            
             textField.text = @"rtmp://47.105.36.229:1935/hls/stream?abc=3";
         } else {
-            NSString *url = _dataArray[index];
+            NSString *url = self.dataArray[index];
             textField.text = url;
         }
     }];
