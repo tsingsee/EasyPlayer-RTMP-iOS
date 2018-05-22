@@ -61,14 +61,18 @@
     self.videoView.delegate = self;     // 播放状态的代理
     self.videoView.url = self.url;      // 流地址
     self.videoView.showAllRegon = YES;  // 适配到屏幕宽高
-    self.videoView.isStopAudio = YES;  // 关闭声音
+    self.videoView.isStopAudio = NO;  // 关闭声音
     self.videoView.snapshotPath = [PathUnit snapshotWithURL:_url];  // 为空，则不保存最后一帧画面
-    
-    // ------------- 6.开始播放 -------------
-    [self.videoView startPlay];
     
     // ------------- 7.添加App状态通知来关闭/打开视频 -------------
     [self regestAppStatusNotification];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    // ------------- 6.开始播放 -------------
+    [self.videoView startPlay];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -115,8 +119,8 @@
     
     self.audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio"] forState:UIControlStateDisabled];
-    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_pressed"] forState:UIControlStateNormal];
-    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_enabled"] forState:UIControlStateSelected];
+    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_enabled"] forState:UIControlStateNormal];
+    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_pressed"] forState:UIControlStateSelected];
     [self.audioButton addTarget:self action:@selector(audioButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.statusView addSubview:self.audioButton];
     [self.audioButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -124,6 +128,7 @@
         make.centerY.equalTo(self.statusView);
         make.size.equalTo(@(CGSizeMake(size, size)));
     }];
+    self.audioButton.selected = YES;
     
     self.screenshotButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.screenshotButton setImage:[UIImage imageNamed:@"ic_action_camera"] forState:UIControlStateDisabled];

@@ -22,10 +22,8 @@
 //        NSMutableArray *a = [[NSMutableArray alloc] init];
 //        [a addObject:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
 //        [NSUserDefaultsUnit updateURL:a];
-//
-//        [NSUserDefaultsUnit setFFMpeg:YES];// 默认软解码
 //    }
-    
+
     // ------------- 1.启动编解码器 -------------
     [RtspDataReader startUp];
     
