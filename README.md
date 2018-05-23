@@ -1,6 +1,6 @@
-# EasyPlayer-RTMP #
+# EasyPlayer-RTMP-iOS #
 
-EasyPlayer **RTMP iOS** 播放器是由[紫鲸团队](http://www.pvale.com "紫鲸云")开发和维护的一个完善的RTMP流媒体播放器项目，视频编码支持**H.264**，音频支持**AAC**，支持RTMP over TCP/UDP协议，支持**硬解码**，**软解码**，是一套极佳的安防流媒体平台播放组件！EasyPlayer-RTMP iOS版本经过了很多年的发展和迭代，已经非常稳定、完整，功能包括：直播、<!--录像、-->抓图，支持指令集包括arm64、armv7，应该说是目前市面上功能性、稳定性和完整性最强的一款RTMP播放器！
+EasyPlayer **RTMP iOS** 播放器是由[紫鲸云](http://www.pvale.com "紫鲸云")开发和维护的一个完善的RTMP流媒体播放器项目，视频编码支持**H.264**（后续会扩展H.265），音频支持**AAC**，支持**硬解码**，**软解码**，是一套极佳的安防流媒体平台播放组件！EasyPlayer-RTMP iOS版本经过了很多年的发展和迭代，已经非常稳定、完整，功能包括：直播、录像、抓图，支持指令集包括arm64、armv7，应该说是目前市面上功能性、稳定性、低延时性和完整性最强的一款RTMP播放器！
 
 
 ## 工作流程 ##
@@ -19,7 +19,7 @@ EasyPlayer **RTMP iOS** 播放器是由[紫鲸团队](http://www.pvale.com "紫�
 - [x] 支持播放过程中，'实时静音/取消静音';
 - [x] 高效的延时追帧策略；
 - [x] [快照]支持播放过程中，**随时快照**；
-<!--- [x] [录像]支持播放过程中，**随时录像**；-->
+- [x] [录像]支持播放过程中，**随时录像**；
 
 ## 编译方法 ##
 iOS：Xcode编译；
@@ -27,19 +27,14 @@ iOS：Xcode编译；
 
 ## 最新版本下载 ##
 
-<!--- iOS RTMP版：[https://fir.im/EasyRTSPlayer](https://fir.im/EasyRTMPlayer)
 
-![EasyPlayer-RTMP Android](http://www.easydarwin.org/github/images/easyplayer/firimeasyrtmplayerandroid201801.png)-->
+- iOS RTMP版： *上架中！*
 
-
-- iOS RTSP版：[https://itunes.apple.com/cn/app/easy-player/id1158675416?mt=8](https://itunes.apple.com/cn/app/easy-player/id1158675416?mt=8)
-
-![EasyPlayer iOS](http://www.easydarwin.org/github/images/easyplayer/easyplayer20171225.png)
-
+<!--- ![EasyPlayer iOS](http://www.easydarwin.org/github/images/easyplayer/easyplayer20171225.png) -->
 
 ## DEMO效果 ##
 
-![EasyPlayer-RTMP Android](http://www.easydarwin.org/github/images/easyplayerrtmp/EasyPlayerRTMPAndroid.png)
+<img height="60%" src="http://www.easydarwin.org/github/images/easyplayerrtmp/EasyPlayerRTMPAndroid.png" text="EasyPlayer-RTMP-iOS" />
 
 ## EasyPlayer项目集群说明 ##
 
