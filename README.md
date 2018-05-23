@@ -34,7 +34,7 @@ iOS：Xcode编译；
 
 ## DEMO效果 ##
 
-<img height="60%" src="http://www.easydarwin.org/github/images/easyplayerrtmp/EasyPlayerRTMPAndroid.png" text="EasyPlayer-RTMP-iOS" />
+<img width="30%" src="http://www.easydarwin.org/github/images/easyplayerrtmp/EasyPlayerRTMPAndroid.png" text="EasyPlayer-RTMP-iOS" />
 
 ## EasyPlayer项目集群说明 ##
 
