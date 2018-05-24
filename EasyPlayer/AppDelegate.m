@@ -18,12 +18,12 @@
     
     [Bugly startWithAppId:@"8a4c2e394d"];
     
-//    if (![NSUserDefaultsUnit urls]) {
-//        NSMutableArray *a = [[NSMutableArray alloc] init];
-//        [a addObject:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
-//        [NSUserDefaultsUnit updateURL:a];
-//    }
-
+    if (![NSUserDefaultsUnit urls]) {
+        NSMutableArray *a = [[NSMutableArray alloc] init];
+        [a addObject:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
+        [NSUserDefaultsUnit updateURL:a];
+    }
+    
     // ------------- 1.启动编解码器 -------------
     [RtspDataReader startUp];
     

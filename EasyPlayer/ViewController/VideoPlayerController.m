@@ -246,7 +246,7 @@
 #pragma mark - VideoViewDelegate
 
 // 视频连接中
-- (void)videoConnecting {
+- (void)videoConnecting:(VideoView *)view {
     self.playButton.enabled = NO;
     self.audioButton.enabled = NO;
     self.screenshotButton.enabled = NO;
@@ -256,7 +256,7 @@
 }
 
 // 视频播放中
-- (void)videoRendering {
+- (void)videoRendering:(VideoView *)view {
     self.playButton.enabled = YES;
     self.audioButton.enabled = YES;
     self.screenshotButton.enabled = YES;
@@ -266,7 +266,7 @@
 }
 
 // 视频停止
-- (void)videoStopped {
+- (void)videoStopped:(VideoView *)view {
     self.audioButton.enabled = NO;
     self.screenshotButton.enabled = NO;
     self.recordButton.enabled = NO;
