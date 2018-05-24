@@ -61,7 +61,8 @@
     self.videoView.delegate = self;     // 播放状态的代理
     self.videoView.url = self.url;      // 流地址
     self.videoView.showAllRegon = YES;  // 适配到屏幕宽高
-    self.videoView.isStopAudio = NO;  // 关闭声音
+    self.videoView.isStopAudio = NO;    // 关闭声音
+    self.videoView.useHWDecoder = NO;   // 使用软解码
     self.videoView.snapshotPath = [PathUnit snapshotWithURL:_url];  // 为空，则不保存最后一帧画面
     
     // ------------- 7.添加App状态通知来关闭/打开视频 -------------

@@ -29,6 +29,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isStopAudio;         // 是否关闭声音
 @property (nonatomic, assign) BOOL isLandspace;         // 是否横屏
 @property (nonatomic, assign) BOOL showAllRegon;        // 是否适配到屏幕宽高(默认适配)
+@property (nonatomic, assign) BOOL useHWDecoder;        // 是否启用硬解(默认软解)
 
 @property (nonatomic, assign) IVideoStatus videoStatus;
 
