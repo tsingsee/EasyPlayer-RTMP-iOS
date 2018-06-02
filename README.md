@@ -28,7 +28,7 @@ iOS：Xcode编译；
 ## 最新版本下载 ##
 
 
-- iOS RTMP版： *上架中！*
+- iOS RTMP版：https://itunes.apple.com/cn/app/easy-player/id1347047886?mt=8
 
 <!--- ![EasyPlayer iOS](http://www.easydarwin.org/github/images/easyplayer/easyplayer20171225.png) -->
 
