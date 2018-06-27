@@ -34,7 +34,7 @@ iOS：Xcode编译；
 
 ## DEMO效果 ##
 
-<img width="30%" src="http://www.easydarwin.org/github/images/easyplayerrtmp/EasyPlayerRTMPAndroid.png" text="EasyPlayer-RTMP-iOS" />
+<img width="35%" src="http://www.easydarwin.org/github/images/easyplayerrtmp/EasyPlayerRTMPiOSDemo.png" text="EasyPlayer-RTMP-iOS" />
 
 ## EasyPlayer项目集群说明 ##
 
@@ -77,7 +77,7 @@ iOS：Xcode编译；
 
 - Tel：13718530929
 
-- QQ交流群：<a href="http://jq.qq.com/?_wv=1027&k=2IDkJId" target="_blank" title="EasyPlayer">**544917793**</a>
+- QQ交流群：**544917793**
 
 > EasyPlayer是一款非常稳定的全协议/全功能/全平台播放器，各平台版本需要经过授权才能商业使用，商业授权方案可以通过以上渠道进行更深入的技术与合作咨询；
 
