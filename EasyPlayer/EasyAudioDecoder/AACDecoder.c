@@ -83,7 +83,7 @@ int aac_decode_frame(void *pParam,
 		if (src_len < 0) {
 			return -3;
 		}
-
+        
 		if (got_frame) {
 			uint8_t *out[] = {pAACD->audio_buf};
             
@@ -123,7 +123,8 @@ int aac_decode_frame(void *pParam,
         *outLen = dst_len;
     }
     
-    av_free_packet(&packet);
+//    av_free_packet(&packet);
+    av_packet_unref(&packet);
 	
     return (dst_len > 0) ? 0 : -1;
 }

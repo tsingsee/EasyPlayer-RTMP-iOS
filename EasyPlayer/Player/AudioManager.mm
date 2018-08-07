@@ -69,25 +69,26 @@ static BOOL checkError(OSStatus error, const char *operation) {
 
 - (BOOL) activateAudioSession {
     if (!_initialized) {
-        AudioSessionInitialize(NULL,
-                               kCFRunLoopDefaultMode,
-                               sessionInterruptionListener,
-                               (__bridge void *)(self));
+//        AudioSessionInitialize(NULL,
+//                               kCFRunLoopDefaultMode,
+//                               sessionInterruptionListener,
+//                               (__bridge void *)(self));
         
         _initialized = YES;
     }
     
     if (!_activated) {
-        UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
-        if (checkError(AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
-                                               sizeof(sessionCategory),
-                                               &sessionCategory),
-                       "Couldn't set audio category"))
-            return NO;
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+//        UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
+//        if (checkError(AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
+//                                               sizeof(sessionCategory),
+//                                               &sessionCategory),
+//                       "Couldn't set audio category"))
+//            return NO;
         
-        if (checkError(AudioSessionSetActive(YES),
-                       "Couldn't activate the audio session"))
-            return NO;
+        [[AVAudioSession sharedInstance] setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+//        if (checkError(AudioSessionSetActive(YES), "Couldn't activate the audio session"))
+//            return NO;
         
         _activated = YES;
     }
@@ -97,9 +98,10 @@ static BOOL checkError(OSStatus error, const char *operation) {
 
 - (void) deactivateAudioSession {
     [self stop];
+
+    [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+//    checkError(AudioSessionSetActive(NO), "Couldn't deactivate the audio session");
     
-    checkError(AudioSessionSetActive(NO),
-               "Couldn't deactivate the audio session");
     _activated = NO;
 }
 

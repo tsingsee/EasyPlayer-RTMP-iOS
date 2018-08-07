@@ -9,8 +9,6 @@
 #import <VideoToolbox/VideoToolbox.h>
 #import "KxMovieDecoder.h"
 
-//#define iMicroVideo 0
-
 typedef enum {
     DEC_264,
     DEC_265,
@@ -36,7 +34,7 @@ typedef enum {
 
 @protocol HWVideoDecoderDelegate <NSObject>
 
--(void) getDecodePictureData:(KxVideoFrame *)frame;
--(void) getDecodePixelData:(CVImageBufferRef )frame;
+-(void) getDecodePictureData:(KxVideoFrame *) frame;
+-(void) getDecodePixelData:(CVImageBufferRef) frame;
 
 @end

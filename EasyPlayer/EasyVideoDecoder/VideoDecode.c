@@ -162,6 +162,7 @@ unsigned int DecodeVideo(void *DecHandle, DEC_DECODE_PARAM *pDecodeParam, DVDVid
     }
 
     int got_picture = 0;
+
     int nRet = 0;
     if (packet.size > 0) {
         // [9]、解码一帧数据,输入一个压缩编码的结构体AVPacket-->输出一个解码后的结构体AVFrame
@@ -169,11 +170,21 @@ unsigned int DecodeVideo(void *DecHandle, DEC_DECODE_PARAM *pDecodeParam, DVDVid
                                      pComponent->pFrame,
                                      &got_picture,
                                      &packet);
-        
+
         if (nRet == -1) {
             return nRet;
         }
     }
+    
+//    if (packet.size > 0) {
+//        got_picture = avcodec_send_packet(pComponent->pCodecCtx, &packet);
+//        if (got_picture != 0) {
+//            return -1;
+//        }
+//        while (avcodec_receive_frame(pComponent->pCodecCtx, pComponent->pFrame) == 0) {
+//
+//        }
+//    }
     
     // 释放packet
     av_packet_unref(&packet);
