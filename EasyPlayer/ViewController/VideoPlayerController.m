@@ -13,17 +13,16 @@
 @interface VideoPlayerController () <VideoPanelDelegate> {
     UISegmentedControl *segment;
     
-    CGRect panelFrame;
-    
     BOOL crossScreen;   // 是否横屏
     BOOL fullScreen;    // 是否全屏
     BOOL firstFullScreen;   // 先全屏还是先横屏
-    
-    BOOL statusBarHidden;
 }
 
 @property (nonatomic, retain) NSMutableArray *URLs;
 @property (nonatomic, strong) VideoPanel *panel;
+
+@property (nonatomic, assign) BOOL statusBarHidden;
+@property (nonatomic, assign) CGRect panelFrame;
 
 @end
 
@@ -60,8 +59,8 @@
     [segment autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:5];
     [segment autoSetDimension:ALDimensionHeight toSize:35.0];
     
-    panelFrame = CGRectMake(0, 45, SCREEN_WIDTH, SCREEN_WIDTH);
-    self.panel = [[VideoPanel alloc] initWithFrame:panelFrame];
+    self.panelFrame = CGRectMake(0, 45, SCREEN_WIDTH, SCREEN_WIDTH);
+    self.panel = [[VideoPanel alloc] initWithFrame:self.panelFrame];
     self.panel.delegate = self;
     [self.view addSubview:self.panel];
     [self.panel setLayout:IVL_One currentURL:nil URLs:_URLs];
@@ -118,7 +117,7 @@
     [UIView animateWithDuration:duration animations:^{
         [self.navigationController setNavigationBarHidden:YES];
         
-        statusBarHidden = NO;
+        self.statusBarHidden = NO;
         [self prefersStatusBarHidden];
         
         self.panel.frame = CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH);
@@ -152,10 +151,10 @@
     [UIView animateWithDuration:duration animations:^{
         [self.navigationController setNavigationBarHidden:NO];
         
-        statusBarHidden = YES;
+        self.statusBarHidden = YES;
         [self prefersStatusBarHidden];
         
-        self.panel.frame = panelFrame;
+        self.panel.frame = self.panelFrame;
         self.panel.transform = CGAffineTransformIdentity;
     }];
     
@@ -206,9 +205,9 @@
     
     RootViewController *vc = [[RootViewController alloc] init];
     vc.previewMore = ^(NSString *url) {
-        [_URLs replaceObjectAtIndex:index withObject:url];
+        [self.URLs replaceObjectAtIndex:index withObject:url];
         
-        [self.panel startAll:_URLs];
+        [self.panel startAll:self.URLs];
     };
     
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -275,7 +274,7 @@
 #pragma mark - StatusBar
 
 - (BOOL)prefersStatusBarHidden {
-    return statusBarHidden;
+    return self.statusBarHidden;
 }
 
 @end

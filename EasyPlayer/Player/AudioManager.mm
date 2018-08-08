@@ -10,15 +10,10 @@
 #import <Accelerate/Accelerate.h>
 #include <vector>
 
-static void sessionInterruptionListener(void *inClientData, UInt32 inInterruption) {
-    
-}
-
 @interface AudioManager() {
     AudioUnit remoteIOUnit;
     SInt16 * _outData;
     BOOL _activated;
-    BOOL _initialized;
 }
 
 @property (nonatomic, readwrite)BOOL playing;
@@ -68,39 +63,24 @@ static BOOL checkError(OSStatus error, const char *operation) {
 }
 
 - (BOOL) activateAudioSession {
-    if (!_initialized) {
-//        AudioSessionInitialize(NULL,
-//                               kCFRunLoopDefaultMode,
-//                               sessionInterruptionListener,
-//                               (__bridge void *)(self));
-        
-        _initialized = YES;
-    }
-    
     if (!_activated) {
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-//        UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
-//        if (checkError(AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
-//                                               sizeof(sessionCategory),
-//                                               &sessionCategory),
-//                       "Couldn't set audio category"))
-//            return NO;
+        if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil]) {
+            return NO;
+        }
         
-        [[AVAudioSession sharedInstance] setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
-//        if (checkError(AudioSessionSetActive(YES), "Couldn't activate the audio session"))
-//            return NO;
+        if (![[AVAudioSession sharedInstance] setActive:YES withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil]) {
+            return NO;
+        }
         
         _activated = YES;
     }
     
-    return _initialized;
+    return YES;
 }
 
 - (void) deactivateAudioSession {
     [self stop];
-
     [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
-//    checkError(AudioSessionSetActive(NO), "Couldn't deactivate the audio session");
     
     _activated = NO;
 }

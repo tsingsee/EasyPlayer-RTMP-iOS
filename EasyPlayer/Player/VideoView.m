@@ -30,7 +30,6 @@
     
     UIActivityIndicatorView *activityIndicatorView;
     UIView *statusView;
-    UIButton *audioButton;      // 声音按钮
     UIButton *recordButton;     // 录像按钮
     UIButton *screenshotButton; // 截屏按钮
     UIButton *playButton;       // 播放按钮
@@ -45,6 +44,8 @@
     NSData  *_currentAudioFrame;
     NSUInteger _currentAudioFramePos;
 }
+
+@property (nonatomic, strong) UIButton *audioButton;      // 声音按钮
 
 @property (nonatomic, readwrite) CGFloat bufferdDuration;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
@@ -131,16 +132,16 @@
     [_landspaceButton setImage:[UIImage imageNamed:@"PortraitVideo"] forState:UIControlStateSelected];
     [_landspaceButton addTarget:self action:@selector(landspaceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
-    audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [statusView addSubview:audioButton];
-    [audioButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:size * 1];
-    [audioButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0.0];
-    [audioButton autoSetDimensionsToSize:CGSizeMake(size, size)];
-    [audioButton setImage:[UIImage imageNamed:@"ic_action_audio"] forState:UIControlStateDisabled];
-    [audioButton setImage:[UIImage imageNamed:@"ic_action_audio_enabled"] forState:UIControlStateNormal];
-    [audioButton setImage:[UIImage imageNamed:@"ic_action_audio_pressed"] forState:UIControlStateSelected];
-    [audioButton addTarget:self action:@selector(audioButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    audioButton.enabled = NO;
+    self.audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [statusView addSubview:self.audioButton];
+    [self.audioButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:size * 1];
+    [self.audioButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0.0];
+    [self.audioButton autoSetDimensionsToSize:CGSizeMake(size, size)];
+    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio"] forState:UIControlStateDisabled];
+    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_enabled"] forState:UIControlStateNormal];
+    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_pressed"] forState:UIControlStateSelected];
+    [self.audioButton addTarget:self action:@selector(audioButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    self.audioButton.enabled = NO;
     
     screenshotButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [statusView addSubview:screenshotButton];
@@ -313,7 +314,7 @@
     dispatch_queue_t queue = dispatch_queue_create("stop_all_video", NULL);
     dispatch_async(queue, ^{
         [self stopAudio];
-        [_reader stop];
+        [self.reader stop];
     });
     
     @synchronized(rgbFrameArray) {
@@ -336,7 +337,7 @@
 }
 
 - (void)updateUI {
-    audioButton.enabled = self.videoStatus == Rendering ? YES : NO;
+    self.audioButton.enabled = self.videoStatus == Rendering ? YES : NO;
     recordButton.enabled = self.videoStatus == Rendering ? YES : NO;
     screenshotButton.enabled = self.videoStatus == Rendering ? YES : NO;
 }
@@ -553,9 +554,9 @@
 #pragma mark - 按钮事件
 
 - (void)audioButtonClicked:(id)sender {
-    audioButton.selected = !audioButton.selected;
+    self.audioButton.selected = !self.audioButton.selected;
     
-    if (audioButton.selected) {
+    if (self.audioButton.selected) {
         [self startAudio];
     } else {
         self.audioPlaying = NO;
@@ -621,7 +622,7 @@
     _reader.enableAudio = _audioPlaying;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        audioButton.selected = _audioPlaying;
+        self.audioButton.selected = self.audioPlaying;
     });
 }
 
