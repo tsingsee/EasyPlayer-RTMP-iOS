@@ -29,7 +29,7 @@
     
     // ------------- 2.设置激活码 ------------- 
     int err = EasyRTMPClient_Activate(
-"59617A414C662B32734B79415170646170576938792F464659584E355547786865575679556C524E55477858444661672F307667523246326157346D516D466962334E68514449774D545A4659584E355247467964326C75564756686257566863336B3D");
+"59617A414C662B32734B7941484939627048446A4A66464659584E355547786865575679556C524E554C3558444661672F36586A5257467A65555268636E6470626C526C5957314A6331526F5A554A6C633352414D6A41784F47566863336B3D");
     NSLog(@"---->>>  %d", err);
     
     [[UINavigationBar appearance] setBarTintColor:MAIN_COLOR];
@@ -43,8 +43,8 @@
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     
-//    NSString *pname = [[NSProcessInfo processInfo] processName];
-//    NSLog(@"----->>>>  %@", pname);
+    NSString *pname = [[NSProcessInfo processInfo] processName];
+    NSLog(@"----->>>>  %@", pname);
     
     return YES;
 }
