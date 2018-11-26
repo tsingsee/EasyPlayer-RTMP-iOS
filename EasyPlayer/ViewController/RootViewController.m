@@ -210,8 +210,7 @@
         textField.placeholder = @"rtmp://";
         
         if(index < 0) {
-            // rtmp://live.hkstv.hk.lxdns.com/live/hks
-            textField.text = @"rtmp://47.105.36.229:1935/hls/stream?abc=3";
+            textField.text = @"rtmp://";
         } else {
             NSString *url = self.dataArray[index];
             textField.text = url;
