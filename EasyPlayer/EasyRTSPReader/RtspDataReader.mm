@@ -348,7 +348,14 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             if (sleepTime > 0) {
                 // 设置缓存的时间戳
                 float cache = mNewestStample - frame->timeStamp;
-                float newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
+                float newDelay;
+                
+                if (self.useHWDecoder) {
+                    newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:100000];
+                } else {
+                    newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
+                }
+                
                 usleep(newDelay);
             }
         }
@@ -712,7 +719,13 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     _recordFilePath = recordFilePath;
 }
 
-// 该方法主要是播放器上层用于缓存流媒体数据，使播放更加的平滑
+/**
+ 该方法主要是播放器上层用于缓存流媒体数据，使播放更加的平滑(https://blog.csdn.net/jinlong0603/article/details/85041569)
+ @param sleepTimeUs 当前帧时间戳与前一帧时间戳的差值并去除了解码的耗时
+ @param total 当前中缓存的时间长度
+ @param delayUs 个人设置的缓存的总大小：硬解码，设置的默认缓存为100000及100毫秒，另一处是软解码，设置的是50毫秒。如果想将延迟降到极限，就调整第三个参数为0，这样即不希望上层缓存数据，尽快的解码上屏显示。
+ @return 延迟时间戳
+ */
 - (float) fixSleepTime:(float)sleepTimeUs totalTimestampDifferUs:(float)total delayUs:(float)delayUs {
     if (total < 0) {
         NSLog(@"totalTimestampDifferUs is:%f, this should not be happen.", total);
@@ -722,12 +735,9 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     double dValue = ((double) (delayUs - total)) / 1000000;
     double radio = exp(dValue);
     double r = sleepTimeUs * radio + 0.5f;
+    NSLog(@"===>> %ff, %f, %f->%f", sleepTimeUs, total, delayUs, r);
     
-    NSLog(@"%ff, %f, %f->%f", sleepTimeUs, total, delayUs, r);
     return (long) r;
-    
-    
-    return 0;
 }
 
 @end

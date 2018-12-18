@@ -13,8 +13,8 @@
 @property (nonatomic, copy) NSString *url;              // 流媒体地址
 @property (nonatomic, readonly) BOOL running;           // 播放中
 
-@property (nonatomic)BOOL enableAudio;
-@property (nonatomic)BOOL useHWDecoder; // 是否启用硬解码
+@property (nonatomic, assign) BOOL enableAudio;
+@property (nonatomic, assign) BOOL useHWDecoder;        // 是否启用硬解码
 
 @property (nonatomic, copy) NSString *recordFilePath;   // 录像地址
 
