@@ -25,7 +25,7 @@ typedef enum {
 - (id)initWithDelegate:(id<HWVideoDecoderDelegate>)aDelegate;
 
 // 解码视频数据
-- (int)decodeVideoData:(unsigned char *)pH264Data len:(int)len;
+- (int)decodeVideoData:(unsigned char *)pH264Data len:(int)len isInit:(BOOL)isInit;
 
 // 关闭解码器，并释放资源
 - (void)closeDecoder;

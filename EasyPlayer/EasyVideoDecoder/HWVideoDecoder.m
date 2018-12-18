@@ -88,9 +88,9 @@ void didDecompress(void *decompressionOutputRefCon,
 
 #pragma mark - 初始化
 
-- (void) initH264DecoderVideoData:(unsigned char *)pData len:(int)len {
+- (void) initH264DecoderVideoData:(unsigned char *)pData len:(int)len isInit:(BOOL)isInit {
     // 1、提取sps和pps生成format description
-    if (videoFormatDescr == NULL) {
+    if (videoFormatDescr == NULL || isInit) {
         int spsIndex = 0;
         int spsLength = 0;
         
@@ -221,7 +221,7 @@ void getXps(unsigned char *data, int offset, int length, int type, int *outPos, 
 
 #pragma mark - 解码
 
-- (int)decodeVideoData:(unsigned char *)pData len:(int)len {
+- (int)decodeVideoData:(unsigned char *)pData len:(int)len isInit:(BOOL)isInit {
     // NAL_UNIT_TYPpe  1:非idr的片;  5 idr
     if (pData == nil) {
         return -1;
@@ -229,7 +229,7 @@ void getXps(unsigned char *data, int offset, int length, int type, int *outPos, 
     
     self.type = DEC_264;
     
-    [self initH264DecoderVideoData:pData len:len];
+    [self initH264DecoderVideoData:pData len:len isInit:isInit];
     
     /* 确定nDiff值：
         Start Code表现形式：00 00 01 或 00 00 00 01

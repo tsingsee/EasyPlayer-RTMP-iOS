@@ -5,6 +5,7 @@
 #include <vector>
 #include <set>
 #include <string.h>
+#include <math.h>
 
 #import "HWVideoDecoder.h"
 #include "VideoDecode.h"
@@ -62,6 +63,7 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
     std::multiset<FrameInfo *, compare> audioFrameSet;
     
     CGFloat lastFrameTimeStamp;
+    CGFloat mNewestStample;
     NSTimeInterval beforeDecoderTimeStamp;
     NSTimeInterval afterDecoderTimeStamp;
     
@@ -74,6 +76,9 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
 @property (nonatomic, readwrite) BOOL running;
 @property (nonatomic, strong) NSThread *videoThread;
 @property (nonatomic, strong) NSThread *audioThread;
+
+@property (nonatomic, assign) int lastWidth;
+@property (nonatomic, assign) int lastHeight;
 
 - (void)pushFrame:(char *)pBuf frameInfo:(EASY_FRAME_INFO *)info type:(int)type;
 - (void)recvMediaInfo:(EASY_MEDIA_INFO_T *)info;
@@ -171,6 +176,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         return;
     }
     
+    mNewestStample = 0;
     _lastVideoFramePosition = 0;
     _running = YES;
     
@@ -194,6 +200,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         EasyRTMPClient_Release(rtspHandle);
     }
     
+    mNewestStample = 0;
     _running = false;
     [self.videoThread cancel];
     [self.audioThread cancel];
@@ -312,10 +319,19 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         pthread_mutex_unlock(&mutexVideoFrame);
         // ------------ 解锁mutexVideoFrame ------------
         
+        // 视频的分辨率改变了，则需要重新初始化解码器
+        BOOL isInit = NO;
+        if (frame->type == EASY_SDK_VIDEO_FRAME_I && (self.lastWidth != frame->width || self.lastHeight != frame->height)) {// 视频帧类型
+            isInit = YES;
+            
+            self.lastWidth = frame->width;
+            self.lastHeight = frame->height;
+        }
+        
         if (self.useHWDecoder) {
-            [_hwDec decodeVideoData:frame->pBuf len:frame->frameLen];
+            [_hwDec decodeVideoData:frame->pBuf len:frame->frameLen isInit:isInit];
         } else {
-            [self decodeVideoFrame:frame];
+            [self decodeVideoFrame:frame isInit:isInit];
         }
         
         delete []frame->pBuf;
@@ -323,8 +339,18 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
         afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
         if (lastFrameTimeStamp != 0) {
-            float t = frame->timeStamp - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp);
-            usleep(t);
+            float sleepTime = frame->timeStamp - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp);
+            if (sleepTime > 100000) {
+                NSLog(@"sleep time.too long:%f", sleepTime);
+                sleepTime = 100000;
+            }
+            
+            if (sleepTime > 0) {
+                // 设置缓存的时间戳
+                float cache = mNewestStample - frame->timeStamp;
+                float newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
+                usleep(newDelay);
+            }
         }
         
         lastFrameTimeStamp = frame->timeStamp;
@@ -350,8 +376,8 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
 
 #pragma mark - 解码视频帧
 
-- (void)decodeVideoFrame:(FrameInfo *)video {
-    if (_videoDecHandle == NULL) {
+- (void)decodeVideoFrame:(FrameInfo *)video isInit:(BOOL)isInit {
+    if (_videoDecHandle == NULL || isInit) {
         DEC_CREATE_PARAM param;
         param.nMaxImgWidth = video->width;
         param.nMaxImgHeight = video->height;
@@ -594,6 +620,7 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     frameInfo->height = info->height;
     // 毫秒为单位(1秒=1000毫秒 1秒=1000000微秒)
     frameInfo->timeStamp = info->timestamp_sec * 1000 + info->timestamp_usec / 1000.0;
+    mNewestStample = frameInfo->timeStamp;
     
     memcpy(frameInfo->pBuf, pBuf, info->length);
     
@@ -683,6 +710,24 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     }
     
     _recordFilePath = recordFilePath;
+}
+
+// 该方法主要是播放器上层用于缓存流媒体数据，使播放更加的平滑
+- (float) fixSleepTime:(float)sleepTimeUs totalTimestampDifferUs:(float)total delayUs:(float)delayUs {
+    if (total < 0) {
+        NSLog(@"totalTimestampDifferUs is:%f, this should not be happen.", total);
+        total = 0;
+    }
+    
+    double dValue = ((double) (delayUs - total)) / 1000000;
+    double radio = exp(dValue);
+    double r = sleepTimeUs * radio + 0.5f;
+    
+    NSLog(@"%ff, %f, %f->%f", sleepTimeUs, total, delayUs, r);
+    return (long) r;
+    
+    
+    return 0;
 }
 
 @end
