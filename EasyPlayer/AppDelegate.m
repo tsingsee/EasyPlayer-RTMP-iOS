@@ -20,7 +20,7 @@
     
     if (![NSUserDefaultsUnit urls]) {
         NSMutableArray *a = [[NSMutableArray alloc] init];
-        [a addObject:@"rtmp://live.hkstv.hk.lxdns.com/live/hks"];
+        [a addObject:@"rtmp://live.hkstv.hk.lxdns.com/live/hks2"];
         [NSUserDefaultsUnit updateURL:a];
     }
     
