@@ -210,7 +210,7 @@
         textField.placeholder = @"rtmp://";
         
         if(index < 0) {
-            textField.text = @"rtmp://";
+            textField.text = @"rtmp://demo.easydss.com:10085/vlive/IalZ2ZsiR?k=IalZ2ZsiR.75f88a7832a1dd9192";
         } else {
             NSString *url = self.dataArray[index];
             textField.text = url;
