@@ -350,11 +350,11 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
                 float cache = mNewestStample - frame->timeStamp;
                 float newDelay;
                 
-                if (self.useHWDecoder) {
+//                if (self.useHWDecoder) {
                     newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:100000];
-                } else {
-                    newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
-                }
+//                } else {
+//                    newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
+//                }
                 
                 usleep(newDelay);
             }
