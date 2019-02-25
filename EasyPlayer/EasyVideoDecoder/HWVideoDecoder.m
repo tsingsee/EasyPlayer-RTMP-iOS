@@ -44,41 +44,80 @@ void didDecompress(void *decompressionOutputRefCon,
         if (imageBuffer != NULL) {
             __weak __block HWVideoDecoder *weakSelf = (__bridge HWVideoDecoder *)decompressionOutputRefCon;
 #if 1
-            CVPixelBufferLockBaseAddress(imageBuffer, 0);
-            
-            // 获取图像内部数据
-            void *base;
-            size_t width, height, bytesPerRow;
-            base = CVPixelBufferGetBaseAddress(imageBuffer);
-            width = CVPixelBufferGetWidth(imageBuffer);
-            height = CVPixelBufferGetHeight(imageBuffer);
-            bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-//            size_t dataSize = CVPixelBufferGetDataSize(imageBuffer);
-            
-            @autoreleasepool {
-//                // 第一种显示方式：KxVideoFrameYUV
-//                KxVideoFrameYUV *frame = [KxVideoFrameYUV handleVideoFrame:param.pFrame videoCodecCtx:param.pCodecCtx];
-//                frame.width = width;
-//                frame.height = height;
-//                frame.duration = 0.04;
-                
-                // 第二种显示方式：KxVideoFrameRGB
-                KxVideoFrameRGB *frame = [[KxVideoFrameRGB alloc] init];
-                frame.width = width;
-                frame.height = height;
-                frame.linesize = bytesPerRow;
-                frame.hasAlpha = YES;
-                frame.rgb = [NSData dataWithBytes:base length:bytesPerRow * height];
-                frame.duration = 0.04;
-                
-                [weakSelf.hwDelegate getDecodePictureData:frame];
-            }
-            CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+//            yuv(imageBuffer, weakSelf);
+            rgb(imageBuffer, weakSelf);
 #else
             [weakSelf.hwDelegate getDecodePixelData:imageBuffer];
 #endif
         }
     }
+}
+
+// TODO 第一种显示方式：KxVideoFrameYUV
+void yuv(CVImageBufferRef imageBuffer, HWVideoDecoder *weakSelf) {
+    size_t w, h, linesizey, linesizeuv;
+    void* srcy = NULL;
+    void* srcuv = NULL;
+    
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    
+    if (CVPixelBufferIsPlanar(imageBuffer)) {
+        size_t count = CVPixelBufferGetPlaneCount(imageBuffer);
+        printf("CVPixelBufferGetPlaneCount=%zu\n",count);
+        
+        w = CVPixelBufferGetWidth(imageBuffer);
+        h = CVPixelBufferGetHeight(imageBuffer);
+        
+        linesizey = CVPixelBufferGetBytesPerRowOfPlane(imageBuffer, 0);
+        linesizeuv = CVPixelBufferGetBytesPerRowOfPlane(imageBuffer, 1);
+        
+        srcy = (unsigned char*) CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0);
+        srcuv = (unsigned char*) CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 1);
+        
+        @autoreleasepool {
+            KxVideoFrameYUV *frame = [[KxVideoFrameYUV alloc] init];
+            frame.width = w;
+            frame.height = h;
+            frame.duration = 0.04;
+            
+            frame.luma = [NSData dataWithBytes:srcy length:w * h];
+            frame.chromaB = [NSData dataWithBytes:srcy length:w * h / 4];
+            frame.chromaR = [NSData dataWithBytes:srcy length:w * h / 4];
+            
+            [weakSelf.hwDelegate getDecodePictureData:frame];
+        }
+    }
+    
+    CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+}
+
+// 第二种显示方式：KxVideoFrameRGB
+void rgb(CVImageBufferRef imageBuffer, HWVideoDecoder *weakSelf) {
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    
+    // 获取图像内部数据
+    void *base;
+    size_t width, height, bytesPerRow;
+    base = CVPixelBufferGetBaseAddress(imageBuffer);
+    width = CVPixelBufferGetWidth(imageBuffer);
+    height = CVPixelBufferGetHeight(imageBuffer);
+    bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    size_t dataSize = CVPixelBufferGetDataSize(imageBuffer);
+    NSLog(@"%zu", dataSize);
+    
+    @autoreleasepool {
+        KxVideoFrameRGB *frame = [[KxVideoFrameRGB alloc] init];
+        frame.width = width;
+        frame.height = height;
+        frame.linesize = bytesPerRow;
+        frame.hasAlpha = YES;
+        frame.rgb = [NSData dataWithBytes:base length:bytesPerRow * height];
+        frame.duration = 0.04;
+        
+        [weakSelf.hwDelegate getDecodePictureData:frame];
+    }
+    
+    CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
 }
 
 #pragma mark - init
