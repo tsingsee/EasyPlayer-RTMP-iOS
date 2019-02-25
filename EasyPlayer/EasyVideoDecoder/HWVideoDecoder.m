@@ -56,6 +56,13 @@ void didDecompress(void *decompressionOutputRefCon,
 //            size_t dataSize = CVPixelBufferGetDataSize(imageBuffer);
             
             @autoreleasepool {
+//                // 第一种显示方式：KxVideoFrameYUV
+//                KxVideoFrameYUV *frame = [KxVideoFrameYUV handleVideoFrame:param.pFrame videoCodecCtx:param.pCodecCtx];
+//                frame.width = width;
+//                frame.height = height;
+//                frame.duration = 0.04;
+                
+                // 第二种显示方式：KxVideoFrameRGB
                 KxVideoFrameRGB *frame = [[KxVideoFrameRGB alloc] init];
                 frame.width = width;
                 frame.height = height;

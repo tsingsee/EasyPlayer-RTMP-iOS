@@ -201,11 +201,12 @@ static GLuint compileShader(GLenum type, NSString *shaderString)
 - (void) updateFrame: (KxVideoFrame *) frame {
     KxVideoFrameRGB *rgbFrame = (KxVideoFrameRGB *)frame;
     
-    if (rgbFrame.hasAlpha) {
-        assert(rgbFrame.rgb.length == rgbFrame.width * rgbFrame.height * 4);
-    } else {
-        assert(rgbFrame.rgb.length == rgbFrame.width * rgbFrame.height * 3);
-    }
+    // 导致崩溃
+//    if (rgbFrame.hasAlpha) {
+//        assert(rgbFrame.rgb.length == rgbFrame.width * rgbFrame.height * 4);
+//    } else {
+//        assert(rgbFrame.rgb.length == rgbFrame.width * rgbFrame.height * 3);
+//    }
     
 //    // Create a CVOpenGLESTexture from a CVPixelBufferRef
 //    CVOpenGLESTextureRef texture = NULL;
@@ -406,7 +407,9 @@ static NSDictionary *SCContextCreateCIContextOptions() {
         }
         srcWidth = 0;
         srcHeight = 0;
-        format = KxVideoFrameFormatRGB;
+        
+        format = KxVideoFrameFormatYUV;
+        
         [self createDisplayFramebuffer];
         
         GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);

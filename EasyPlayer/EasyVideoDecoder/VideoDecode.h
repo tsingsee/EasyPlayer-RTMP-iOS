@@ -108,6 +108,10 @@ typedef struct _DEC_DECODE_PARAM {
     int need_sps_head;
     unsigned char *yuv[4];
     int linsize[4];
+    
+    AVCodecContext *pCodecCtx;
+    AVFrame *pFrame;
+    
 }DEC_DECODE_PARAM;       
     
     void DecodeRegiestAll(void);

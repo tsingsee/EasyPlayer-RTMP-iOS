@@ -13,7 +13,6 @@
 #import <Accelerate/Accelerate.h>
 
 NSString * kxmovieErrorDomain = @"ru.kolyvan.kxmovie";
-//static void FFLog(void* context, int level, const char* format, va_list args);
 
 //static NSError * kxmovieError (NSInteger code, id info) {
 //    NSDictionary *userInfo = nil;
@@ -160,33 +159,38 @@ NSString * kxmovieErrorDomain = @"ru.kolyvan.kxmovie";
     return KxVideoFrameFormatYUV;
 }
 
-//- (KxVideoFrame *) handleVideoFrame
-//{
-////    if (!_videoFrame->data[0])
-////        return nil;
-////    
-////    KxVideoFrame *frame;
-////    
-////    if (_videoFrameFormat == KxVideoFrameFormatYUV) {
-//        
-////        KxVideoFrameYUV * yuvFrame = [[KxVideoFrameYUV alloc] init];
-////        
-////        yuvFrame.luma = copyFrameData(_videoFrame->data[0],
-////                                      _videoFrame->linesize[0],
-////                                      _videoCodecCtx->width,
-////                                      _videoCodecCtx->height);
-////        
-////        yuvFrame.chromaB = copyFrameData(_videoFrame->data[1],
-////                                         _videoFrame->linesize[1],
-////                                         _videoCodecCtx->width / 2,
-////                                         _videoCodecCtx->height / 2);
-////        
-////        yuvFrame.chromaR = copyFrameData(_videoFrame->data[2],
-////                                         _videoFrame->linesize[2],
-////                                         _videoCodecCtx->width / 2,
-////                                         _videoCodecCtx->height / 2);
-////        
-////        frame = yuvFrame;
-//}
+static NSData * copyFrameData(UInt8 *src, int linesize, int width, int height)
+{
+    width = MIN(linesize, width);
+    NSMutableData *md = [NSMutableData dataWithLength: width * height];
+    Byte *dst = md.mutableBytes;
+    for (NSUInteger i = 0; i < height; ++i) {
+        memcpy(dst, src, width);
+        dst += width;
+        src += linesize;
+    }
+    return md;
+}
+
++ (instancetype) handleVideoFrame:(AVFrame *)videoFrame videoCodecCtx:(AVCodecContext *)videoCodecCtx {
+    if (!videoFrame->data[0])
+        return nil;
+    
+    KxVideoFrameYUV * frame = [[KxVideoFrameYUV alloc] init];
+    frame.luma = copyFrameData(videoFrame->data[0],
+                               videoFrame->linesize[0],
+                               videoCodecCtx->width,
+                               videoCodecCtx->height);
+    frame.chromaB = copyFrameData(videoFrame->data[1],
+                                  videoFrame->linesize[1],
+                                  videoCodecCtx->width / 2,
+                                  videoCodecCtx->height / 2);
+    frame.chromaR = copyFrameData(videoFrame->data[2],
+                                  videoFrame->linesize[2],
+                                  videoCodecCtx->width / 2,
+                                  videoCodecCtx->height / 2);
+    
+    return frame;
+}
 
 @end
