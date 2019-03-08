@@ -272,4 +272,21 @@
     self.recordButton.enabled = NO;
 }
 
+#pragma VideoViewDelegate
+
+// 视频连接中
+- (void)videoConnecting {
+    
+}
+
+// 视频播放中
+- (void)videoRendering {
+    
+}
+
+// 视频停止
+- (void)videoStopped {
+    
+}
+
 @end

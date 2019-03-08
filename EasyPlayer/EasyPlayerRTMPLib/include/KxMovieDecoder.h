@@ -79,9 +79,16 @@ typedef enum {
 
 @interface KxVideoFrameYUV : KxVideoFrame
 
-@property ( nonatomic, strong) NSData *luma;
-@property ( nonatomic, strong) NSData *chromaB;
-@property ( nonatomic, strong) NSData *chromaR;
+// Y表示明亮度（Lumina nce或Luma）,U和V表示的则是色度（Chrominance或Chroma）
+@property ( nonatomic, strong) NSData *luma;    // Y
+@property ( nonatomic, strong) NSData *chromaB; // Cb
+@property ( nonatomic, strong) NSData *chromaR; // Cr
+
+//+ (instancetype) handleVideoFrame:(AVFrame *)videoFrame videoCodecCtx:(AVCodecContext *)videoCodecCtx;
++ (instancetype) handleYUVWithdata0:(UInt8 *)data0 linesize0:(int)linesize0
+                              data1:(UInt8 *)data1 linesize1:(int)linesize1
+                              data2:(UInt8 *)data2 linesize2:(int)linesize2
+                              width:(int)width height:(int) height;
 
 @end
 

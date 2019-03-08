@@ -1,8 +1,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class VideoView;
-
 
 typedef enum {
     Stopped,    // 停止
@@ -14,9 +12,9 @@ typedef enum {
 @protocol VideoViewDelegate <NSObject>
 
 @optional
-- (void)videoConnecting:(VideoView *)view;    // 视频连接中
-- (void)videoRendering:(VideoView *)view;     // 视频播放中
-- (void)videoStopped:(VideoView *)view;       // 视频停止
+- (void)videoConnecting;    // 视频连接中
+- (void)videoRendering;     // 视频播放中
+- (void)videoStopped;       // 视频停止
 
 @end
 
