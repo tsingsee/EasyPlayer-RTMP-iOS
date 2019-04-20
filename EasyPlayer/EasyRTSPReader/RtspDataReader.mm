@@ -42,7 +42,7 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
 
 @interface RtspDataReader()<HWVideoDecoderDelegate> {
     // RTSP拉流句柄
-    Easy_RTSP_Handle rtspHandle;
+    Easy_Handle rtspHandle;
     
     // 互斥锁
     pthread_mutex_t mutexVideoFrame;
