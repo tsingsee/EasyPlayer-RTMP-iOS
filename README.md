@@ -30,7 +30,7 @@ iOS：Xcode编译；
 
 - iOS RTMP版：https://itunes.apple.com/cn/app/easy-player/id1347047886?mt=8
 
-<img width="30%" src="http://www.easydarwin.org/github/images/easyplayerrtmp/EasyPlayerRTMPiOS.png" text="EasyPlayer-RTMP-iOS" />
+<img width="30%" src="http://www.easydarwin.org/github/images/easyplayerrtmp/EasyPlayerRTMPiOS.png?" text="EasyPlayer-RTMP-iOS" />
 
 ## DEMO效果 ##
 
