@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -290,7 +290,7 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQd-Dg-KAJ">
                                                     <rect key="frame" x="10" y="54" width="355" height="179.5"/>
-                                                    <string key="text">    EasyPlayer RTMP iOS 播放器是由EasyDarwin团队开发和维护的一个完善的RTSP流媒体播放器项目，视频编码支持H.264，H.265，MPEG4，MJPEG，音频支持G711A，G711U，G726，AAC，支持RTSP over TCP/UDP协议，支持硬解码，是一套极佳的安防流媒体平台播放组件！EasyPlayerRTMP iOS版本经过了很多年的发展和迭代，已经非常稳定、完整，功能包括：直播、录像(待完善)、抓图，支持指令集包括armv7a、armv8a、x86，应该说是目前市面上功能性、稳定性和完整性最强的一款RTSP播放器！</string>
+                                                    <mutableString key="text">    EasyPlayer RTMP iOS 播放器是由EasyDarwin团队开发和维护的一个完善的RTSP流媒体播放器项目，视频编码支持H.264，H.265，MPEG4，MJPEG，音频支持G711A，G711U，G726，AAC，支持RTSP over TCP/UDP协议，支持硬解码，是一套极佳的安防流媒体平台播放组件！EasyPlayerRTMP iOS版本经过了很多年的发展和迭代，已经非常稳定、完整，功能包括：直播、录像、抓图，支持指令集包括armv7a、armv8a、x86，应该说是目前市面上功能性、稳定性和完整性最强的一款RTSP播放器！</mutableString>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.29803921568627451" green="0.29803921568627451" blue="0.29803921568627451" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -720,7 +720,7 @@ Copyright © EasyDarwin Team 2012-2019</string>
         <image name="address" width="22" height="22"/>
         <image name="frame" width="271" height="271"/>
         <image name="iOS_RTMP" width="200" height="200"/>
-        <image name="nav_back" width="10" height="18"/>
+        <image name="nav_back" width="22" height="22"/>
         <image name="scan" width="20" height="20"/>
         <image name="select" width="16" height="16"/>
         <image name="selected" width="16" height="16"/>

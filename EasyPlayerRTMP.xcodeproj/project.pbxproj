@@ -1060,8 +1060,8 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/RTRootNavigationController\"",
-					"\"${PODS_ROOT}/Bugly\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Bugly\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = NO;
@@ -1216,8 +1216,8 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/RTRootNavigationController\"",
-					"\"${PODS_ROOT}/Bugly\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Bugly\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = NO;
@@ -1276,8 +1276,8 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/RTRootNavigationController\"",
-					"\"${PODS_ROOT}/Bugly\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Bugly\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = NO;
