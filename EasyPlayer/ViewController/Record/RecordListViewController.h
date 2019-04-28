@@ -6,9 +6,9 @@
 //  Copyright © 2017年 cs. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseTableViewController.h"
 
-@interface RecordListViewController : UITableViewController
+@interface RecordListViewController : BaseTableViewController
 
 @property (nonatomic, copy) NSString *url;
 

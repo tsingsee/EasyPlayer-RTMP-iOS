@@ -84,7 +84,7 @@ void yuv(CVImageBufferRef imageBuffer, HWVideoDecoder *weakSelf) {
             frame.chromaB = [NSData dataWithBytes:srcy length:w * h / 4];
             frame.chromaR = [NSData dataWithBytes:srcy length:w * h / 4];
             
-            [weakSelf.hwDelegate getDecodePictureData:frame];
+            [weakSelf.hwDelegate getDecodePictureData:frame length:(unsigned int)(frame.luma.length + frame.chromaB.length + frame.chromaR.length)];
         }
     }
     
@@ -114,7 +114,7 @@ void rgb(CVImageBufferRef imageBuffer, HWVideoDecoder *weakSelf) {
         frame.rgb = [NSData dataWithBytes:base length:bytesPerRow * height];
         frame.duration = 0.04;
         
-        [weakSelf.hwDelegate getDecodePictureData:frame];
+        [weakSelf.hwDelegate getDecodePictureData:frame length:(unsigned int)frame.rgb.length];
     }
     
     CVPixelBufferUnlockBaseAddress(imageBuffer, 0);

@@ -1,6 +1,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VideoView.h"
+#import "URLModel.h"
 
 typedef NS_OPTIONS(NSInteger, IVideoLayout){
     IVL_One = 1,
@@ -27,10 +28,16 @@ typedef NS_OPTIONS(NSInteger, IVideoLayout){
 - (void) stopAll;
 
 // 开始全部视频的播放
-- (void) startAll:(NSMutableArray *)URLs;
+- (void) startAll:(NSArray<URLModel *> *)urlModels;
 
 // 设置分屏
-- (void)setLayout:(IVideoLayout)layout currentURL:(NSString *)url URLs:(NSMutableArray *)urls;
+- (void)setLayout:(IVideoLayout)layout currentURL:(NSString *)url URLs:(NSArray<URLModel *> *)urlModels;
+
+// 隐藏底部按钮
+- (void) hideBtnView;
+
+// 是否切换成横屏了
+- (void) changeHorizontalScreen:(BOOL) horizontal;
 
 @end
 

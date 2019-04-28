@@ -5,11 +5,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIColor+HexColor.h"
 #import "KxMovieGLView.h"
-#import "PureLayout.h"
 #import "AudioManager.h"
 #import "PathUnit.h"
 #import "NSUserDefaultsUnit.h"
-#import "DC_AlertManager.h"
+#import <WHToast.h>
+#import "Masonry.h"
 
 @interface VideoView() <UIScrollViewDelegate> {
     BOOL firstFrame;
@@ -29,10 +29,6 @@
     CADisplayLink *displayLink;
     
     UIActivityIndicatorView *activityIndicatorView;
-    UIView *statusView;
-    UIButton *recordButton;     // 录像按钮
-    UIButton *screenshotButton; // 截屏按钮
-    UIButton *playButton;       // 播放按钮
     
     NSTimeInterval _tickCorrectionTime;
     NSTimeInterval _tickCorretionPosition;
@@ -45,7 +41,17 @@
     NSUInteger _currentAudioFramePos;
 }
 
-@property (nonatomic, strong) UIButton *audioButton;      // 声音按钮
+@property (nonatomic, strong) dispatch_source_t timer;
+@property (nonatomic, assign) int frameLength;
+
+@property (nonatomic, strong) UIView *statusView;
+@property (nonatomic, strong) UIButton *playButton;       // 播放按钮
+
+@property (nonatomic, strong) UIView *btnView;
+@property (nonatomic, strong) UILabel *kbpsLabel;       // kbps
+@property (nonatomic, strong) UIButton *audioButton;    // 声音按钮
+@property (nonatomic, strong) UIButton *recordButton;   // 录像按钮
+@property (nonatomic, strong) UIButton *screenshotButton;// 截屏按钮
 
 @property (nonatomic, readwrite) CGFloat bufferdDuration;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
@@ -108,79 +114,137 @@
     kxGlView = [[KxMovieGLView alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
     [scrollView addSubview:kxGlView];
     
+    // 点击视频，隐藏底部按钮
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideStatusView)];
+    gesture.numberOfTapsRequired = 1;
+    [kxGlView addGestureRecognizer:gesture];
+    
     _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_addButton setImage:[UIImage imageNamed:@"ic_action_add"] forState:UIControlStateNormal];
+    _addButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:_addButton];
     
-    CGFloat size = 30;
+    activityIndicatorView = [[UIActivityIndicatorView alloc] init];
+    activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+    activityIndicatorView.hidesWhenStopped = YES;
+    [self addSubview:activityIndicatorView];
+    [activityIndicatorView makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(CGSizeMake(10, 10));
+        make.centerX.equalTo(self.mas_centerX);
+        make.centerY.equalTo(self.mas_centerY);
+    }];
     
-    statusView = [UIView newAutoLayoutView];
-    [self addSubview:statusView];
-    [statusView autoPinEdgeToSuperviewEdge:ALEdgeLeading];
-    [statusView autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
-    [statusView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    [statusView autoSetDimension:ALDimensionHeight toSize:size];
-    statusView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.35];
-    statusView.hidden = YES;
+    CGFloat size = 36;
     
-    _landspaceButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [statusView addSubview:_landspaceButton];
-    [_landspaceButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:size * 0];
-    [_landspaceButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0];
-    [_landspaceButton autoSetDimensionsToSize:CGSizeMake(size, size)];
-    [_landspaceButton setImage:[UIImage imageNamed:@"LandspaceVideo"] forState:UIControlStateNormal];
-    [_landspaceButton setImage:[UIImage imageNamed:@"PortraitVideo"] forState:UIControlStateSelected];
-    [_landspaceButton addTarget:self action:@selector(landspaceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _statusView = [[UIView alloc] init];
+    _statusView.backgroundColor = UIColorFromRGB(0xf5f5f5);
+    _statusView.hidden = YES;
+    [self addSubview:_statusView];
+    [_statusView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(@0);
+        make.height.equalTo(@(size));
+    }];
+    
+    _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
+    [_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateSelected];
+    [_playButton addTarget:self action:@selector(playButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_statusView addSubview:_playButton];
+    [_playButton makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(CGSizeMake(size, size));
+        make.top.left.equalTo(@0);
+    }];
+    
+    _btnView = [[UIView alloc] init];
+    _btnView.backgroundColor = [UIColor clearColor];
+    [_statusView addSubview:_btnView];
+    [_btnView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.right.equalTo(@0);
+        make.left.equalTo(self.playButton.mas_right).offset(20);
+    }];
+    
+    _kbpsLabel = [[UILabel alloc] init];
+    _kbpsLabel.text = @"0kbps";
+    _kbpsLabel.textColor = UIColorFromRGB(SelectBtnColor);
+    _kbpsLabel.font = [UIFont systemFontOfSize:13];
+    [_btnView addSubview:_kbpsLabel];
+    [_kbpsLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@0);
+        make.left.equalTo(@0);
+        make.height.equalTo(@(size));
+    }];
     
     self.audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [statusView addSubview:self.audioButton];
-    [self.audioButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:size * 1];
-    [self.audioButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0.0];
-    [self.audioButton autoSetDimensionsToSize:CGSizeMake(size, size)];
-    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio"] forState:UIControlStateDisabled];
+    [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_enabled"] forState:UIControlStateDisabled];
     [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_enabled"] forState:UIControlStateNormal];
     [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_pressed"] forState:UIControlStateSelected];
     [self.audioButton addTarget:self action:@selector(audioButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.audioButton.enabled = NO;
+    _audioButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_btnView addSubview:self.audioButton];
+    [self.audioButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@0);
+        make.left.equalTo(self.kbpsLabel.mas_right);
+        make.height.equalTo(@(size));
+    }];
     
-    screenshotButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [statusView addSubview:screenshotButton];
-    [screenshotButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:size * 2];
-    [screenshotButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0];
-    [screenshotButton autoSetDimensionsToSize:CGSizeMake(size, size)];
-    [screenshotButton setImage:[UIImage imageNamed:@"ic_action_camera"] forState:UIControlStateDisabled];
-    [screenshotButton setImage:[UIImage imageNamed:@"ic_action_camera_enabled"] forState:UIControlStateNormal];
-    [screenshotButton setImage:[UIImage imageNamed:@"ic_action_camera_pressed"] forState:UIControlStateFocused];
-    [screenshotButton addTarget:self action:@selector(screenshotButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    screenshotButton.enabled = NO;
+    _recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_recordButton setImage:[UIImage imageNamed:@"ic_action_record_enabled"] forState:UIControlStateDisabled];
+    [_recordButton setImage:[UIImage imageNamed:@"ic_action_record_enabled"] forState:UIControlStateNormal];
+    [_recordButton setImage:[UIImage imageNamed:@"ic_action_record_pressed"] forState:UIControlStateSelected];
+    [_recordButton addTarget:self action:@selector(recordButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _recordButton.enabled = NO;
+    _recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_btnView addSubview:_recordButton];
+    [_recordButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@0);
+        make.left.equalTo(self.audioButton.mas_right);
+        make.height.equalTo(@(size));
+    }];
     
-    recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [statusView addSubview:recordButton];
-    [recordButton autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:size * 3];
-    [recordButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0];
-    [recordButton autoSetDimensionsToSize:CGSizeMake(size, size)];
-    [recordButton setImage:[UIImage imageNamed:@"ic_action_record"] forState:UIControlStateDisabled];
-    [recordButton setImage:[UIImage imageNamed:@"ic_action_record_enabled"] forState:UIControlStateNormal];
-    [recordButton setImage:[UIImage imageNamed:@"ic_action_record_pressed"] forState:UIControlStateSelected];
-    [recordButton addTarget:self action:@selector(recordButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    recordButton.enabled = NO;
+    _screenshotButton = [[UIButton alloc] init];
+    [_screenshotButton setImage:[UIImage imageNamed:@"ic_action_camera_enabled"] forState:UIControlStateDisabled];
+    [_screenshotButton setImage:[UIImage imageNamed:@"ic_action_camera_enabled"] forState:UIControlStateNormal];
+    [_screenshotButton setImage:[UIImage imageNamed:@"ic_action_camera_pressed"] forState:UIControlStateHighlighted];
+    [_screenshotButton addTarget:self action:@selector(screenshotButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _screenshotButton.enabled = NO;
+    _screenshotButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_btnView addSubview:_screenshotButton];
+    [_screenshotButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@0);
+        make.left.equalTo(self.recordButton.mas_right);
+        make.height.equalTo(@(size));
+    }];
     
-    playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [statusView addSubview:playButton];
-    [playButton autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:0];
-    [playButton autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:.0];
-    [playButton autoSetDimensionsToSize:CGSizeMake(size, size)];
-    [playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
-    [playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateSelected];
-    [playButton addTarget:self action:@selector(playButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _landspaceButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_landspaceButton setImage:[UIImage imageNamed:@"LandspaceVideo"] forState:UIControlStateNormal];
+    [_landspaceButton setImage:[UIImage imageNamed:@"PortraitVideo"] forState:UIControlStateSelected];
+    [_landspaceButton addTarget:self action:@selector(landspaceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _landspaceButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_btnView addSubview:_landspaceButton];
+    [_landspaceButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(@0);
+        make.left.equalTo(self.screenshotButton.mas_right);
+        make.height.equalTo(@(size));
+    }];
     
-    activityIndicatorView = [UIActivityIndicatorView newAutoLayoutView];
-    activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-    activityIndicatorView.hidesWhenStopped = YES;
-    [self addSubview:activityIndicatorView];
-    [activityIndicatorView autoSetDimensionsToSize:CGSizeMake(10,10)];
-    [activityIndicatorView autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
-    [activityIndicatorView autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    NSArray *views = @[ self.kbpsLabel, self.audioButton, self.recordButton, self.screenshotButton, self.landspaceButton ];
+    // 实现masonry水平固定间隔方法
+    [views mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
+    
+    // 设置array的垂直方向的约束
+    [views mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+    }];
+}
+
+// 点击视频，隐藏底部按钮
+- (void) hideStatusView {
+    _statusView.hidden = !_statusView.hidden;
+}
+
+- (void) changeHorizontalScreen:(BOOL) horizontal {
+    _landspaceButton.selected = horizontal;
 }
 
 #pragma mark - override
@@ -188,8 +252,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat wh = 44;
-    _addButton.frame = CGRectMake((self.bounds.size.width - wh) / 2, (self.bounds.size.height - wh) / 2, wh, wh);
+    _addButton.frame = self.bounds;
     
     if (_landspaceButton.selected) {
         kxGlView.frame = scrollView.bounds;
@@ -271,12 +334,14 @@
     [self.delegate videoViewWillTryToConnect:self];
     
     __weak VideoView *weakSelf = self;
-    _reader = [[RtspDataReader alloc] initWithUrl:self.url];
+    _reader = [[PlayerDataReader alloc] initWithUrl:self.url];
     _reader.useHWDecoder = self.useHWDecoder;
+    _reader.transportMode = self.transportMode;
+    _reader.sendOption = self.sendOption;
     
     if ([NSUserDefaultsUnit isAutoRecord]) {
         _reader.recordFilePath = [PathUnit recordWithURL:_url];
-        recordButton.selected = YES;
+        _recordButton.selected = YES;
     }
     
     // 获得媒体类型
@@ -292,8 +357,9 @@
     };
     
     // 获得解码后的音频帧／视频帧
-    _reader.frameOutputBlock = ^(KxMovieFrame *frame) {
+    _reader.frameOutputBlock = ^(KxMovieFrame *frame, unsigned int length) {
         [weakSelf addFrame:frame];
+        [weakSelf sendPacket:length];
     };
     [_reader start];
 }
@@ -338,8 +404,8 @@
 
 - (void)updateUI {
     self.audioButton.enabled = self.videoStatus == Rendering ? YES : NO;
-    recordButton.enabled = self.videoStatus == Rendering ? YES : NO;
-    screenshotButton.enabled = self.videoStatus == Rendering ? YES : NO;
+    _recordButton.enabled = self.videoStatus == Rendering ? YES : NO;
+    _screenshotButton.enabled = self.videoStatus == Rendering ? YES : NO;
 }
 
 #pragma mark - 解码后的音频帧／视频帧
@@ -461,6 +527,27 @@
     return frame.duration;
 }
 
+#pragma mark - 流量检测
+
+- (void) sendPacket:(unsigned int)u32AVFrameLen {
+    self.frameLength += u32AVFrameLen;
+    
+    if (!self.timer) {
+        NSTimeInterval period = 1.0; // 设置时间间隔
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+        dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0), period * NSEC_PER_SEC, 0);
+        dispatch_source_set_event_handler(_timer, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.kbpsLabel.text = [NSString stringWithFormat:@"%dkbps", self.frameLength / 1024 / 1024];
+                self.frameLength = 0;
+            });
+        });
+        
+        dispatch_resume(self.timer);
+    }
+}
+
 #pragma mark - 填充音频数据
 
 - (void)fillAudioData:(SInt16 *) outData numFrames: (UInt32) numFrames numChannels: (UInt32) numChannels {
@@ -521,6 +608,10 @@
     transforming = NO;
 }
 
+- (void) hideBtnView {
+    self.btnView.hidden = YES;
+}
+
 #pragma mark - private method
 
 - (void)updateStreamCount {
@@ -566,9 +657,9 @@
 }
 
 - (void)recordButtonClicked:(id)sender {
-    recordButton.selected = !recordButton.selected;
+    _recordButton.selected = !_recordButton.selected;
     
-    if (recordButton.selected) {
+    if (_recordButton.selected) {
         _reader.recordFilePath = [PathUnit recordWithURL:_url];
     } else {
         _reader.recordFilePath = nil;
@@ -584,9 +675,9 @@
 }
 
 - (void) playButtonClicked:(id)sender {
-    playButton.selected = !playButton.selected;
+    _playButton.selected = !_playButton.selected;
     
-    if (!playButton.selected) {
+    if (!_playButton.selected) {
         [self startPlay];
     } else {
         [self stopPlay];
@@ -632,9 +723,9 @@
     _addButton.hidden = [_url length] == 0 ? NO : YES;
     
     if (url && [_url length] > 0) {
-        statusView.hidden = NO;
+        _statusView.hidden = NO;
     } else {
-        statusView.hidden = YES;
+        _statusView.hidden = YES;
     }
 }
 
@@ -665,7 +756,7 @@
         _screenShotPath = nil;
         
         if (!isSnapshot) {
-            [DC_AlertManager showHudWithMessage:@"截图保存成功"];
+            [WHToast showMessage:@"截图保存成功" duration:1 finishHandler:nil];
         }
     }
 }

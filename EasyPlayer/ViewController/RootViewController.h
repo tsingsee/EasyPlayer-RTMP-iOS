@@ -1,12 +1,25 @@
 
-#import <UIKit/UIKit.h>
-#import "EasyPlayer_Defs.h"
+#import "BaseViewController.h"
+#import "URLModel.h"
 
-@interface RootViewController : UIViewController
+/**
+ 视频广场
+ */
+@interface RootViewController : BaseViewController
 
-@property (nonatomic, strong) UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomViewHeight;
+
+@property (weak, nonatomic) IBOutlet UIButton *pushBtn;
+@property (weak, nonatomic) IBOutlet UIButton *recordBtn;
+@property (weak, nonatomic) IBOutlet UIButton *settingBtn;
+
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
-@property (nonatomic, copy) void (^previewMore)(NSString *url);
+@property (nonatomic, copy) void (^previewMore)(URLModel *model);
+
+- (instancetype) initWithStoryboard;
 
 @end

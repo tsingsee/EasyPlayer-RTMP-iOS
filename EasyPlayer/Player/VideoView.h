@@ -1,6 +1,6 @@
 
 #import <UIKit/UIKit.h>
-#import "RtspDataReader.h"
+#import "PlayerDataReader.h"
 
 typedef enum {
     Stopped,    // 停止
@@ -19,11 +19,17 @@ typedef enum {
 
 @property (nonatomic, weak) id<VideoViewDelegate> delegate;
 
-@property (nonatomic, copy) NSString *url;              // 播放地址
+// 流媒体地址
+@property (nonatomic, copy) NSString *url;
+// 传输协议：TCP/UDP(EASY_RTP_CONNECT_TYPE：0x01，0x02)
+@property (nonatomic, assign) EASY_RTP_CONNECT_TYPE transportMode;
+// 发送保活包(心跳：0x00 不发送心跳， 0x01 OPTIONS， 0x02 GET_PARAMETER)
+@property (nonatomic, assign) int sendOption;
+
 @property (nonatomic, copy) NSString *recordFilePath;   // 录像地址
 @property (nonatomic, copy) NSString *screenShotPath;   // 截图地址
 
-@property (nonatomic, strong) RtspDataReader *reader;
+@property (nonatomic, strong) PlayerDataReader *reader;
 @property (nonatomic, assign) IVideoStatus videoStatus;
 
 @property (nonatomic, assign) BOOL active;
@@ -34,6 +40,9 @@ typedef enum {
 
 - (void)beginTransform;
 - (void)endTransform;
+
+- (void) hideBtnView;
+- (void) changeHorizontalScreen:(BOOL) horizontal;
 
 // ----------------- 播放控制 -----------------
 - (void)stopAudio;

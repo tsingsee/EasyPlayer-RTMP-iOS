@@ -6,9 +6,9 @@
 //  Copyright © 2018年 cs. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface PlayRecordViewController : UIViewController
+@interface PlayRecordViewController : BaseViewController
 
 @property (nonatomic, copy) NSString *path;
 

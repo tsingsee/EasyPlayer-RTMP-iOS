@@ -1,23 +1,30 @@
 
 #import "RootViewController.h"
+#import "AboutViewController.h"
 #import "VideoPlayerController.h"
+#import "EditURLViewController.h"
+#import "SplitScreenViewController.h"
 #import "SettingViewController.h"
 #import "VideoCell.h"
 #import "PathUnit.h"
 #import "NSUserDefaultsUnit.h"
+#import "URLUnit.h"
 #import <CommonCrypto/CommonDigest.h>
 
 @interface RootViewController()<UICollectionViewDelegate, UICollectionViewDataSource>
-
 @end
 
 @implementation RootViewController
+
+- (instancetype) initWithStoryboard {
+    return [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"RootViewController"];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self navigationSetting];
-    self.navigationItem.title = @"EasyPlayer";
+    self.navigationItem.title = @"EasyPlayer RTMP";
     self.view.backgroundColor = [UIColor whiteColor];
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
@@ -27,7 +34,8 @@
     layout.minimumInteritemSpacing = 10;
     //定义每个UICollectionView 的边距距
     layout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);//上左下右
-    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) collectionViewLayout:layout];
+    
+    [self.collectionView setCollectionViewLayout:layout];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.showsHorizontalScrollIndicator = NO;
@@ -35,56 +43,106 @@
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.collectionView registerClass:[VideoCell class] forCellWithReuseIdentifier:@"VideoCell"];
     [self.view addSubview:self.collectionView];
+    
+    [self setUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    NSMutableArray *urls = [NSUserDefaultsUnit urls];
-    if(urls) {
-        _dataArray = [urls mutableCopy];
-    } else {
-        _dataArray = [NSMutableArray array];
-    }
-    
-    [self.collectionView reloadData];
-}
-
-- (void)doReload {
+    self.dataArray = [URLUnit urlModels];
     [self.collectionView reloadData];
 }
 
 // 导航栏设置
 - (void)navigationSetting {
-    [self.navigationController.navigationBar setTitleTextAttributes:@{ NSFontAttributeName:[UIFont systemFontOfSize:17], NSForegroundColorAttributeName:[UIColor whiteColor] }];
+    UIButton *btn = [[UIButton alloc] init];
+    [btn addTarget:self action:@selector(info) forControlEvents:UIControlEventTouchUpInside];
     
-    if (self.previewMore != nil) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelVc)];
+    int days = [NSUserDefaultsUnit activeDay];
+    if (days >= 9999) {
+        [btn setImage:[UIImage imageNamed:@"version1"] forState:UIControlStateNormal];
+    } else if (days > 0) {
+        [btn setImage:[UIImage imageNamed:@"version2"] forState:UIControlStateNormal];
     } else {
-        UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"EasyPlayer_60"]];
-        iv.frame = CGRectMake(0, 0, 36, 36);
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:iv];
-        self.navigationItem.leftBarButtonItem = item;
+        [btn setImage:[UIImage imageNamed:@"version3"] forState:UIControlStateNormal];
     }
     
-    UIBarButtonItem *setBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"set"] style:UIBarButtonItemStyleDone target:self action:@selector(setting)];
-    UIBarButtonItem *addBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickAddBtn)];
-    self.navigationItem.rightBarButtonItems = @[setBtn, addBtn];
+    if (self.previewMore) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelVc)];
+        
+        self.bottomView.hidden = YES;
+        self.bottomViewHeight.constant = 0;
+    } else {
+        UIBarButtonItem *infoBtn = [[UIBarButtonItem alloc] initWithCustomView:btn];
+        self.navigationItem.rightBarButtonItem = infoBtn;
+    }
+}
+
+#pragma mark - UI
+
+- (void)setUI {
+    [self.settingBtn setImage:[UIImage imageNamed:@"set"] forState:UIControlStateNormal];
+    [self.settingBtn setImage:[UIImage imageNamed:@"set_click"] forState:UIControlStateHighlighted];
+    [self.settingBtn setTitleColor:UIColorFromRGB(DefaultBtnColor) forState:UIControlStateNormal];
+    [self.settingBtn setTitleColor:UIColorFromRGB(SelectBtnColor) forState:UIControlStateHighlighted];
+    
+    [self.pushBtn setImage:[UIImage imageNamed:@"address"] forState:UIControlStateNormal];
+    [self.pushBtn setImage:[UIImage imageNamed:@"address_click"] forState:UIControlStateHighlighted];
+    [self.pushBtn setTitleColor:UIColorFromRGB(DefaultBtnColor) forState:UIControlStateNormal];
+    [self.pushBtn setTitleColor:UIColorFromRGB(SelectBtnColor) forState:UIControlStateHighlighted];
+    
+    [self.recordBtn setImage:[UIImage imageNamed:@"split"] forState:UIControlStateNormal];
+    [self.recordBtn setImage:[UIImage imageNamed:@"split_click"] forState:UIControlStateHighlighted];
+    [self.recordBtn setTitleColor:UIColorFromRGB(DefaultBtnColor) forState:UIControlStateNormal];
+    [self.recordBtn setTitleColor:UIColorFromRGB(SelectBtnColor) forState:UIControlStateHighlighted];
+    
+    [self.pushBtn setImageEdgeInsets:UIEdgeInsetsMake(-20, 20, 0, 0)];
+    [self.pushBtn setTitleEdgeInsets:UIEdgeInsetsMake(24, -32, 0, 0)];
+    [self.recordBtn setImageEdgeInsets:UIEdgeInsetsMake(-20, 20, 0, 0)];
+    [self.recordBtn setTitleEdgeInsets:UIEdgeInsetsMake(24, -32, 0, 0)];
+    [self.settingBtn setImageEdgeInsets:UIEdgeInsetsMake(-20, 20, 0, 0)];
+    [self.settingBtn setTitleEdgeInsets:UIEdgeInsetsMake(24, -32, 0, 0)];
 }
 
 #pragma mark - click event
 
+/**
+ 分屏时选择视频源，取消事件
+ */
 - (void)cancelVc {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void) setting {
-    SettingViewController *controller = [[SettingViewController alloc] initWithStoryboard];
+/**
+ 关于我们
+ */
+- (void) info {
+    AboutViewController *controller = [[AboutViewController alloc] initWithStoryboard];
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)clickAddBtn {
+/**
+ 添加流地址
+ */
+- (IBAction)addUrlAddress:(id)sender {
     [self editAlert:-1];
+}
+
+/**
+ 分屏
+ */
+- (IBAction)splitScreen:(id)sender {
+    SplitScreenViewController *controller = [[SplitScreenViewController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+/**
+ 设置
+ */
+- (IBAction)setting:(id)sender {
+    SettingViewController *controller = [[SettingViewController alloc] initWithStoryboard];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -94,23 +152,23 @@
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    int w = ScreenWidth - 20;
+    int w = HRGScreenWidth - 20;
     int h = w * 9 / 16;
     return CGSizeMake(w, h + VIDEO_TITLE_HEIGHT);// 30 is the bottom title height
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     VideoCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VideoCell" forIndexPath:indexPath];
-    NSString *url = _dataArray[indexPath.row];
+    URLModel *model = _dataArray[indexPath.row];
     
-    NSString *path = [PathUnit snapshotWithURL:url];
+    NSString *path = [PathUnit snapshotWithURL:model.url];
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         cell.imageView.image = [UIImage imageWithContentsOfFile:path];
     } else {
         cell.imageView.image = [UIImage imageNamed:@"ImagePlaceholder"];
     }
     
-    [cell.titleLabel setText:[NSString stringWithFormat:@"%@",url]];
+    [cell.titleLabel setText:[NSString stringWithFormat:@"%@", model.url]];
     
     UILongPressGestureRecognizer* longgs=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longpress:)];
     [cell addGestureRecognizer:longgs];
@@ -126,7 +184,7 @@
         self.previewMore(_dataArray[indexPath.row]);
     } else {
         VideoPlayerController* pvc = [[VideoPlayerController alloc] init];
-        pvc.url = _dataArray[indexPath.row];
+        pvc.model = _dataArray[indexPath.row];
         [self.navigationController pushViewController:pvc animated:YES];
     }
 }
@@ -144,7 +202,7 @@
 #pragma mark - 对话框
 
 - (void)showActionSheet:(int)index {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:cancelAction];
@@ -163,19 +221,20 @@
 }
 
 - (void)delelteAlert:(int)index {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"确认删除吗？" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"确认要删除该地址吗？" message:@"" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:cancelAction];
     
-    //添加确定到UIAlertController中
+    // 添加确定到UIAlertController中
     UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSString* url = [self.dataArray objectAtIndex:index];
-        [PathUnit deleteBaseRecordPathWithURL:url];
-        [PathUnit deleteBaseShotPathWithURL:url];
+        URLModel *model = self.dataArray[index];
+        [PathUnit deleteBaseRecordPathWithURL:model.url];
+        [PathUnit deleteBaseShotPathWithURL:model.url];
+        
+        [URLUnit removeURLModel:model];
         
         [self.dataArray removeObjectAtIndex:index];
-        [NSUserDefaultsUnit updateURL:self.dataArray];
         [self.collectionView reloadData];
     }];
     [alertController addAction:OKAction];
@@ -184,40 +243,18 @@
 }
 
 - (void)editAlert:(int)index {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请输入播放地址" message:@"" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-    [alertController addAction:cancelAction];
-    
-    //添加确定到UIAlertController中
-    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UITextField *tf = alertController.textFields.firstObject;
-        NSString* url = [tf.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        if(index < 0) {
-            [self.dataArray insertObject:url atIndex:0];
-        } else {
-            [self.dataArray removeObjectAtIndex:index];
-            [self.dataArray insertObject:url atIndex:index];
-        }
-        
-        [NSUserDefaultsUnit updateURL:self.dataArray];
-        
+    EditURLViewController *vc = [[EditURLViewController alloc] initWithStoryboard];
+    [vc.subject subscribeNext:^(id x) {
+        self.dataArray = [URLUnit urlModels];
         [self.collectionView reloadData];
     }];
-    [alertController addAction:OKAction];
     
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"rtmp://";
-        
-        if(index < 0) {
-            textField.text = @"rtmp://demo.easydss.com:10085/hls/stream_210890?k=stream_210890.c7d869eb78a89cc574";
-        } else {
-            NSString *url = self.dataArray[index];
-            textField.text = url;
-        }
-    }];
+    if (index >= 0) {
+        vc.urlModel = self.dataArray[index];
+    }
     
-    [self presentViewController:alertController animated:YES completion:nil];
+    vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;//关键语句，必须有 ios8 later
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 @end

@@ -34,7 +34,7 @@ typedef enum {
 
 @protocol HWVideoDecoderDelegate <NSObject>
 
--(void) getDecodePictureData:(KxVideoFrame *) frame;
+-(void) getDecodePictureData:(KxVideoFrame *) frame length:(unsigned int) length;
 -(void) getDecodePixelData:(CVImageBufferRef) frame;
 
 @end

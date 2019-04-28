@@ -8,7 +8,7 @@
 
 #import "RecordListViewController.h"
 #import "PlayRecordViewController.h"
-#import "ScreenShotListCell.h"
+#import "RecordListCell.h"
 #import "PathUnit.h"
 
 @interface RecordListViewController ()
@@ -35,9 +35,8 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ScreenShotListCell *cell = [ScreenShotListCell cellWithTableView:tableView];
+    RecordListCell *cell = [RecordListCell cellWithTableView:tableView];
     
-    cell.infoIV.backgroundColor = [UIColor blackColor];
     NSString *path = [PathUnit snapshotWithURL:_url];
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         cell.infoIV.image = [UIImage imageWithContentsOfFile:path];
@@ -51,7 +50,7 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 180;
+    return 160;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

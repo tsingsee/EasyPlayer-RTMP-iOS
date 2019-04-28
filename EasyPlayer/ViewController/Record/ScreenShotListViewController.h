@@ -6,9 +6,12 @@
 //  Copyright © 2017年 cs. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseTableViewController.h"
 
-@interface ScreenShotListViewController : UITableViewController
+/**
+ 截图列表
+ */
+@interface ScreenShotListViewController : BaseTableViewController
 
 @property (nonatomic, copy) NSString *url;
 

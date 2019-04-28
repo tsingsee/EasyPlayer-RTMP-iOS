@@ -1,7 +1,7 @@
 
 #import "VideoPanel.h"
-#import "PureLayout.h"
 #import "AudioManager.h"
+#import "Masonry.h"
 
 #define kContentInset 1
 
@@ -38,6 +38,7 @@
     
     for (int i = 0; i < [_resuedViews count]; i++) {
         VideoView *videoView = [_resuedViews objectAtIndex:i];
+        
         if (videoView.videoStatus == Stopped && videoView.active) {
             nIndex = i;
             break;
@@ -45,6 +46,7 @@
     }
     
     VideoView *videoView = nil;
+    
     if (nIndex >= 0) {
         videoView = [_resuedViews objectAtIndex:nIndex];
     } else {
@@ -61,10 +63,15 @@
     }
 }
 
-- (void)startAll:(NSMutableArray *)URLs {
+- (void)startAll:(NSArray<URLModel *> *)urlModels {
     for (int i = 0; i < [_resuedViews count]; i++) {
+        URLModel *model = urlModels[i];
+        
         VideoView *videoView = [_resuedViews objectAtIndex:i];
-        videoView.url = URLs[i];
+        videoView.url = model.url;
+        videoView.transportMode = model.transportMode;
+        videoView.sendOption = model.sendOption;
+        
         [videoView startPlay];
     }
 }
@@ -72,6 +79,7 @@
 - (void)restore {
     for (int i = 0; i < [_resuedViews count]; i++) {
         VideoView *videoView = [_resuedViews objectAtIndex:i];
+        
         if (videoView.videoStatus == Stopped) {
             [videoView startPlay];
         }
@@ -88,16 +96,18 @@
     }
 }
 
-- (void)setLayout:(IVideoLayout)layout currentURL:(NSString *)url URLs:(NSMutableArray *)urls {
-    if (_layout == layout) {
-        return;
-    }
+- (void)setLayout:(IVideoLayout)layout currentURL:(NSString *)url URLs:(NSArray<URLModel *> *)urlModels {
+//    if (_layout == layout) {
+//        return;
+//    }
     
     _layout = layout;
+    
     NSInteger diff = _layout - [_resuedViews count];
     int count = (int)[_resuedViews count];
+    
     for (int i = 0; i < diff; i++) {
-        VideoView *videoView = [VideoView newAutoLayoutView];
+        VideoView *videoView = [[VideoView alloc] init];
         videoView.delegate = self;
         [_resuedViews addObject:videoView];
         
@@ -121,51 +131,69 @@
     }
     
     BOOL hasActiveView = NO;
-    NSInteger rowCnt = [self rowCount];
     VideoView *topView = nil;
-    NSInteger colCount = _layout / rowCnt;
-    for (int i = 0; i < rowCnt; i++) {
+    
+    NSInteger rowCount = [self rowCount];       // 每行数
+    NSInteger columnCount = _layout / rowCount; // 每列数
+    
+    CGFloat itemH, itemW;
+    if (self.frame.size.height > self.frame.size.width) {
+        itemH = self.frame.size.width / rowCount;
+        itemW = self.frame.size.height / rowCount;
+    } else {
+        itemH = self.frame.size.height / rowCount;
+        itemW = self.frame.size.width / rowCount;
+    }
+    
+    for (int i = 0; i < rowCount; i++) {
         VideoView *leftView = nil;
         NSMutableArray *viewsOneRow = [[NSMutableArray alloc] init];
-        for (int j = 0; j < colCount; j++) {
-            VideoView *view = [_resuedViews objectAtIndex:(i * colCount + j)];
-            [self addSubview:view];
+        
+        for (int j = 0; j < columnCount; j++) {
+            VideoView *view = [_resuedViews objectAtIndex:(i * columnCount + j)];
             [viewsOneRow addObject:view];
+            [self addSubview:view];
+            [view mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.size.equalTo(CGSizeMake(itemW, itemH));
+            }];
             
             if (view.active) {
                 hasActiveView = YES;
             }
             
             if (leftView == nil) {
-                [view autoPinEdgeToSuperviewEdge:ALEdgeLeading];
-                
+                [view mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(@0);
+                }];
+
                 if (topView == nil) {
-                    [view autoPinEdgeToSuperviewEdge:ALEdgeTop];
-                } else {
-                    [UIView autoSetPriority:UILayoutPriorityRequired - 1 forConstraints:^{
-                        [view autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:topView withOffset:kContentInset];
+                    [view mas_updateConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(@0);
                     }];
-                    
-                    [view autoMatchDimension:ALDimensionHeight toDimension:ALDimensionHeight ofView:topView];
+                } else {
+                    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.top.equalTo(topView.mas_bottom).offset(kContentInset);
+                    }];
                 }
-                
-                if (i == rowCnt - 1) {
-                    [view autoPinEdgeToSuperviewEdge:ALEdgeBottom];
+
+                if (i == rowCount - 1) {
+                    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.bottom.equalTo(@0);
+                    }];
                 }
                 
                 topView = view;
             } else {
-                [view autoAlignAxis:ALAxisHorizontal toSameAxisOfView:leftView];
-                [UIView autoSetPriority:UILayoutPriorityRequired - 1 forConstraints:^{
-                    [view autoPinEdge:ALEdgeLeading toEdge:ALEdgeTrailing ofView:leftView withOffset:kContentInset];
+                [view mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(leftView.mas_right).offset(kContentInset);
+                    make.top.equalTo(topView.mas_top);
                 }];
-                
-                [view autoMatchDimension:ALDimensionWidth toDimension:ALDimensionWidth ofView:leftView];
-                [view autoMatchDimension:ALDimensionHeight toDimension:ALDimensionHeight ofView:leftView];
             }
             
-            if (j == colCount - 1) {
-                [view autoPinEdgeToSuperviewEdge:ALEdgeTrailing];
+            if (j == columnCount - 1) {
+                [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(@0);
+                }];
             }
             
             leftView = view;
@@ -190,9 +218,22 @@
         view.url = url;
         [self videoViewBeginActive:view];
     } else {
-        [self startAll:urls];
+        [self startAll:urlModels];
     }
-    
+}
+
+- (void) hideBtnView {
+    for (int i = 0; i < [_resuedViews count]; i++) {
+        VideoView *videoView = [_resuedViews objectAtIndex:i];
+        [videoView hideBtnView];
+    }
+}
+
+- (void) changeHorizontalScreen:(BOOL) horizontal {
+    for (int i = 0; i < [_resuedViews count]; i++) {
+        VideoView *videoView = [_resuedViews objectAtIndex:i];
+        [videoView changeHorizontalScreen:horizontal];
+    }
 }
 
 #pragma mark - 点击事件
