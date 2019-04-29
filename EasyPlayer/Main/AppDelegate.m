@@ -25,7 +25,8 @@
         model.url = @"rtmp://live.hkstv.hk.lxdns.com/live/hks2";
         [URLUnit addURLModel:model];
         
-        [NSUserDefaultsUnit setFFMpeg:YES];// 默认软解码
+        [NSUserDefaultsUnit setFFMpeg:YES];     // 默认软解码
+        [NSUserDefaultsUnit setAutoAudio:YES];  // 默认自动播放音频
     }
     
     [PlayerDataReader startUp];

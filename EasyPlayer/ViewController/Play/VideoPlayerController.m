@@ -55,8 +55,8 @@
     [self.panel restore];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     
     [self normalScreenWithDuration:0];// 回归竖屏
     

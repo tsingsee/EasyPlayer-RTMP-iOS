@@ -221,7 +221,7 @@
 }
 
 - (void)delelteAlert:(int)index {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"确认要删除该地址吗？" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"确认要删除该地址吗？" message:@"同时会删除录像和截图" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:cancelAction];

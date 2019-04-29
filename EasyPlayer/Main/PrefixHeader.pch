@@ -62,7 +62,6 @@
 #define SelectBtnColor 0x03c6e3
 #define DefaultBtnColor 0xa6a6a6
 
-
 #define HRGTextFont 15.0
 
 // ----------------  默认地址 ----------------

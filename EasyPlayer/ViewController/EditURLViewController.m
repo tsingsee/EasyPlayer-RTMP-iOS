@@ -71,7 +71,11 @@
         self.model.sendOption = self.urlModel.sendOption;
     }
     
-    self.textField.text = self.model.url;
+    if (self.model.url) {
+        self.textField.text = self.model.url;
+    } else {
+        self.textField.text = @"rtmp://";
+    }
     
     if (self.model.transportMode == EASY_RTP_OVER_TCP) {
         self.tcpBtn.selected = YES;
@@ -133,12 +137,19 @@
 
 // 确定
 - (IBAction)submit:(id)sender {
-    if (self.textField.text.length == 0) {
+    NSString *text = self.textField.text;
+    
+    if (text.length == 0) {
+        [WHToast showMessage:@"请输入流地址" duration:2 finishHandler:nil];
+        return;
+    }
+    
+    if (![text hasPrefix:@"rtmp://"]) {
         [WHToast showMessage:@"请输入正确的流地址" duration:2 finishHandler:nil];
         return;
     }
     
-    self.model.url = self.textField.text;
+    self.model.url = text;
     
     if (self.urlModel) {
         [URLUnit updateURLModel:self.model oldModel:self.urlModel];
