@@ -18,6 +18,7 @@
 		6613BC112271F74A00FDF892 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC0E2271F74A00FDF892 /* Info.plist */; };
 		6613BC172271F78C00FDF892 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC132271F78B00FDF892 /* LaunchScreen.storyboard */; };
 		6613BC182271F78C00FDF892 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC152271F78B00FDF892 /* Main.storyboard */; };
+		66268FE6227DCDCD009C84CE /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66268FE4227DCDCD009C84CE /* WebViewController.m */; };
 		662D8EEC22734FE00073F945 /* RecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EEA22734FE00073F945 /* RecordViewController.m */; };
 		662D8EEF227354DD0073F945 /* RecordListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EED227354DD0073F945 /* RecordListCell.m */; };
 		662D8EF22273F98B0073F945 /* URLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EF12273F98B0073F945 /* URLModel.m */; };
@@ -94,6 +95,8 @@
 		6613BC0E2271F74A00FDF892 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6613BC142271F78B00FDF892 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6613BC162271F78B00FDF892 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
+		66268FE4227DCDCD009C84CE /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		66268FE5227DCDCD009C84CE /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		662D8EEA22734FE00073F945 /* RecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordViewController.m; sourceTree = "<group>"; };
 		662D8EEB22734FE00073F945 /* RecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordViewController.h; sourceTree = "<group>"; };
 		662D8EED227354DD0073F945 /* RecordListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordListCell.m; sourceTree = "<group>"; };
@@ -414,6 +417,8 @@
 				6635A75A1FF75C1600C25760 /* SettingViewController.m */,
 				6635A7631FF77BFB00C25760 /* AboutViewController.h */,
 				6635A7641FF77BFB00C25760 /* AboutViewController.m */,
+				66268FE5227DCDCD009C84CE /* WebViewController.h */,
+				66268FE4227DCDCD009C84CE /* WebViewController.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -929,6 +934,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A6BD071FBAD6800000213E /* VideoPanel.mm in Sources */,
+				66268FE6227DCDCD009C84CE /* WebViewController.m in Sources */,
 				6647D6912272111D00D44FA5 /* ScanViewController.m in Sources */,
 				363E00B11FBDB1F4008690E7 /* VideoCell.m in Sources */,
 				664DC18C2223C921003F9A40 /* KxMovieDecoder.m in Sources */,

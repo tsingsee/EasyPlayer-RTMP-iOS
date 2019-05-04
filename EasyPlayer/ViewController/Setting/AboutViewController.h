@@ -6,12 +6,12 @@
 //  Copyright © 2017年 cs. All rights reserved.
 //
 
-#import "BaseTableViewController.h"
+#import "BaseViewController.h"
 
 /**
  版本信息
  */
-@interface AboutViewController : BaseTableViewController
+@interface AboutViewController : BaseViewController
 
 - (instancetype) initWithStoryboard;
 
