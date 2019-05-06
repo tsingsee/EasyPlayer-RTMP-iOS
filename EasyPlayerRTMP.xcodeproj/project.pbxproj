@@ -15,7 +15,6 @@
 		660A18452271FDE1001466AE /* Pods_EasyPlayerRTMP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1197C9191E2FC6BD21F2F829 /* Pods_EasyPlayerRTMP.framework */; };
 		6613BC0F2271F74A00FDF892 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BC0B2271F74A00FDF892 /* main.m */; };
 		6613BC102271F74A00FDF892 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BC0C2271F74A00FDF892 /* AppDelegate.m */; };
-		6613BC112271F74A00FDF892 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC0E2271F74A00FDF892 /* Info.plist */; };
 		6613BC172271F78C00FDF892 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC132271F78B00FDF892 /* LaunchScreen.storyboard */; };
 		6613BC182271F78C00FDF892 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC152271F78B00FDF892 /* Main.storyboard */; };
 		66268FE6227DCDCD009C84CE /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66268FE4227DCDCD009C84CE /* WebViewController.m */; };
@@ -835,7 +834,7 @@
 		E1A6BC131FBAC6EC0000213E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = cs;
 				TargetAttributes = {
 					E1A6BC1A1FBAC6EC0000213E = {
@@ -847,10 +846,9 @@
 			};
 			buildConfigurationList = E1A6BC161FBAC6EC0000213E /* Build configuration list for PBXProject "EasyPlayerRTMP" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -869,7 +867,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6613BC112271F74A00FDF892 /* Info.plist in Resources */,
 				6613BC182271F78C00FDF892 /* Main.storyboard in Resources */,
 				6613BC172271F78C00FDF892 /* LaunchScreen.storyboard in Resources */,
 				E1A6BC2B1FBAC6EC0000213E /* Assets.xcassets in Resources */,
@@ -999,6 +996,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1054,6 +1052,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
