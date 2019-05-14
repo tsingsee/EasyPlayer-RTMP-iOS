@@ -54,4 +54,6 @@ typedef NS_OPTIONS(NSInteger, IVideoLayout){
 // 添加新视频源
 - (void) videoViewWillAddNewRes:(VideoView *)view index:(int)index;
 
+- (void) back;
+
 @end

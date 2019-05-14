@@ -8,7 +8,7 @@
 #import "AudioManager.h"
 #import "PathUnit.h"
 #import "NSUserDefaultsUnit.h"
-#import <WHToast.h>
+#import "WHToast.h"
 #import "Masonry.h"
 
 @interface VideoView() <UIScrollViewDelegate> {
@@ -52,6 +52,8 @@
 @property (nonatomic, strong) UIButton *audioButton;    // 声音按钮
 @property (nonatomic, strong) UIButton *recordButton;   // 录像按钮
 @property (nonatomic, strong) UIButton *screenshotButton;// 截屏按钮
+
+@property (nonatomic, strong) UIView *backView;
 
 @property (nonatomic, readwrite) CGFloat bufferdDuration;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
@@ -134,7 +136,7 @@
         make.centerY.equalTo(self.mas_centerY);
     }];
     
-    CGFloat size = 36;
+    CGFloat size = 45;
     
     _statusView = [[UIView alloc] init];
     _statusView.backgroundColor = UIColorFromRGB(0xf5f5f5);
@@ -151,8 +153,8 @@
     [_playButton addTarget:self action:@selector(playButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_statusView addSubview:_playButton];
     [_playButton makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(size, size));
-        make.top.left.equalTo(@0);
+        make.width.equalTo(@(size));
+        make.top.left.bottom.equalTo(@0);
     }];
     
     _btnView = [[UIView alloc] init];
@@ -169,9 +171,8 @@
     _kbpsLabel.font = [UIFont systemFontOfSize:13];
     [_btnView addSubview:_kbpsLabel];
     [_kbpsLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@0);
+        make.top.bottom.equalTo(@0);
         make.left.equalTo(@0);
-        make.height.equalTo(@(size));
     }];
     
     self.audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -183,9 +184,8 @@
     _audioButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [_btnView addSubview:self.audioButton];
     [self.audioButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@0);
+        make.top.bottom.equalTo(@0);
         make.left.equalTo(self.kbpsLabel.mas_right);
-        make.height.equalTo(@(size));
     }];
     
     _recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -197,9 +197,8 @@
     _recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [_btnView addSubview:_recordButton];
     [_recordButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@0);
+        make.top.bottom.equalTo(@0);
         make.left.equalTo(self.audioButton.mas_right);
-        make.height.equalTo(@(size));
     }];
     
     _screenshotButton = [[UIButton alloc] init];
@@ -211,9 +210,8 @@
     _screenshotButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [_btnView addSubview:_screenshotButton];
     [_screenshotButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@0);
+        make.top.bottom.equalTo(@0);
         make.left.equalTo(self.recordButton.mas_right);
-        make.height.equalTo(@(size));
     }];
     
     _landspaceButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -223,9 +221,8 @@
     _landspaceButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [_btnView addSubview:_landspaceButton];
     [_landspaceButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@0);
+        make.top.bottom.equalTo(@0);
         make.left.equalTo(self.screenshotButton.mas_right);
-        make.height.equalTo(@(size));
     }];
     
     NSArray *views = @[ self.kbpsLabel, self.audioButton, self.recordButton, self.screenshotButton, self.landspaceButton ];
@@ -236,15 +233,43 @@
     [views mas_makeConstraints:^(MASConstraintMaker *make) {
         
     }];
+    
+    _backView = [[UIView alloc] init];
+    _backView.backgroundColor = UIColorFromRGBA(0x000000, 0.4);
+    _backView.hidden = YES;
+    [self addSubview:_backView];
+    [_backView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(@0);
+        make.height.equalTo(@44);
+    }];
+    
+    UIButton *backBtn = [[UIButton alloc] init];
+    [backBtn setImage:[UIImage imageNamed:@"nav_back"] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [_backView addSubview:backBtn];
+    [backBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(@0);
+        make.left.equalTo(@15);
+        make.width.equalTo(@44);
+    }];
 }
 
 // 点击视频，隐藏底部按钮
 - (void) hideStatusView {
     _statusView.hidden = !_statusView.hidden;
+    
+    // btnView没有隐藏，则不是分屏
+    if (!self.btnView.isHidden) {
+        if (_landspaceButton.isSelected) {// 横屏时
+            _backView.hidden = _statusView.hidden;
+        }
+    }
 }
 
 - (void) changeHorizontalScreen:(BOOL) horizontal {
     _landspaceButton.selected = horizontal;
+    
+    [self updateHeight];
 }
 
 #pragma mark - override
@@ -610,6 +635,7 @@
 
 - (void) hideBtnView {
     self.btnView.hidden = YES;
+    _backView.hidden = YES;
 }
 
 #pragma mark - private method
@@ -640,6 +666,24 @@
 
 - (void)hideActivity {
     [activityIndicatorView stopAnimating];
+}
+
+- (void) updateHeight {
+    if (_landspaceButton.selected) {
+        [_statusView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@56);
+        }];
+        
+        _backView.hidden = NO;
+    } else {
+        [_statusView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@45);
+        }];
+        
+        _backView.hidden = YES;
+    }
+    
+    [_statusView layoutSubviews];
 }
 
 #pragma mark - 按钮事件
@@ -693,6 +737,12 @@
     } else {
         [self.delegate videoViewWillAnimateToNomarl:self];
     }
+    
+    [self updateHeight];
+}
+
+- (void) back {
+    [self.delegate back];
 }
 
 #pragma mark - 手势操作

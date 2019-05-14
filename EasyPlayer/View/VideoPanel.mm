@@ -67,6 +67,10 @@
     for (int i = 0; i < [_resuedViews count]; i++) {
         URLModel *model = urlModels[i];
         
+        if (!model.url) {
+            continue;
+        }
+        
         VideoView *videoView = [_resuedViews objectAtIndex:i];
         videoView.url = model.url;
         videoView.transportMode = model.transportMode;
@@ -315,6 +319,12 @@
 - (void)videoViewDidiUpdateStream:(VideoView *)view {
     if (view == _activeView) {
         [self.delegate activeViewDidiUpdateStream:_activeView];
+    }
+}
+
+- (void) back {
+    if (self.delegate) {
+        [self.delegate back];
     }
 }
 

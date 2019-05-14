@@ -172,6 +172,10 @@
     [self normalScreenWithDuration:0.5];
 }
 
+- (void) back {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Notification
 
 - (void)regestAppStatusNotification {

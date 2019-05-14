@@ -12,6 +12,7 @@
 #import "VideoPanel.h"
 #import "AudioManager.h"
 #import "Masonry.h"
+#import "NSUserDefaultsUnit.h"
 
 @interface SplitScreenViewController ()<VideoPanelDelegate> {
     UISegmentedControl *segment;
@@ -78,8 +79,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [NSUserDefaultsUnit setAutoAudio:NO];
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    [NSUserDefaultsUnit setAutoAudio:YES];
     
     [self normalScreenWithDuration:0];// 回归竖屏
     
@@ -224,19 +233,19 @@
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 
-- (void)videoViewWillAnimateToFullScreen:(VideoView *)view {
-    if (crossScreen) {      // 横屏->全屏
-        [self.panel setLayout:IVL_One currentURL:view.url URLs:_urlModels];// 先转成1分频
-        firstFullScreen = NO;
-    } else {            // 竖屏->全屏
-        firstFullScreen = YES;
-        [self.panel setLayout:IVL_One currentURL:view.url URLs:_urlModels];// 先转成1分频
-        [self crossScreenWithDuration:0.5 isLeftCrossScreen:YES];// 再全屏
-    }
-    
-    fullScreen = YES;
-    crossScreen = YES;
-}
+//- (void)videoViewWillAnimateToFullScreen:(VideoView *)view {
+//    if (crossScreen) {      // 横屏->全屏
+//        [self.panel setLayout:IVL_One currentURL:view.url URLs:_urlModels];// 先转成1分频
+//        firstFullScreen = NO;
+//    } else {            // 竖屏->全屏
+//        firstFullScreen = YES;
+//        [self.panel setLayout:IVL_One currentURL:view.url URLs:_urlModels];// 先转成1分频
+//        [self crossScreenWithDuration:0.5 isLeftCrossScreen:YES];// 再全屏
+//    }
+//    
+//    fullScreen = YES;
+//    crossScreen = YES;
+//}
 
 - (void)videoViewWillAnimateToNomarl:(VideoView *)view {
     if (fullScreen) {

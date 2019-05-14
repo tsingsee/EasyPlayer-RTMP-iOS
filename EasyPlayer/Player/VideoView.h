@@ -67,4 +67,6 @@ typedef enum {
 // 连接视频源
 - (void)videoViewWillTryToConnect:(VideoView *)view;
 
+- (void) back;
+
 @end
