@@ -19,7 +19,7 @@ struct FrameInfo {
     unsigned char *pBuf;
     int frameLen;
     int type;
-    CGFloat timeStamp;
+    CGFloat timeStamp;// 毫秒为单位(1秒=1000毫秒 1秒=1000000微秒)
     int width;
     int height;
 };
@@ -339,7 +339,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
         afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
         if (lastFrameTimeStamp != 0) {
-            float sleepTime = frame->timeStamp - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp);
+            float sleepTime = (frame->timeStamp - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp)) * 1000;
             if (sleepTime > 100000) {
                 NSLog(@"sleep time.too long:%f", sleepTime);
                 sleepTime = 100000;
@@ -347,15 +347,16 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             
             if (sleepTime > 0) {
                 // 设置缓存的时间戳
-                float cache = mNewestStample - frame->timeStamp;
-                float newDelay;
+                float cache = (mNewestStample - frame->timeStamp) * 1000;
+                float newDelay = 0;
                 
-//                if (self.useHWDecoder) {
+                if (self.useHWDecoder) {
                     newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:100000];
-//                } else {
-//                    newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
-//                }
+                } else {
+                    newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
+                }
                 
+                // usleep功能把进程挂起一段时间， 单位是微秒（百万分之一秒）；
                 usleep(newDelay);
             }
         }
@@ -418,7 +419,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             if (_lastVideoFramePosition == 0) {
                 _lastVideoFramePosition = video->timeStamp;
             }
-
+            
             CGFloat duration = (video->timeStamp - _lastVideoFramePosition - decodeInterval) / 1000.0;
             if (duration >= 1.0 || duration <= -1.0) {
                 duration = 0.02;
@@ -728,9 +729,12 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
 
 /**
  该方法主要是播放器上层用于缓存流媒体数据，使播放更加的平滑(https://blog.csdn.net/jinlong0603/article/details/85041569)
- @param sleepTimeUs 当前帧时间戳与前一帧时间戳的差值并去除了解码的耗时
- @param total 当前中缓存的时间长度
- @param delayUs 个人设置的缓存的总大小：硬解码，设置的默认缓存为100000及100毫秒，另一处是软解码，设置的是50毫秒。如果想将延迟降到极限，就调整第三个参数为0，这样即不希望上层缓存数据，尽快的解码上屏显示。
+ 
+ @param sleepTimeUs 当前帧时间戳与前一帧时间戳的差值并去除了解码的耗时（单位是微秒）
+ @param total 当前中缓存的时间长度（单位是微秒）
+ @param delayUs 个人设置的缓存的总大小：
+                    硬解码，设置的默认缓存为100000微秒，软解码，设置的是50000微秒。
+                    如果想将延迟降到极限，就调整第三个参数为0，这样即不希望上层缓存数据，尽快的解码上屏显示。
  @return 延迟时间戳
  */
 - (float) fixSleepTime:(float)sleepTimeUs totalTimestampDifferUs:(float)total delayUs:(float)delayUs {
@@ -742,7 +746,7 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     double dValue = ((double) (delayUs - total)) / 1000000;
     double radio = exp(dValue);
     double r = sleepTimeUs * radio + 0.5f;
-    NSLog(@"===>> %ff, %f, %f->%f", sleepTimeUs, total, delayUs, r);
+    NSLog(@"===>> %ff, %f, %f->%f微秒", sleepTimeUs, total, delayUs, r);
     
     return (long) r;
 }
