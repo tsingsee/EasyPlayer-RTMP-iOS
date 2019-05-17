@@ -432,7 +432,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             frame.position = video->timeStamp / 1000.0;
             frame.duration = duration;
             
-            // 第二种显示方式：KxVideoFrameRGB
+//            // 第二种显示方式：KxVideoFrameRGB
 //            KxVideoFrameRGB *frame = [[KxVideoFrameRGB alloc] init];
 //            frame.width = param.nOutWidth;
 //            frame.height = param.nOutHeight;
@@ -446,7 +446,11 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
             
             if (self.frameOutputBlock) {
+                // 第一种显示方式：KxVideoFrameYUV
                 self.frameOutputBlock(frame, (Easy_U32)(frame.luma.length + frame.chromaB.length + frame.chromaR.length));
+                
+//                // 第二种显示方式：KxVideoFrameRGB
+//                self.frameOutputBlock(frame, (Easy_U32)frame.rgb.length);
             }
         }
     }
@@ -746,6 +750,7 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
     double dValue = ((double) (delayUs - total)) / 1000000;
     double radio = exp(dValue);
     double r = sleepTimeUs * radio + 0.5f;
+    
     NSLog(@"===>> %ff, %f, %f->%f微秒", sleepTimeUs, total, delayUs, r);
     
     return (long) r;

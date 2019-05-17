@@ -12,40 +12,35 @@
 #import "Masonry.h"
 
 @interface VideoView() <UIScrollViewDelegate> {
-    BOOL firstFrame;
+    UIScrollView *scrollView;
+    KxMovieGLView *kxGlView;
+    UIActivityIndicatorView *activityIndicatorView;
     
+    BOOL firstFrame;                // 得到第一帧，调整相关UI
+    BOOL transforming;
+    BOOL needChangeViewFrame;
+    
+    // 视频帧的宽高
     int displayWidth;
     int displayHeight;
     
-    BOOL snapshoting;
+    NSMutableArray *rgbFrameArray;  // 解码的视频数据
+    NSMutableArray *_audioFrames;   // 解码的音频数据
     
-    UIScrollView *scrollView;
-    BOOL transforming;
-    
-    BOOL needChangeViewFrame;
-    
-    KxMovieGLView *kxGlView;
-    
-    CADisplayLink *displayLink;
-    
-    UIActivityIndicatorView *activityIndicatorView;
+    NSData  *_currentAudioFrame;    // 当前播放的音频帧
+    NSUInteger _currentAudioFramePos;
     
     NSTimeInterval _tickCorrectionTime;
     NSTimeInterval _tickCorretionPosition;
-    CGFloat _moviePosition;
     
-    NSMutableArray *rgbFrameArray;
-    NSMutableArray *_audioFrames;
-    
-    NSData  *_currentAudioFrame;
-    NSUInteger _currentAudioFramePos;
+    CGFloat _moviePosition;         // 当前播放视频的时间戳（毫秒为单位）
 }
 
 @property (nonatomic, strong) dispatch_source_t timer;
 @property (nonatomic, assign) int frameLength;
 
 @property (nonatomic, strong) UIView *statusView;
-@property (nonatomic, strong) UIButton *playButton;       // 播放按钮
+@property (nonatomic, strong) UIButton *playButton;     // 播放按钮
 
 @property (nonatomic, strong) UIView *btnView;
 @property (nonatomic, strong) UILabel *kbpsLabel;       // kbps
@@ -56,6 +51,7 @@
 @property (nonatomic, strong) UIView *backView;
 
 @property (nonatomic, readwrite) CGFloat bufferdDuration;
+
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTapGesture;
 
@@ -397,9 +393,6 @@
     
     [self hideActivity];
     
-    [displayLink invalidate];
-    displayLink = nil;
-    
     self.videoStatus = Stopped;
     
     dispatch_queue_t queue = dispatch_queue_create("stop_all_video", NULL);
@@ -462,13 +455,19 @@
 
 - (void)presentFrame {
     CGFloat duration = 0;
+    
     if (self.videoStatus == Rendering) {
         NSTimeInterval time = 0.01;
+        
         KxVideoFrame *frame = [self popVideoFrame];
+        
         if (frame != nil) {
             duration = [self displayFrame:frame];
+            
             NSTimeInterval correction = [self tickCorrection];
+            
             NSTimeInterval interval = MAX(duration + correction, 0.01);
+            
             if (interval >= 0.035) {
                 interval = interval / 2;
             }
@@ -489,18 +488,25 @@
     }
     
     NSTimeInterval now = [NSDate timeIntervalSinceReferenceDate];
+    
     if (_tickCorrectionTime == 0) {
         _tickCorrectionTime = now;
         _tickCorretionPosition = _moviePosition;
         return 0;
     }
     
-    NSTimeInterval dPos = _moviePosition - _tickCorretionPosition;
+    NSTimeInterval dPosition = _moviePosition - _tickCorretionPosition;
     NSTimeInterval dTime = now - _tickCorrectionTime;
-    NSTimeInterval correction = dPos - dTime;
-    if (correction > 0) {
+    NSTimeInterval correction = dPosition - dTime;
+    
+    if (correction > 1.f || correction < -1.f) {
         NSLog(@"tick correction reset %0.2f", correction);
         correction = 0;
+        
+        /* https://github.com/kolyvan/kxmovie
+         * 这句不能设置0，否则一直play faster
+         */
+//        _tickCorrectionTime = 0;
     }
     
     if (_bufferdDuration >= 0.3) {
@@ -531,14 +537,15 @@
     displayWidth = (int)frame.width;
     displayHeight = (int)frame.height;
     
-    if (self.videoStatus == Rendering) {
-        if (firstFrame) {
-            needChangeViewFrame = YES;
-            firstFrame = NO;
-            scrollView.scrollEnabled = YES;
-            [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-            [self hideActivity];
-        }
+    if ((self.videoStatus == Rendering) && firstFrame) {
+        needChangeViewFrame = YES;
+        firstFrame = NO;
+        scrollView.scrollEnabled = YES;
+        
+        // 阻止iOS设备锁屏
+        [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+        
+        [self hideActivity];
     }
     
     if (needChangeViewFrame) {
@@ -584,10 +591,18 @@
                     if (count > 0) {
                         KxAudioFrame *frame = _audioFrames[0];
                         CGFloat differ = _moviePosition - frame.position;
+
+//                        // 似乎没有作用
+//                        if (differ < -0.1) {
+//                            memset(outData, 0, numFrames * numChannels * sizeof(float));
+//                            break; // silence and exit
+//                        }
                         
                         [_audioFrames removeObjectAtIndex:0];
                         
-                        if (differ > 5 && count > 1) {
+//                        if (differ > 5 && count > 1) {// 原来是5，结果音视频不同步，音频慢2秒左右
+                        if (differ > 0.1 && count > 1) {
+                            NSLog(@"differ = %.4f", differ);
                             NSLog(@"audio skip movPos = %.4f audioPos = %.4f", _moviePosition, frame.position);
                             continue;
                         }
