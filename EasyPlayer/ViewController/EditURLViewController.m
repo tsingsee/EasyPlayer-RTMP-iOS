@@ -2,7 +2,7 @@
 //  EditURLViewController.m
 //  EasyPlayerRTMP
 //
-//  Created by liyy on 2019/4/25.
+//  Created by leo on 2019/4/25.
 //  Copyright © 2019年 cs. All rights reserved.
 //
 
@@ -42,10 +42,10 @@
     // EasyPlayer RTMP iOS 不需要设置传输协议和保活包
     self.itemView.hidden = YES;
     
-    self.contentViewWidth.constant = HRGScreenWidth;
-    self.contentViewHeight.constant = HRGScreenHeight;
+    self.contentViewWidth.constant = EasyScreenWidth;
+    self.contentViewHeight.constant = EasyScreenHeight;
     
-    HRGViewBorderRadius(self.contentView, 4, 0, [UIColor clearColor]);
+    EasyViewBorderRadius(self.contentView, 4, 0, [UIColor clearColor]);
     
     [self.scanBtn setImage:[UIImage imageNamed:@"scan"] forState:UIControlStateNormal];
     [self.scanBtn setImage:[UIImage imageNamed:@"scan_click"] forState:UIControlStateHighlighted];

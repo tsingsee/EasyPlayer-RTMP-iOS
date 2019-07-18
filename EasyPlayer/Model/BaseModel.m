@@ -1,17 +1,17 @@
 //
-//  HRGBaseModel.m
-//  SHAREMEDICINE_SHOP_iOS
+//  BaseModel.m
+//  Easy
 //
-//  Created by lyy on 2018/11/19.
-//  Copyright © 2018 HRG. All rights reserved.
+//  Created by leo on 2018/11/19.
+//  Copyright © 2018 leo. All rights reserved.
 //
 
-#import "HRGBaseModel.h"
+#import "BaseModel.h"
 
-@implementation HRGBaseModel
+@implementation BaseModel
 
 + (instancetype) convertFromDict:(NSDictionary *)dict {
-    return [HRGBaseModel modelWithDictionary:dict];
+    return [BaseModel modelWithDictionary:dict];
 }
 
 + (NSMutableArray *) convertFromArray:(NSArray *)array {

@@ -2,7 +2,7 @@
 //  PrefixHeader.pch
 //  EasyPlayerRTMP
 //
-//  Created by liyy on 2019/4/25.
+//  Created by leo on 2019/4/25.
 //  Copyright © 2019 cs. All rights reserved.
 //
 
@@ -11,26 +11,13 @@
 
 #define VIDEO_TITLE_HEIGHT 40
 
-// ---------------- Self ----------------
-#define WeakSelf __weak typeof(self) weakSelf = self;
-#define HRGWeakSelf(type)  __weak typeof(type) weak##type = type;
-#define HRGStrongSelf(type)  __strong typeof(type) type = weak##type;
-
 // ---------------- 设置圆角和边框 ----------------
-#define HRGViewBorderRadius(View, Radius, Width, Color)\
+#define EasyViewBorderRadius(View, Radius, Width, Color)\
 \
 [View.layer setCornerRadius:(Radius)];\
 [View.layer setMasksToBounds:YES];\
 [View.layer setBorderWidth:(Width)];\
 [View.layer setBorderColor:[Color CGColor]]
-
-// ---------------- 沙盒目录文件 ----------------
-//获取temp
-#define HRGPathTemp NSTemporaryDirectory()
-//获取沙盒 Document
-#define HRGPathDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
-//获取沙盒 Cache
-#define HRGPathCache [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]
 
 // ---------------- Masonry ----------------
 //define this constant if you want to use Masonry without the 'mas_' prefix
@@ -43,26 +30,26 @@
 
 #define UIColorFromRGBA(rgbValue,trans) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:trans]
 
-#define HRGColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+#define EasyColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 
 // ----------------  颜色代码 ----------------
-#define HRGThemeColor 0x16aafe
-#define HRGThemeColor2 0x02d8eb
+#define EasyThemeColor 0x16aafe
+#define EasyThemeColor2 0x02d8eb
 // 背景颜色
-#define HRGBackGroundColor 0xeeeeee
+#define EasyBackGroundColor 0xeeeeee
 // 字体颜色
-#define HRGBaseFontColor 0x8A8A8A
-#define HRGTextBlackColor 0x333333
-#define HRGTextGrayColor 0x9FA1A1
+#define EasyBaseFontColor 0x8A8A8A
+#define EasyTextBlackColor 0x333333
+#define EasyTextGrayColor 0x9FA1A1
 // 背景颜色
-#define HRGBaseViewColor 0xf5f5f5
+#define EasyBaseViewColor 0xf5f5f5
 // 线条色
-#define HRGBLineViewColor 0xeeeeee
+#define EasyBLineViewColor 0xeeeeee
 
 #define SelectBtnColor 0x03c6e3
 #define DefaultBtnColor 0xa6a6a6
 
-#define HRGTextFont 15.0
+#define EasyTextFont 15.0
 
 // ----------------  默认地址 ----------------
 #define defaultCity @"合肥市"
@@ -70,19 +57,11 @@
 #define defaultLatitude 31.84087375
 #define defaultLongitude 117.19698649
 
-// ----------------  NSLog ----------------
-#ifdef DEBUG
-// 分别是方法地址，文件名，在文件的第几行，自定义输出内容
-#define HRGLog( s, ... ) NSLog( @"<%p %@><%@:(%d)>： %@", self, NSStringFromClass([self class]), [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__] )
-#else
-#define HRGLog( s, ... )
-#endif
-
 ///////////////////////////////// 全面屏配置 /////////////////////////////////
 
 // ---------------- 屏幕宽高 ----------------
-#define HRGScreenWidth [[UIScreen mainScreen] bounds].size.width
-#define HRGScreenHeight [[UIScreen mainScreen] bounds].size.height
+#define EasyScreenWidth [[UIScreen mainScreen] bounds].size.width
+#define EasyScreenHeight [[UIScreen mainScreen] bounds].size.height
 
 //判断是否是ipad
 #define isIPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -104,10 +83,9 @@
 #define IS_IPHONE_Xs_Max ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size) && !isIPad : NO)
 
 //////navBar和tabBar的判断
-#define HRGBarHeight ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 44.0 : 20.0)
-#define HRGNavHeight 44
-//#define HRGNavHeight ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 88.0 : 64.0)
-#define HRGTabBarHeight ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 83.0 : 49.0)
+#define EasyBarHeight ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 44.0 : 20.0)
+#define EasyNavHeight 44
+#define EasyTabBarHeight ((IS_IPHONE_X==YES || IS_IPHONE_Xr ==YES || IS_IPHONE_Xs== YES || IS_IPHONE_Xs_Max== YES) ? 83.0 : 49.0)
 
 ///////////////////////////////// 全面屏配置 /////////////////////////////////
 

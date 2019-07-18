@@ -1,9 +1,9 @@
 //
-//  HRGBaseModel.h
-//  SHAREMEDICINE_SHOP_iOS
+//  BaseModel.h
+//  Easy
 //
-//  Created by lyy on 2018/11/19.
-//  Copyright © 2018 HRG. All rights reserved.
+//  Created by leo on 2018/11/19.
+//  Copyright © 2018 leo. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -21,7 +21,7 @@
 /**
  model的基类
  */
-@interface HRGBaseModel : NSObject<NSCoding, NSCopying>
+@interface BaseModel : NSObject<NSCoding, NSCopying>
 
 + (instancetype) convertFromDict:(NSDictionary *)dict;
 + (NSMutableArray *) convertFromArray:(NSArray *)array;

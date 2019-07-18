@@ -78,7 +78,7 @@ void *DecodeCreate(DEC_CREATE_PARAM *pCreateParam) {
     s_uiDecodeMethod = pCreateParam->method;
     
     // [5]、avcodec_find_decoder()查找解码器
-    AVCodec *pCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
+    AVCodec *pCodec = avcodec_find_decoder(pCreateParam->avCodecID);
     if (pCodec == NULL) {
         printf("avcodec_find_decoder codec error\r\n");
         return 0;

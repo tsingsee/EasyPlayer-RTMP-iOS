@@ -278,6 +278,18 @@
     if (_landspaceButton.selected) {
         kxGlView.frame = scrollView.bounds;
         scrollView.contentSize = scrollView.frame.size;
+        
+        if (displayHeight != 0 && displayWidth != 0) {
+            if (displayWidth < displayHeight) {
+                CGFloat height = scrollView.bounds.size.height;
+                CGFloat width = height * displayWidth / displayHeight;
+                
+                scrollView.contentSize = CGSizeMake(width, height);
+                
+                CGFloat x = (scrollView.bounds.size.width - width) / 2;
+                kxGlView.frame = CGRectMake(x, 0, width, height);
+            }
+        }
     } else {
         if (_showAllRegon) {
             CGRect rc = scrollView.frame;
@@ -285,7 +297,7 @@
             if (displayWidth != 0 && displayHeight != 0) {
                 int x = displayWidth > self.bounds.size.width ? 0 : (int)(fabs(self.bounds.size.width - displayWidth) / 2.0 + 0.5);
                 int cx = MIN(displayWidth, self.bounds.size.width);
-                int cy = MIN(displayHeight*cx/displayWidth, self.bounds.size.height);
+                int cy = MIN(displayHeight * cx / displayWidth, self.bounds.size.height);
                 int y = (self.bounds.size.height - cy) / 2.0 + 0.5;
                 
                 CGRect imageRect;
@@ -294,20 +306,32 @@
                 kxGlView.frame = imageRect;
             }
         } else {
-            CGRect rc = scrollView.bounds;
-            CGFloat width = rc.size.height * 16.0 / 9.0;
+            // 默认宽高比是16:9
+            CGFloat height = scrollView.bounds.size.height;
+            CGFloat width = scrollView.bounds.size.height * 16.0 / 9.0;
+            
             if (displayHeight != 0 && displayWidth != 0) {
-                width = rc.size.height * (float)displayWidth / (float)displayHeight;
-                if (width < rc.size.width) {
-                    width = rc.size.width;
+                if (displayWidth > displayHeight) {
+                    width = scrollView.bounds.size.height * (float)displayWidth / (float)displayHeight;
+                    if (width < scrollView.bounds.size.width) {
+                        width = scrollView.bounds.size.width;
+                    }
+                } else {
+                    width = height * displayWidth / displayHeight;
                 }
             }
             
-            CGFloat height = rc.size.height;
-            kxGlView.frame = CGRectMake(0, 0, width, height);
             scrollView.contentSize = CGSizeMake(width, height);
+            
+            if (width < scrollView.bounds.size.width) {
+                CGFloat x = (scrollView.bounds.size.width - width) / 2;
+                kxGlView.frame = CGRectMake(x, 0, width, height);
+            } else {
+                kxGlView.frame = CGRectMake(0, 0, width, height);
+                scrollView.contentOffset = CGPointMake((width - scrollView.bounds.size.width) / 2, 0);
+            }
+            
             NSLog(@"displayWidth = %d displayHeight = %d %f %f frameWidht = %f frameHeight = %f", displayWidth, displayHeight, width, height, self.frame.size.width, self.frame.size.height);
-            scrollView.contentOffset = CGPointMake((width - rc.size.width) / 2, 0);
             
             [self reCalculateArcPos];
         }

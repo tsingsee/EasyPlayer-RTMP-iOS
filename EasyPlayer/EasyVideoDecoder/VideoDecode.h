@@ -94,7 +94,7 @@ typedef struct _DEC_CREATE_PARAM {
     int nMaxImgHeight;
     Coder coderID;
     IDECODE_METHODE method;
-
+    enum AVCodecID avCodecID;
 }DEC_CREATE_PARAM;
 
 // 解码参数

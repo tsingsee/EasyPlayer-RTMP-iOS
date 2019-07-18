@@ -80,6 +80,9 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
 @property (nonatomic, assign) int lastWidth;
 @property (nonatomic, assign) int lastHeight;
 
+// EASY_SDK_VIDEO_CODEC_H265/EASY_SDK_VIDEO_CODEC_H264编码方式
+@property (nonatomic) enum AVCodecID codecID;
+
 - (void)pushFrame:(char *)pBuf frameInfo:(EASY_FRAME_INFO *)info type:(int)type;
 - (void)recvMediaInfo:(EASY_MEDIA_INFO_T *)info;
 
@@ -108,9 +111,14 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
     if (frameInfo != NULL) {
         if (frameType == EASY_SDK_AUDIO_FRAME_FLAG) {// EASY_SDK_AUDIO_FRAME_FLAG音频帧标志
             [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
-        } else if (frameType == EASY_SDK_VIDEO_FRAME_FLAG &&    // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
-                   frameInfo->codec == EASY_SDK_VIDEO_CODEC_H264) { // H264视频编码
+        } else if (frameType == EASY_SDK_VIDEO_FRAME_FLAG ) {   // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
             [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
+            
+            if (frameInfo->codec == EASY_SDK_VIDEO_CODEC_H265) {// H265视频编码
+                reader.codecID = AV_CODEC_ID_HEVC;
+            } else if (frameInfo->codec == EASY_SDK_VIDEO_CODEC_H264) {// H264视频编码
+                reader.codecID = AV_CODEC_ID_H264;
+            }
         }
     } else {
         if (frameType == EASY_SDK_MEDIA_INFO_FLAG) {// EASY_SDK_MEDIA_INFO_FLAG媒体类型标志
@@ -391,6 +399,8 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         param.nMaxImgHeight = video->height;
         param.coderID = CODER_H264;
         param.method = IDM_SW;
+        param.avCodecID = self.codecID;
+        
         _videoDecHandle = DecodeCreate(&param);
     }
     

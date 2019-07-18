@@ -152,7 +152,7 @@
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    int w = HRGScreenWidth - 20;
+    int w = EasyScreenWidth - 20;
     int h = w * 9 / 16;
     return CGSizeMake(w, h + VIDEO_TITLE_HEIGHT);// 30 is the bottom title height
 }

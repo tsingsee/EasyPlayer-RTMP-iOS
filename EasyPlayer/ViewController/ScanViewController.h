@@ -2,7 +2,7 @@
 //  ScanViewController.h
 //  EasyPlayerRTMP
 //
-//  Created by liyy on 2019/4/26.
+//  Created by leo on 2019/4/26.
 //  Copyright © 2019年 cs. All rights reserved.
 //
 

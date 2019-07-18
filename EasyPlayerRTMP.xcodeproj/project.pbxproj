@@ -22,7 +22,7 @@
 		662D8EEF227354DD0073F945 /* RecordListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EED227354DD0073F945 /* RecordListCell.m */; };
 		662D8EF22273F98B0073F945 /* URLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EF12273F98B0073F945 /* URLModel.m */; };
 		662D8EF5227401980073F945 /* URLUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EF4227401980073F945 /* URLUnit.m */; };
-		662D8EF8227428020073F945 /* HRGBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EF6227428020073F945 /* HRGBaseModel.m */; };
+		662D8EF8227428020073F945 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EF6227428020073F945 /* BaseModel.m */; };
 		6635A75B1FF75C1600C25760 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A75A1FF75C1600C25760 /* SettingViewController.m */; };
 		6635A75F1FF767C600C25760 /* PathUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A75E1FF767C600C25760 /* PathUnit.m */; };
 		6635A7621FF777A000C25760 /* NSUserDefaultsUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A7611FF777A000C25760 /* NSUserDefaultsUnit.m */; };
@@ -104,8 +104,8 @@
 		662D8EF12273F98B0073F945 /* URLModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLModel.m; sourceTree = "<group>"; };
 		662D8EF3227401980073F945 /* URLUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLUnit.h; sourceTree = "<group>"; };
 		662D8EF4227401980073F945 /* URLUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLUnit.m; sourceTree = "<group>"; };
-		662D8EF6227428020073F945 /* HRGBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRGBaseModel.m; sourceTree = "<group>"; };
-		662D8EF7227428020073F945 /* HRGBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRGBaseModel.h; sourceTree = "<group>"; };
+		662D8EF6227428020073F945 /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
+		662D8EF7227428020073F945 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		6635A7591FF75C1600C25760 /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		6635A75A1FF75C1600C25760 /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		6635A75D1FF767C600C25760 /* PathUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PathUnit.h; sourceTree = "<group>"; };
@@ -358,8 +358,8 @@
 		6635A75C1FF767AA00C25760 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				662D8EF7227428020073F945 /* HRGBaseModel.h */,
-				662D8EF6227428020073F945 /* HRGBaseModel.m */,
+				662D8EF7227428020073F945 /* BaseModel.h */,
+				662D8EF6227428020073F945 /* BaseModel.m */,
 				662D8EF02273F98B0073F945 /* URLModel.h */,
 				662D8EF12273F98B0073F945 /* URLModel.m */,
 				662D8EF3227401980073F945 /* URLUnit.h */,
@@ -948,7 +948,7 @@
 				E19AC7B51FBBE686008E2FA7 /* AudioManager.mm in Sources */,
 				664FAB4920624B9500A2C767 /* PlayerDataReader.mm in Sources */,
 				66EA21202270B58700D7E8FD /* SplitScreenViewController.m in Sources */,
-				662D8EF8227428020073F945 /* HRGBaseModel.m in Sources */,
+				662D8EF8227428020073F945 /* BaseModel.m in Sources */,
 				662D8EF22273F98B0073F945 /* URLModel.m in Sources */,
 				6635A75F1FF767C600C25760 /* PathUnit.m in Sources */,
 				662D8EEC22734FE00073F945 /* RecordViewController.m in Sources */,

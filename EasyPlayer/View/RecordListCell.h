@@ -2,7 +2,7 @@
 //  RecordListCell.h
 //  BTG
 //
-//  Created by liyy on 2017/11/6.
+//  Created by leo on 2017/11/6.
 //  Copyright © 2017年 CCDC. All rights reserved.
 //
 

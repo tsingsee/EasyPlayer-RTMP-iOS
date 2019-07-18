@@ -8,10 +8,10 @@
     if(self = [super initWithFrame:frame]) {
         self.layer.masksToBounds = NO;
         self.layer.contentsScale = [UIScreen mainScreen].scale;
-        self.layer.borderColor = [UIColorFromRGB(HRGBaseFontColor) CGColor];
+        self.layer.borderColor = [UIColorFromRGB(EasyBaseFontColor) CGColor];
         self.layer.borderWidth = 0.5;
         self.layer.shadowOpacity = 0.5;
-        self.layer.shadowColor = [UIColorFromRGB(HRGBaseFontColor) CGColor];
+        self.layer.shadowColor = [UIColorFromRGB(EasyBaseFontColor) CGColor];
         self.layer.shadowRadius = 5;
         self.layer.shadowOffset  = CGSizeZero;
         self.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.bounds].CGPath;

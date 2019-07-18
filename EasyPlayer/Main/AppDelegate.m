@@ -52,7 +52,7 @@
     keyboardManager.keyboardDistanceFromTextField = 10.0f; // 输入框距离键盘的距离
     
     // UI逻辑
-    CGRect frame = CGRectMake(0, 0, HRGScreenWidth, HRGScreenHeight);
+    CGRect frame = CGRectMake(0, 0, EasyScreenWidth, EasyScreenHeight);
     self.window = [[UIWindow alloc] initWithFrame:frame];
     self.window.backgroundColor = UIColorFromRGB(0xf5f5f5);
     [self.window makeKeyAndVisible];

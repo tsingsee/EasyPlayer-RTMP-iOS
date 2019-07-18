@@ -59,18 +59,18 @@
     if ([self.pages count] > self.currentIndex) {
         [self.pageViewController setViewControllers:@[self.pages[self.currentIndex]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
         
-        self.scrolllLineLeft.constant = HRGScreenWidth / 2 * self.currentIndex;
+        self.scrolllLineLeft.constant = EasyScreenWidth / 2 * self.currentIndex;
     }
     
     // 设置UI
-    [self.transactionBtn setTitleColor:UIColorFromRGB(HRGTextBlackColor) forState:UIControlStateNormal];
+    [self.transactionBtn setTitleColor:UIColorFromRGB(EasyTextBlackColor) forState:UIControlStateNormal];
     [self.transactionBtn setTitleColor:UIColorFromRGB(SelectBtnColor) forState:UIControlStateSelected];
-    [self.transferBtn setTitleColor:UIColorFromRGB(HRGTextBlackColor) forState:UIControlStateNormal];
+    [self.transferBtn setTitleColor:UIColorFromRGB(EasyTextBlackColor) forState:UIControlStateNormal];
     [self.transferBtn setTitleColor:UIColorFromRGB(SelectBtnColor) forState:UIControlStateSelected];
     self.transactionBtn.selected = YES;
     self.transferBtn.selected = NO;
     
-    self.scrolllLineWidth.constant = HRGScreenWidth / 2.0;
+    self.scrolllLineWidth.constant = EasyScreenWidth / 2.0;
     
     // 按钮事件
     [[self.transactionBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
@@ -95,19 +95,13 @@
         @weakify(self)
         [self.pageViewController setViewControllers:@[self.pages[1]] direction:direction animated:NO completion:^(BOOL finished) {
             @strongify(self)
-            self.scrolllLineLeft.constant = HRGScreenWidth / 2.0;
+            self.scrolllLineLeft.constant = EasyScreenWidth / 2.0;
         }];
     }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-#pragma mark - HRGViewControllerProtocol
-
-- (void)bindViewModel {
-    
 }
 
 #pragma mark - UIPageViewControllerDataSource
@@ -151,7 +145,7 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     UIViewController *vc = self.pages.firstObject;
     CGPoint p = [vc.view convertPoint:CGPointZero toView:self.pageViewController.view];
-    if (p.x >= 0 || p.x < -HRGScreenWidth) {
+    if (p.x >= 0 || p.x < -EasyScreenWidth) {
         return;
     }
     

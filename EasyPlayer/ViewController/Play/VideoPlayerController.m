@@ -34,7 +34,7 @@
     
     [[AudioManager sharedInstance] activateAudioSession];
     
-    self.panelFrame = CGRectMake(0, 0, HRGScreenWidth, HRGScreenWidth);
+    self.panelFrame = CGRectMake(0, 0, EasyScreenWidth, EasyScreenWidth);
     self.panel = [[VideoPanel alloc] initWithFrame:self.panelFrame];
     self.panel.delegate = self;
     [self.view addSubview:self.panel];
@@ -104,7 +104,7 @@
         self.statusBarHidden = NO;
         [self prefersStatusBarHidden];
         
-        self.panel.frame = CGRectMake(0, 0, HRGScreenHeight, HRGScreenWidth);
+        self.panel.frame = CGRectMake(0, 0, EasyScreenHeight, EasyScreenWidth);
         self.panel.center = self.view.center;
         
         if (isLeft) {

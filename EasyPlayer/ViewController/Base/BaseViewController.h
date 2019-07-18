@@ -2,7 +2,7 @@
 //  BaseViewController.h
 //  EasyPlayerRTMP
 //
-//  Created by liyy on 2019/4/25.
+//  Created by leo on 2019/4/25.
 //  Copyright © 2019 cs. All rights reserved.
 //
 
