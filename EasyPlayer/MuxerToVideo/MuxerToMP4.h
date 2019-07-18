@@ -2,7 +2,7 @@
 //  MuxerToMP4.h
 //  EasyPlayer
 //
-//  Created by liyy on 2017/12/19.
+//  Created by leo on 2017/12/19.
 //  Copyright © 2017年 cs. All rights reserved.
 //
 
