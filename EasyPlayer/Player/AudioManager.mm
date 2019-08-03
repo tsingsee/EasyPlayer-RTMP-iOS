@@ -91,9 +91,6 @@ static BOOL checkError(OSStatus error, const char *operation) {
     if (remoteIOUnit != nil) {
         checkError(AudioUnitUninitialize(remoteIOUnit),
                    "Couldn't uninitialize the audio unit");
-        
-        checkError(AudioComponentInstanceDispose(remoteIOUnit),
-                   "Couldn't dispose the output audio unit");
     }
 
     remoteIOUnit = nil;
@@ -121,6 +118,9 @@ static BOOL checkError(OSStatus error, const char *operation) {
 
 - (void)dealloc {
     delete []_outData;
+    
+    checkError(AudioComponentInstanceDispose(remoteIOUnit),
+               "Couldn't dispose the output audio unit");
 }
 
 static OSStatus outputRenderCallback(void                        *inRefCon,

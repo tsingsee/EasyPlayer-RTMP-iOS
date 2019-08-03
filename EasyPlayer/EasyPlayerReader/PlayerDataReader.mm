@@ -114,10 +114,10 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         } else if (frameType == EASY_SDK_VIDEO_FRAME_FLAG ) {   // EASY_SDK_VIDEO_FRAME_FLAG视频帧标志
             [reader pushFrame:pBuf frameInfo:frameInfo type:frameType];
             
-            if (frameInfo->codec == EASY_SDK_VIDEO_CODEC_H265) {// H265视频编码
-                reader.codecID = AV_CODEC_ID_HEVC;
-            } else if (frameInfo->codec == EASY_SDK_VIDEO_CODEC_H264) {// H264视频编码
+            if (frameInfo->codec == EASY_SDK_VIDEO_CODEC_H264) {// H264视频编码
                 reader.codecID = AV_CODEC_ID_H264;
+            } else {
+                reader.codecID = AV_CODEC_ID_HEVC;
             }
         }
     } else {
