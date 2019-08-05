@@ -8,9 +8,15 @@
 /**
  获取RTSP流，解协议,解封装,再分别音视频解码
  */
-@interface RtspDataReader : NSObject
+@interface PlayerDataReader : NSObject
 
-@property (nonatomic, copy) NSString *url;              // 流媒体地址
+// 流媒体地址
+@property (nonatomic, copy) NSString *url;
+// 传输协议：TCP/UDP(EASY_RTP_CONNECT_TYPE：0x01，0x02)
+@property (nonatomic, assign) EASY_RTP_CONNECT_TYPE transportMode;
+// 发送保活包(心跳：0x00 不发送心跳， 0x01 OPTIONS， 0x02 GET_PARAMETER)
+@property (nonatomic, assign) int sendOption;
+
 @property (nonatomic, readonly) BOOL running;           // 播放中
 
 @property (nonatomic, assign) BOOL enableAudio;
@@ -22,7 +28,7 @@
 @property (nonatomic, copy) void (^fetchMediaInfoSuccessBlock)(void);
 
 // 获得解码后的音频帧／视频帧
-@property (nonatomic, copy) void (^frameOutputBlock)(KxMovieFrame *frame);
+@property (nonatomic, copy) void (^frameOutputBlock)(KxMovieFrame *frame, unsigned int length);
 
 + (void)startUp;
 
