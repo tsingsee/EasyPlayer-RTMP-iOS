@@ -1,6 +1,5 @@
 
 #import <UIKit/UIKit.h>
-#import "EasyPlayer_Defs.h"
 
 @interface VideoCell : UICollectionViewCell
 

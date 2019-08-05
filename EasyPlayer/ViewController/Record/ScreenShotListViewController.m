@@ -2,7 +2,7 @@
 //  ScreenShotListViewController.m
 //  EasyPlayer
 //
-//  Created by liyy on 2017/12/30.
+//  Created by leo on 2017/12/30.
 //  Copyright © 2017年 cs. All rights reserved.
 //
 
@@ -48,7 +48,7 @@ static NSString *collectionCellIdentifier = @"collectionCellIdentifier";
 #pragma mark - UITableViewDelegate
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 180;
+    return 200;
 }
 
 @end

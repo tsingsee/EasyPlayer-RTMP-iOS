@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D992BF3EA7DBA015848E98408DDD0600"
-               BuildableName = "libPods-EasyPlayerRTMP.a"
+               BlueprintIdentifier = "2893C330F86BB187F71B6770C4D9CA84"
+               BuildableName = "Pods_EasyPlayerRTMP.framework"
                BlueprintName = "Pods-EasyPlayerRTMP"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
@@ -45,8 +45,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D992BF3EA7DBA015848E98408DDD0600"
-            BuildableName = "libPods-EasyPlayerRTMP.a"
+            BlueprintIdentifier = "2893C330F86BB187F71B6770C4D9CA84"
+            BuildableName = "Pods_EasyPlayerRTMP.framework"
             BlueprintName = "Pods-EasyPlayerRTMP"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>

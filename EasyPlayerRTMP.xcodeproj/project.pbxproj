@@ -11,32 +11,37 @@
 		363E00B11FBDB1F4008690E7 /* VideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 363E00AE1FBDB1F4008690E7 /* VideoCell.m */; };
 		368B0B5E1FCBFFA300172BDB /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368B0B5D1FCBFF8D00172BDB /* VideoToolbox.framework */; };
 		368B0B601FCBFFB600172BDB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368B0B5F1FCBFFB000172BDB /* CoreMedia.framework */; };
+		660A18452271FDE1001466AE /* Pods_EasyPlayerRTMP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1197C9191E2FC6BD21F2F829 /* Pods_EasyPlayerRTMP.framework */; };
+		6613BC0F2271F74A00FDF892 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BC0B2271F74A00FDF892 /* main.m */; };
+		6613BC102271F74A00FDF892 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BC0C2271F74A00FDF892 /* AppDelegate.m */; };
+		6613BC172271F78C00FDF892 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC132271F78B00FDF892 /* LaunchScreen.storyboard */; };
+		6613BC182271F78C00FDF892 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC152271F78B00FDF892 /* Main.storyboard */; };
+		66268FE6227DCDCD009C84CE /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66268FE4227DCDCD009C84CE /* WebViewController.m */; };
+		662D8EEC22734FE00073F945 /* RecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EEA22734FE00073F945 /* RecordViewController.m */; };
+		662D8EEF227354DD0073F945 /* RecordListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EED227354DD0073F945 /* RecordListCell.m */; };
+		662D8EF5227401980073F945 /* URLUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EF4227401980073F945 /* URLUnit.m */; };
+		662D8EF8227428020073F945 /* MyURLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 662D8EF6227428020073F945 /* MyURLModel.m */; };
 		6635A75B1FF75C1600C25760 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A75A1FF75C1600C25760 /* SettingViewController.m */; };
-		6635A75F1FF767C600C25760 /* PathUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A75E1FF767C600C25760 /* PathUnit.m */; };
 		6635A7621FF777A000C25760 /* NSUserDefaultsUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A7611FF777A000C25760 /* NSUserDefaultsUnit.m */; };
 		6635A7651FF77BFB00C25760 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A7641FF77BFB00C25760 /* AboutViewController.m */; };
 		6635A7691FF77CEB00C25760 /* ScreenShotListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A7681FF77CEB00C25760 /* ScreenShotListViewController.m */; };
 		6635A76C1FF77CF500C25760 /* RecordListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A76B1FF77CF500C25760 /* RecordListViewController.m */; };
-		6635A76F1FF7837A00C25760 /* FileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A76E1FF7837A00C25760 /* FileListViewController.m */; };
 		6635A7821FF7997200C25760 /* ScreenShotListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6635A7811FF7997200C25760 /* ScreenShotListCell.m */; };
+		6647D688227201ED00D44FA5 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6647D687227201ED00D44FA5 /* BaseTableViewController.m */; };
+		6647D68E227210E800D44FA5 /* EditURLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6647D68D227210E800D44FA5 /* EditURLViewController.m */; };
+		6647D6912272111D00D44FA5 /* ScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6647D6902272111D00D44FA5 /* ScanViewController.m */; };
 		664B2221209A026E00A926FC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B2220209A026E00A926FC /* SystemConfiguration.framework */; };
 		664B2223209A029400A926FC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B2222209A029400A926FC /* Security.framework */; };
 		664B2225209A02A900A926FC /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 664B2224209A02A900A926FC /* libc++.tbd */; };
 		664E4FE62058FD0500798A0A /* PlayRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664E4FE52058FD0500798A0A /* PlayRecordViewController.m */; };
 		664E4FE82058FD5100798A0A /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 664E4FE72058FD5100798A0A /* MediaPlayer.framework */; };
-		6654F4CE2011BF6F00795BC9 /* DC_AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6654F4CB2011BF6F00795BC9 /* DC_AlertManager.m */; };
-		6654F4CF2011BF6F00795BC9 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 6654F4CC2011BF6F00795BC9 /* UIView+Toast.m */; };
-		6681AEC3209D49C600FD34A1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6681AEC2209D49C600FD34A1 /* UIKit.framework */; };
-		6681BA9F209DA05D00FD34A1 /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6681BA9E209DA05D00FD34A1 /* UIColor+HexColor.m */; };
-		66E6C2F720A0A8B000F610B5 /* libEasyPlayerRTMPLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66E6C2F620A0A8B000F610B5 /* libEasyPlayerRTMPLibrary.a */; };
+		66AE86BD22F7CC56009771E9 /* libEasyPlayerRTMPLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AE86BC22F7CC56009771E9 /* libEasyPlayerRTMPLibrary.a */; };
+		66D421ED22705DF1002AF407 /* NewIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66D421EC22705DF1002AF407 /* NewIcon.xcassets */; };
+		66D730A422715F57002828FB /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D730A322715F57002828FB /* BaseViewController.m */; };
+		66EA21202270B58700D7E8FD /* SplitScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EA211F2270B58700D7E8FD /* SplitScreenViewController.m */; };
 		66FF6691202C5523004E76B2 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCAE1FBAC7690000213E /* libstdc++.tbd */; };
 		66FF66D4202C80FE004E76B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FF66D3202C80FE004E76B2 /* Foundation.framework */; };
-		9B22BEF919E074DBB3BF4148 /* libPods-EasyPlayerRTMP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 935683DE38E512BDABDB44EB /* libPods-EasyPlayerRTMP.a */; };
-		E1A6BC201FBAC6EC0000213E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A6BC1F1FBAC6EC0000213E /* main.m */; };
-		E1A6BC231FBAC6EC0000213E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1A6BC221FBAC6EC0000213E /* AppDelegate.m */; };
-		E1A6BC291FBAC6EC0000213E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1A6BC271FBAC6EC0000213E /* Main.storyboard */; };
 		E1A6BC2B1FBAC6EC0000213E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1A6BC2A1FBAC6EC0000213E /* Assets.xcassets */; };
-		E1A6BC2E1FBAC6EC0000213E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E1A6BC2C1FBAC6EC0000213E /* LaunchScreen.storyboard */; };
 		E1A6BCB11FBAC7710000213E /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCB01FBAC7710000213E /* libiconv.tbd */; };
 		E1A6BCB31FBAC7760000213E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCB21FBAC7760000213E /* libz.tbd */; };
 		E1A6BCB51FBAC77C0000213E /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E1A6BCB41FBAC77C0000213E /* libbz2.tbd */; };
@@ -44,20 +49,39 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0B3C992BEA1644B6BAE64061 /* Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig"; path = "Pods/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig"; sourceTree = "<group>"; };
+		1197C9191E2FC6BD21F2F829 /* Pods_EasyPlayerRTMP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EasyPlayerRTMP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1846836F30E43027DAB3CDF0 /* Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig"; path = "Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig"; sourceTree = "<group>"; };
+		1A8A546809DFA91C62FB93BD /* Pods-EasyPlayerRTMP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyPlayerRTMP.release.xcconfig"; path = "Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP.release.xcconfig"; sourceTree = "<group>"; };
 		363E00AC1FBDB1F3008690E7 /* VideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCell.h; sourceTree = "<group>"; };
 		363E00AD1FBDB1F3008690E7 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		363E00AE1FBDB1F4008690E7 /* VideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCell.m; sourceTree = "<group>"; };
 		363E00AF1FBDB1F4008690E7 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		363E00B21FBDB2E3008690E7 /* EasyPlayer_Defs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyPlayer_Defs.h; sourceTree = "<group>"; };
 		368B0B5C1FCBFF8D00172BDB /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		368B0B5D1FCBFF8D00172BDB /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		368B0B5F1FCBFFB000172BDB /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		556EDF00404392012F37A88D /* libPods-EasyPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		660A18462271FDF6001466AE /* IQKeyboardManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IQKeyboardManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		660A18482271FDF6001466AE /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		660A184A2271FDF6001466AE /* RTRootNavigationController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RTRootNavigationController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6613BC0A2271F74A00FDF892 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6613BC0B2271F74A00FDF892 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6613BC0C2271F74A00FDF892 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6613BC0D2271F74A00FDF892 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		6613BC0E2271F74A00FDF892 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6613BC142271F78B00FDF892 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6613BC162271F78B00FDF892 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
+		66268FE4227DCDCD009C84CE /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		66268FE5227DCDCD009C84CE /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		662D8EEA22734FE00073F945 /* RecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordViewController.m; sourceTree = "<group>"; };
+		662D8EEB22734FE00073F945 /* RecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordViewController.h; sourceTree = "<group>"; };
+		662D8EED227354DD0073F945 /* RecordListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordListCell.m; sourceTree = "<group>"; };
+		662D8EEE227354DD0073F945 /* RecordListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordListCell.h; sourceTree = "<group>"; };
+		662D8EF3227401980073F945 /* URLUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLUnit.h; sourceTree = "<group>"; };
+		662D8EF4227401980073F945 /* URLUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLUnit.m; sourceTree = "<group>"; };
+		662D8EF6227428020073F945 /* MyURLModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyURLModel.m; sourceTree = "<group>"; };
+		662D8EF7227428020073F945 /* MyURLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyURLModel.h; sourceTree = "<group>"; };
 		6635A7591FF75C1600C25760 /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		6635A75A1FF75C1600C25760 /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
-		6635A75D1FF767C600C25760 /* PathUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PathUnit.h; sourceTree = "<group>"; };
-		6635A75E1FF767C600C25760 /* PathUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PathUnit.m; sourceTree = "<group>"; };
 		6635A7601FF777A000C25760 /* NSUserDefaultsUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSUserDefaultsUnit.h; sourceTree = "<group>"; };
 		6635A7611FF777A000C25760 /* NSUserDefaultsUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsUnit.m; sourceTree = "<group>"; };
 		6635A7631FF77BFB00C25760 /* AboutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
@@ -66,49 +90,46 @@
 		6635A7681FF77CEB00C25760 /* ScreenShotListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScreenShotListViewController.m; sourceTree = "<group>"; };
 		6635A76A1FF77CF500C25760 /* RecordListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecordListViewController.h; sourceTree = "<group>"; };
 		6635A76B1FF77CF500C25760 /* RecordListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordListViewController.m; sourceTree = "<group>"; };
-		6635A76D1FF7837A00C25760 /* FileListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListViewController.h; sourceTree = "<group>"; };
-		6635A76E1FF7837A00C25760 /* FileListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListViewController.m; sourceTree = "<group>"; };
 		6635A7801FF7997200C25760 /* ScreenShotListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenShotListCell.h; sourceTree = "<group>"; };
 		6635A7811FF7997200C25760 /* ScreenShotListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenShotListCell.m; sourceTree = "<group>"; };
+		6647D686227201ED00D44FA5 /* BaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
+		6647D687227201ED00D44FA5 /* BaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
+		6647D68C227210E800D44FA5 /* EditURLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditURLViewController.h; sourceTree = "<group>"; };
+		6647D68D227210E800D44FA5 /* EditURLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditURLViewController.m; sourceTree = "<group>"; };
+		6647D68F2272111D00D44FA5 /* ScanViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanViewController.h; sourceTree = "<group>"; };
+		6647D6902272111D00D44FA5 /* ScanViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanViewController.m; sourceTree = "<group>"; };
 		664B2220209A026E00A926FC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		664B2222209A029400A926FC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		664B2224209A02A900A926FC /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		664E4FE42058FD0500798A0A /* PlayRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayRecordViewController.h; sourceTree = "<group>"; };
 		664E4FE52058FD0500798A0A /* PlayRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayRecordViewController.m; sourceTree = "<group>"; };
 		664E4FE72058FD5100798A0A /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		6654F4CA2011BF6F00795BC9 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
-		6654F4CB2011BF6F00795BC9 /* DC_AlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DC_AlertManager.m; sourceTree = "<group>"; };
-		6654F4CC2011BF6F00795BC9 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
-		6654F4CD2011BF6F00795BC9 /* DC_AlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DC_AlertManager.h; sourceTree = "<group>"; };
-		6681AEC2209D49C600FD34A1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6681BA9D209DA05D00FD34A1 /* UIColor+HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
-		6681BA9E209DA05D00FD34A1 /* UIColor+HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
-		66E6C2F020A0A8B000F610B5 /* KxMovieDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMovieDecoder.h; sourceTree = "<group>"; };
-		66E6C2F120A0A8B000F610B5 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
-		66E6C2F220A0A8B000F610B5 /* RtspDataReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtspDataReader.h; sourceTree = "<group>"; };
-		66E6C2F320A0A8B000F610B5 /* EasyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTypes.h; sourceTree = "<group>"; };
-		66E6C2F420A0A8B000F610B5 /* EasyRTMPClientAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyRTMPClientAPI.h; sourceTree = "<group>"; };
-		66E6C2F520A0A8B000F610B5 /* VideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoView.h; sourceTree = "<group>"; };
-		66E6C2F620A0A8B000F610B5 /* libEasyPlayerRTMPLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyPlayerRTMPLibrary.a; sourceTree = "<group>"; };
+		66AE86B622F7CC56009771E9 /* KxMovieDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMovieDecoder.h; sourceTree = "<group>"; };
+		66AE86B722F7CC56009771E9 /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
+		66AE86B822F7CC56009771E9 /* EasyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTypes.h; sourceTree = "<group>"; };
+		66AE86B922F7CC56009771E9 /* EasyRTMPClientAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyRTMPClientAPI.h; sourceTree = "<group>"; };
+		66AE86BB22F7CC56009771E9 /* PlayerDataReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDataReader.h; sourceTree = "<group>"; };
+		66AE86BC22F7CC56009771E9 /* libEasyPlayerRTMPLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyPlayerRTMPLibrary.a; sourceTree = "<group>"; };
+		66AE86F822F7F41E009771E9 /* URLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLModel.h; sourceTree = "<group>"; };
+		66AE86F922F7F41E009771E9 /* VideoPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPanel.h; sourceTree = "<group>"; };
+		66AE86FB22F7F475009771E9 /* PathUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PathUnit.h; sourceTree = "<group>"; };
+		66AE871022F81089009771E9 /* VideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoView.h; sourceTree = "<group>"; };
+		66D421EC22705DF1002AF407 /* NewIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NewIcon.xcassets; sourceTree = "<group>"; };
+		66D730A222715F57002828FB /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		66D730A322715F57002828FB /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		66EA211E2270B58700D7E8FD /* SplitScreenViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplitScreenViewController.h; sourceTree = "<group>"; };
+		66EA211F2270B58700D7E8FD /* SplitScreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SplitScreenViewController.m; sourceTree = "<group>"; };
 		66FF667A202C4A83004E76B2 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		66FF66D3202C80FE004E76B2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		88A495507751E0CCA18F7E33 /* Pods-EasyPlayerRTMP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyPlayerRTMP.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP.debug.xcconfig"; sourceTree = "<group>"; };
-		935683DE38E512BDABDB44EB /* libPods-EasyPlayerRTMP.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EasyPlayerRTMP.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1A6BC1B1FBAC6EC0000213E /* EasyPlayerRTMP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyPlayerRTMP.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E1A6BC1F1FBAC6EC0000213E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E1A6BC211FBAC6EC0000213E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		E1A6BC221FBAC6EC0000213E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E1A6BC281FBAC6EC0000213E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E1A6BC2A1FBAC6EC0000213E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E1A6BC2D1FBAC6EC0000213E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		E1A6BC2F1FBAC6EC0000213E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1A6BCAE1FBAC7690000213E /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		E1A6BCB01FBAC7710000213E /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		E1A6BCB21FBAC7760000213E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E1A6BCB41FBAC77C0000213E /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		E1A6BD081FBAD7700000213E /* VideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerController.h; sourceTree = "<group>"; };
 		E1A6BD091FBAD7700000213E /* VideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerController.m; sourceTree = "<group>"; };
-		F7C07AC343C5660159C3420F /* Pods-EasyPlayerRTMP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyPlayerRTMP.release.xcconfig"; path = "Pods/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP.release.xcconfig"; sourceTree = "<group>"; };
+		EA196FC8CD15676C1B8976C0 /* Pods-EasyPlayerRTMP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyPlayerRTMP.debug.xcconfig"; path = "Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,42 +137,74 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				660A18452271FDE1001466AE /* Pods_EasyPlayerRTMP.framework in Frameworks */,
 				664B2225209A02A900A926FC /* libc++.tbd in Frameworks */,
-				66FF6691202C5523004E76B2 /* libstdc++.tbd in Frameworks */,
 				E1A6BCB51FBAC77C0000213E /* libbz2.tbd in Frameworks */,
-				E1A6BCB11FBAC7710000213E /* libiconv.tbd in Frameworks */,
 				E1A6BCB31FBAC7760000213E /* libz.tbd in Frameworks */,
-				66E6C2F720A0A8B000F610B5 /* libEasyPlayerRTMPLibrary.a in Frameworks */,
+				E1A6BCB11FBAC7710000213E /* libiconv.tbd in Frameworks */,
+				66FF6691202C5523004E76B2 /* libstdc++.tbd in Frameworks */,
 				664B2223209A029400A926FC /* Security.framework in Frameworks */,
 				664B2221209A026E00A926FC /* SystemConfiguration.framework in Frameworks */,
 				664E4FE82058FD5100798A0A /* MediaPlayer.framework in Frameworks */,
 				368B0B601FCBFFB600172BDB /* CoreMedia.framework in Frameworks */,
 				368B0B5E1FCBFFA300172BDB /* VideoToolbox.framework in Frameworks */,
+				66AE86BD22F7CC56009771E9 /* libEasyPlayerRTMPLibrary.a in Frameworks */,
 				66FF66D4202C80FE004E76B2 /* Foundation.framework in Frameworks */,
-				6681AEC3209D49C600FD34A1 /* UIKit.framework in Frameworks */,
-				9B22BEF919E074DBB3BF4148 /* libPods-EasyPlayerRTMP.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6635A75C1FF767AA00C25760 /* Util */ = {
+		16423C9988E6453A465D842B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				EA196FC8CD15676C1B8976C0 /* Pods-EasyPlayerRTMP.debug.xcconfig */,
+				1A8A546809DFA91C62FB93BD /* Pods-EasyPlayerRTMP.release.xcconfig */,
+				1846836F30E43027DAB3CDF0 /* Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6613BC092271F74A00FDF892 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				6613BC0A2271F74A00FDF892 /* AppDelegate.h */,
+				6613BC0C2271F74A00FDF892 /* AppDelegate.m */,
+				6613BC0B2271F74A00FDF892 /* main.m */,
+				6613BC0D2271F74A00FDF892 /* PrefixHeader.pch */,
+				6613BC0E2271F74A00FDF892 /* Info.plist */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		6613BC122271F78B00FDF892 /* Base.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				6613BC132271F78B00FDF892 /* LaunchScreen.storyboard */,
+				6613BC152271F78B00FDF892 /* Main.storyboard */,
+			);
+			path = Base.lproj;
+			sourceTree = "<group>";
+		};
+		6635A75C1FF767AA00C25760 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				662D8EF7227428020073F945 /* MyURLModel.h */,
+				662D8EF6227428020073F945 /* MyURLModel.m */,
+				662D8EF3227401980073F945 /* URLUnit.h */,
+				662D8EF4227401980073F945 /* URLUnit.m */,
 				6635A7601FF777A000C25760 /* NSUserDefaultsUnit.h */,
 				6635A7611FF777A000C25760 /* NSUserDefaultsUnit.m */,
-				6635A75D1FF767C600C25760 /* PathUnit.h */,
-				6635A75E1FF767C600C25760 /* PathUnit.m */,
 			);
-			path = Util;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		6635A7661FF77CC000C25760 /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				6635A76D1FF7837A00C25760 /* FileListViewController.h */,
-				6635A76E1FF7837A00C25760 /* FileListViewController.m */,
+				662D8EEB22734FE00073F945 /* RecordViewController.h */,
+				662D8EEA22734FE00073F945 /* RecordViewController.m */,
 				6635A7671FF77CEB00C25760 /* ScreenShotListViewController.h */,
 				6635A7681FF77CEB00C25760 /* ScreenShotListViewController.m */,
 				6635A76A1FF77CF500C25760 /* RecordListViewController.h */,
@@ -162,30 +215,78 @@
 			path = Record;
 			sourceTree = "<group>";
 		};
-		6654F4C92011BF5F00795BC9 /* Tool */ = {
+		6647D689227201FA00D44FA5 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				6654F4CD2011BF6F00795BC9 /* DC_AlertManager.h */,
-				6654F4CB2011BF6F00795BC9 /* DC_AlertManager.m */,
-				6654F4CA2011BF6F00795BC9 /* UIView+Toast.h */,
-				6654F4CC2011BF6F00795BC9 /* UIView+Toast.m */,
-				6681BA9D209DA05D00FD34A1 /* UIColor+HexColor.h */,
-				6681BA9E209DA05D00FD34A1 /* UIColor+HexColor.m */,
+				66D730A222715F57002828FB /* BaseViewController.h */,
+				66D730A322715F57002828FB /* BaseViewController.m */,
+				6647D686227201ED00D44FA5 /* BaseTableViewController.h */,
+				6647D687227201ED00D44FA5 /* BaseTableViewController.m */,
 			);
-			path = Tool;
+			path = Base;
+			sourceTree = "<group>";
+		};
+		6647D68A22720F6300D44FA5 /* Play */ = {
+			isa = PBXGroup;
+			children = (
+				E1A6BD081FBAD7700000213E /* VideoPlayerController.h */,
+				E1A6BD091FBAD7700000213E /* VideoPlayerController.m */,
+				66EA211E2270B58700D7E8FD /* SplitScreenViewController.h */,
+				66EA211F2270B58700D7E8FD /* SplitScreenViewController.m */,
+			);
+			path = Play;
+			sourceTree = "<group>";
+		};
+		6647D68B2272108D00D44FA5 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				6635A7591FF75C1600C25760 /* SettingViewController.h */,
+				6635A75A1FF75C1600C25760 /* SettingViewController.m */,
+				6635A7631FF77BFB00C25760 /* AboutViewController.h */,
+				6635A7641FF77BFB00C25760 /* AboutViewController.m */,
+				66268FE5227DCDCD009C84CE /* WebViewController.h */,
+				66268FE4227DCDCD009C84CE /* WebViewController.m */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		66AE86B422F7CC56009771E9 /* EasyPlayerRTMPLib */ = {
+			isa = PBXGroup;
+			children = (
+				66AE86B522F7CC56009771E9 /* include */,
+				66AE86BC22F7CC56009771E9 /* libEasyPlayerRTMPLibrary.a */,
+			);
+			path = EasyPlayerRTMPLib;
+			sourceTree = "<group>";
+		};
+		66AE86B522F7CC56009771E9 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				66AE871022F81089009771E9 /* VideoView.h */,
+				66AE86FB22F7F475009771E9 /* PathUnit.h */,
+				66AE86F822F7F41E009771E9 /* URLModel.h */,
+				66AE86F922F7F41E009771E9 /* VideoPanel.h */,
+				66AE86B622F7CC56009771E9 /* KxMovieDecoder.h */,
+				66AE86B722F7CC56009771E9 /* AudioManager.h */,
+				66AE86B822F7CC56009771E9 /* EasyTypes.h */,
+				66AE86B922F7CC56009771E9 /* EasyRTMPClientAPI.h */,
+				66AE86BB22F7CC56009771E9 /* PlayerDataReader.h */,
+			);
+			path = include;
 			sourceTree = "<group>";
 		};
 		66D62EEB1FEE899A00C3B5C7 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6647D689227201FA00D44FA5 /* Base */,
 				363E00AF1FBDB1F4008690E7 /* RootViewController.h */,
 				363E00AD1FBDB1F3008690E7 /* RootViewController.m */,
-				E1A6BD081FBAD7700000213E /* VideoPlayerController.h */,
-				E1A6BD091FBAD7700000213E /* VideoPlayerController.m */,
-				6635A7591FF75C1600C25760 /* SettingViewController.h */,
-				6635A75A1FF75C1600C25760 /* SettingViewController.m */,
-				6635A7631FF77BFB00C25760 /* AboutViewController.h */,
-				6635A7641FF77BFB00C25760 /* AboutViewController.m */,
+				6647D68C227210E800D44FA5 /* EditURLViewController.h */,
+				6647D68D227210E800D44FA5 /* EditURLViewController.m */,
+				6647D68F2272111D00D44FA5 /* ScanViewController.h */,
+				6647D6902272111D00D44FA5 /* ScanViewController.m */,
+				6647D68A22720F6300D44FA5 /* Play */,
+				6647D68B2272108D00D44FA5 /* Setting */,
 				6635A7661FF77CC000C25760 /* Record */,
 			);
 			path = ViewController;
@@ -194,46 +295,15 @@
 		66D62EEC1FEE89A800C3B5C7 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				E1A6BC271FBAC6EC0000213E /* Main.storyboard */,
+				6613BC122271F78B00FDF892 /* Base.lproj */,
 				363E00AC1FBDB1F3008690E7 /* VideoCell.h */,
 				363E00AE1FBDB1F4008690E7 /* VideoCell.m */,
 				6635A7801FF7997200C25760 /* ScreenShotListCell.h */,
 				6635A7811FF7997200C25760 /* ScreenShotListCell.m */,
-				6654F4C92011BF5F00795BC9 /* Tool */,
+				662D8EEE227354DD0073F945 /* RecordListCell.h */,
+				662D8EED227354DD0073F945 /* RecordListCell.m */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		66E6C2ED20A0A8B000F610B5 /* EasyPlayerRTMPLib */ = {
-			isa = PBXGroup;
-			children = (
-				66E6C2EE20A0A8B000F610B5 /* include */,
-				66E6C2F620A0A8B000F610B5 /* libEasyPlayerRTMPLibrary.a */,
-			);
-			path = EasyPlayerRTMPLib;
-			sourceTree = "<group>";
-		};
-		66E6C2EE20A0A8B000F610B5 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				66E6C2F520A0A8B000F610B5 /* VideoView.h */,
-				66E6C2F220A0A8B000F610B5 /* RtspDataReader.h */,
-				66E6C2F020A0A8B000F610B5 /* KxMovieDecoder.h */,
-				66E6C2F120A0A8B000F610B5 /* AudioManager.h */,
-				66E6C2F320A0A8B000F610B5 /* EasyTypes.h */,
-				66E6C2F420A0A8B000F610B5 /* EasyRTMPClientAPI.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		7A0DC49A2813D2FB8B90E0C7 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				88A495507751E0CCA18F7E33 /* Pods-EasyPlayerRTMP.debug.xcconfig */,
-				F7C07AC343C5660159C3420F /* Pods-EasyPlayerRTMP.release.xcconfig */,
-				0B3C992BEA1644B6BAE64061 /* Pods-EasyPlayerRTMP.ad hoc distribution.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		E1A6BC121FBAC6EC0000213E = {
@@ -242,7 +312,7 @@
 				E1A6BC1D1FBAC6EC0000213E /* EasyPlayer */,
 				E1A6BC1C1FBAC6EC0000213E /* Products */,
 				E1A6BCAD1FBAC7690000213E /* Frameworks */,
-				7A0DC49A2813D2FB8B90E0C7 /* Pods */,
+				16423C9988E6453A465D842B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -257,10 +327,11 @@
 		E1A6BC1D1FBAC6EC0000213E /* EasyPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				66D62EEB1FEE899A00C3B5C7 /* ViewController */,
+				6613BC092271F74A00FDF892 /* Main */,
 				66D62EEC1FEE89A800C3B5C7 /* View */,
-				6635A75C1FF767AA00C25760 /* Util */,
-				66E6C2ED20A0A8B000F610B5 /* EasyPlayerRTMPLib */,
+				66D62EEB1FEE899A00C3B5C7 /* ViewController */,
+				6635A75C1FF767AA00C25760 /* Model */,
+				66AE86B422F7CC56009771E9 /* EasyPlayerRTMPLib */,
 				E1A6BC1E1FBAC6EC0000213E /* Supporting Files */,
 			);
 			path = EasyPlayer;
@@ -269,13 +340,8 @@
 		E1A6BC1E1FBAC6EC0000213E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E1A6BC211FBAC6EC0000213E /* AppDelegate.h */,
-				E1A6BC221FBAC6EC0000213E /* AppDelegate.m */,
-				363E00B21FBDB2E3008690E7 /* EasyPlayer_Defs.h */,
 				E1A6BC2A1FBAC6EC0000213E /* Assets.xcassets */,
-				E1A6BC2C1FBAC6EC0000213E /* LaunchScreen.storyboard */,
-				E1A6BC2F1FBAC6EC0000213E /* Info.plist */,
-				E1A6BC1F1FBAC6EC0000213E /* main.m */,
+				66D421EC22705DF1002AF407 /* NewIcon.xcassets */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -283,7 +349,9 @@
 		E1A6BCAD1FBAC7690000213E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6681AEC2209D49C600FD34A1 /* UIKit.framework */,
+				660A18462271FDF6001466AE /* IQKeyboardManager.framework */,
+				660A18482271FDF6001466AE /* Masonry.framework */,
+				660A184A2271FDF6001466AE /* RTRootNavigationController.framework */,
 				664B2224209A02A900A926FC /* libc++.tbd */,
 				664B2222209A029400A926FC /* Security.framework */,
 				664B2220209A026E00A926FC /* SystemConfiguration.framework */,
@@ -298,7 +366,7 @@
 				E1A6BCB01FBAC7710000213E /* libiconv.tbd */,
 				E1A6BCAE1FBAC7690000213E /* libstdc++.tbd */,
 				556EDF00404392012F37A88D /* libPods-EasyPlayer.a */,
-				935683DE38E512BDABDB44EB /* libPods-EasyPlayerRTMP.a */,
+				1197C9191E2FC6BD21F2F829 /* Pods_EasyPlayerRTMP.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -315,7 +383,6 @@
 				E1A6BC181FBAC6EC0000213E /* Frameworks */,
 				E1A6BC191FBAC6EC0000213E /* Resources */,
 				91726C73216CB8ED8099750B /* [CP] Embed Pods Frameworks */,
-				AEF559494D524894DC53BF7C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -332,19 +399,19 @@
 		E1A6BC131FBAC6EC0000213E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = cs;
 				TargetAttributes = {
 					E1A6BC1A1FBAC6EC0000213E = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = GZ5MDHTHF6;
+						DevelopmentTeam = 33USAS7KQX;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = E1A6BC161FBAC6EC0000213E /* Build configuration list for PBXProject "EasyPlayerRTMP" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -365,9 +432,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1A6BC2E1FBAC6EC0000213E /* LaunchScreen.storyboard in Resources */,
+				6613BC182271F78C00FDF892 /* Main.storyboard in Resources */,
+				6613BC172271F78C00FDF892 /* LaunchScreen.storyboard in Resources */,
 				E1A6BC2B1FBAC6EC0000213E /* Assets.xcassets in Resources */,
-				E1A6BC291FBAC6EC0000213E /* Main.storyboard in Resources */,
+				66D421ED22705DF1002AF407 /* NewIcon.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,28 +466,26 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/RTRootNavigationController/RTRootNavigationController.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveCocoa/ReactiveCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/WHToast/WHToast.framework",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RTRootNavigationController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WHToast.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AEF559494D524894DC53BF7C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EasyPlayerRTMP/Pods-EasyPlayerRTMP-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -429,21 +495,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66268FE6227DCDCD009C84CE /* WebViewController.m in Sources */,
+				6647D6912272111D00D44FA5 /* ScanViewController.m in Sources */,
 				363E00B11FBDB1F4008690E7 /* VideoCell.m in Sources */,
-				6635A76F1FF7837A00C25760 /* FileListViewController.m in Sources */,
+				662D8EF5227401980073F945 /* URLUnit.m in Sources */,
+				66D730A422715F57002828FB /* BaseViewController.m in Sources */,
 				6635A7821FF7997200C25760 /* ScreenShotListCell.m in Sources */,
-				6654F4CE2011BF6F00795BC9 /* DC_AlertManager.m in Sources */,
+				6613BC0F2271F74A00FDF892 /* main.m in Sources */,
 				6635A76C1FF77CF500C25760 /* RecordListViewController.m in Sources */,
 				6635A7691FF77CEB00C25760 /* ScreenShotListViewController.m in Sources */,
-				6635A75F1FF767C600C25760 /* PathUnit.m in Sources */,
+				66EA21202270B58700D7E8FD /* SplitScreenViewController.m in Sources */,
+				662D8EF8227428020073F945 /* MyURLModel.m in Sources */,
+				662D8EEC22734FE00073F945 /* RecordViewController.m in Sources */,
 				6635A7621FF777A000C25760 /* NSUserDefaultsUnit.m in Sources */,
 				664E4FE62058FD0500798A0A /* PlayRecordViewController.m in Sources */,
+				6647D68E227210E800D44FA5 /* EditURLViewController.m in Sources */,
 				6635A75B1FF75C1600C25760 /* SettingViewController.m in Sources */,
 				E1A6BD0A1FBAD7700000213E /* VideoPlayerController.m in Sources */,
-				6681BA9F209DA05D00FD34A1 /* UIColor+HexColor.m in Sources */,
-				E1A6BC231FBAC6EC0000213E /* AppDelegate.m in Sources */,
-				E1A6BC201FBAC6EC0000213E /* main.m in Sources */,
-				6654F4CF2011BF6F00795BC9 /* UIView+Toast.m in Sources */,
+				6647D688227201ED00D44FA5 /* BaseTableViewController.m in Sources */,
+				662D8EEF227354DD0073F945 /* RecordListCell.m in Sources */,
+				6613BC102271F74A00FDF892 /* AppDelegate.m in Sources */,
 				363E00B01FBDB1F4008690E7 /* RootViewController.m in Sources */,
 				6635A7651FF77BFB00C25760 /* AboutViewController.m in Sources */,
 			);
@@ -452,124 +523,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E1A6BC271FBAC6EC0000213E /* Main.storyboard */ = {
+		6613BC132271F78B00FDF892 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E1A6BC281FBAC6EC0000213E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		E1A6BC2C1FBAC6EC0000213E /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E1A6BC2D1FBAC6EC0000213E /* Base */,
+				6613BC142271F78B00FDF892 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		6613BC152271F78B00FDF892 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6613BC162271F78B00FDF892 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		043C07F8209BE3B200176FEB /* ad hoc distribution */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = "ad hoc distribution";
-		};
-		043C07F9209BE3B200176FEB /* ad hoc distribution */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7C07AC343C5660159C3420F /* Pods-EasyPlayerRTMP.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_WARN_BOOL_CONVERSION = NO;
-				CLANG_WARN_CONSTANT_CONVERSION = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = NO;
-				CLANG_WARN_EMPTY_BODY = NO;
-				CLANG_WARN_SUSPICIOUS_MOVE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GZ5MDHTHF6;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
-					"$(inherited)",
-				);
-				GCC_INPUT_FILETYPE = automatic;
-				GCC_NO_COMMON_BLOCKS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/usr/include/libxml2",
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"$(PROJECT_DIR)/EasyPlayer/EasyPlayerRTMPLib/include",
-				);
-				INFOPLIST_FILE = EasyPlayer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/EasyPlayer/EasyPlayerRTMPLib",
-				);
-				ORDER_FILE = "";
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PRODUCT_BUNDLE_IDENTIFIER = org.easydarwin.easyplayertrmp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = "ad hoc distribution";
-		};
 		E1A6BC301FBAC6EC0000213E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -625,6 +602,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -672,7 +650,7 @@
 		};
 		E1A6BC331FBAC6EC0000213E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 88A495507751E0CCA18F7E33 /* Pods-EasyPlayerRTMP.debug.xcconfig */;
+			baseConfigurationReference = EA196FC8CD15676C1B8976C0 /* Pods-EasyPlayerRTMP.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
@@ -684,24 +662,29 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GZ5MDHTHF6;
+				DEVELOPMENT_TEAM = 33USAS7KQX;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RTRootNavigationController\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Bugly\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
+				GCC_PREFIX_HEADER = "${SRCROOT}/EasyPlayer/Main/PrefixHeader.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/usr/include/libxml2",
 					"$(inherited)",
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(PROJECT_DIR)/EasyPlayer/ffmpeg/include",
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"$(PROJECT_DIR)/EasyPlayer/EasyPlayerRTMPLib/include",
 				);
-				INFOPLIST_FILE = EasyPlayer/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/EasyPlayer/Main/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -711,7 +694,6 @@
 				ORDER_FILE = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-l\"Masonry\"",
 					"-framework",
 					"\"Foundation\"",
 					"-framework",
@@ -727,7 +709,7 @@
 		};
 		E1A6BC341FBAC6EC0000213E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7C07AC343C5660159C3420F /* Pods-EasyPlayerRTMP.release.xcconfig */;
+			baseConfigurationReference = 1A8A546809DFA91C62FB93BD /* Pods-EasyPlayerRTMP.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
@@ -739,23 +721,28 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GZ5MDHTHF6;
+				DEVELOPMENT_TEAM = 33USAS7KQX;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RTRootNavigationController\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactiveCocoa\"",
+					"\"${PODS_ROOT}/Bugly\"",
 				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
+				GCC_PREFIX_HEADER = "${SRCROOT}/EasyPlayer/Main/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
-					"$(SDKROOT)/usr/include/libxml2",
 					"$(inherited)",
+					"$(SDKROOT)/usr/include/libxml2",
+					"$(PROJECT_DIR)/EasyPlayer/ffmpeg/include",
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"$(PROJECT_DIR)/EasyPlayer/EasyPlayerRTMPLib/include",
 				);
-				INFOPLIST_FILE = EasyPlayer/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/EasyPlayer/Main/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -779,7 +766,6 @@
 			buildConfigurations = (
 				E1A6BC301FBAC6EC0000213E /* Debug */,
 				E1A6BC311FBAC6EC0000213E /* Release */,
-				043C07F8209BE3B200176FEB /* ad hoc distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -789,7 +775,6 @@
 			buildConfigurations = (
 				E1A6BC331FBAC6EC0000213E /* Debug */,
 				E1A6BC341FBAC6EC0000213E /* Release */,
-				043C07F9209BE3B200176FEB /* ad hoc distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

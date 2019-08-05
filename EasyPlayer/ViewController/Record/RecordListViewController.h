@@ -2,13 +2,13 @@
 //  RecordListViewController.h
 //  EasyPlayer
 //
-//  Created by liyy on 2017/12/30.
+//  Created by leo on 2017/12/30.
 //  Copyright © 2017年 cs. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseTableViewController.h"
 
-@interface RecordListViewController : UITableViewController
+@interface RecordListViewController : BaseTableViewController
 
 @property (nonatomic, copy) NSString *url;
 

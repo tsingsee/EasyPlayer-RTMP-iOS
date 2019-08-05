@@ -2,13 +2,16 @@
 //  ScreenShotListViewController.h
 //  EasyPlayer
 //
-//  Created by liyy on 2017/12/30.
+//  Created by leo on 2017/12/30.
 //  Copyright © 2017年 cs. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseTableViewController.h"
 
-@interface ScreenShotListViewController : UITableViewController
+/**
+ 截图列表
+ */
+@interface ScreenShotListViewController : BaseTableViewController
 
 @property (nonatomic, copy) NSString *url;
 
