@@ -3,13 +3,18 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <QuartzCore/QuartzCore.h>
-#import "UIColor+HexColor.h"
+
 #import "KxMovieGLView.h"
 #import "AudioManager.h"
 #import "PathUnit.h"
-#import "NSUserDefaultsUnit.h"
-#import "WHToast.h"
-#import "Masonry.h"
+
+// ----------------  设置颜色 ----------------
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define UIColorFromRGBA(rgbValue,trans) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:trans]
+
+#define EasyScreenWidth [[UIScreen mainScreen] bounds].size.width
+#define EasyScreenHeight [[UIScreen mainScreen] bounds].size.height
 
 @interface VideoView() <UIScrollViewDelegate> {
     UIScrollView *scrollView;
@@ -51,6 +56,7 @@
 @property (nonatomic, strong) UIView *backView;
 
 @property (nonatomic, readwrite) CGFloat bufferdDuration;
+@property (nonatomic, assign) BOOL audioPlaying;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTapGesture;
@@ -74,18 +80,43 @@
         [self addItemView];
         
         firstFrame = YES;
-        self.videoStatus = Stopped;
         needChangeViewFrame = NO;
-        _showActiveStatus = YES;
         
-        self.useHWDecoder = ![NSUserDefaultsUnit isFFMpeg];
-        self.audioPlaying = YES;
+        self.videoStatus = Stopped;
+        self.showActiveStatus = YES;
         
         rgbFrameArray = [[NSMutableArray alloc] init];
         _audioFrames = [[NSMutableArray alloc] init];
     }
     
     return self;
+}
+
+- (void) setVideoViewFrame:(CGRect)frame {
+    self.frame = frame;
+    
+    CGFloat size = 45;
+    CGFloat h = self.frame.size.height;
+    CGFloat w = self.frame.size.width;
+    
+    activityIndicatorView.frame = CGRectMake((w - 10) / 2, (h - 10) / 2, 10, 10);
+    _statusView.frame = CGRectMake(0, h-size, w, size);
+    
+    _playButton.frame = CGRectMake(0, 0, size, size);
+    
+    CGFloat btnViewX = size + 20;
+    CGFloat btnViewW = _statusView.frame.size.width-btnViewX;
+    
+    _btnView.frame = CGRectMake(btnViewX, 0, btnViewW, size);
+    
+    CGFloat itemW = btnViewW / 5;
+    
+    _kbpsLabel.frame = CGRectMake(itemW * 0, 0, itemW, size);
+    _audioButton.frame = CGRectMake(itemW * 1, 0, itemW, size);
+    _recordButton.frame = CGRectMake(itemW * 2, 0, itemW, size);
+    _screenshotButton.frame = CGRectMake(itemW * 3, 0, itemW, size);
+    _landspaceButton.frame = CGRectMake(itemW * 4, 0, itemW, size);
+    _backView.frame = CGRectMake(0, 0, w, 44);
 }
 
 - (void) addGesture {
@@ -123,53 +154,44 @@
     [self addSubview:_addButton];
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] init];
+    activityIndicatorView.frame = CGRectMake((self.frame.size.width - 10) / 2, (self.frame.size.height - 10)/2, 10, 10);
     activityIndicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
     activityIndicatorView.hidesWhenStopped = YES;
     [self addSubview:activityIndicatorView];
-    [activityIndicatorView makeConstraints:^(MASConstraintMaker *make) {
-        make.size.equalTo(CGSizeMake(10, 10));
-        make.centerX.equalTo(self.mas_centerX);
-        make.centerY.equalTo(self.mas_centerY);
-    }];
     
+    CGFloat h = self.frame.size.height;
+    CGFloat w = self.frame.size.width;
     CGFloat size = 45;
     
     _statusView = [[UIView alloc] init];
+    _statusView.frame = CGRectMake(0, h-size, w, size);
     _statusView.backgroundColor = UIColorFromRGB(0xf5f5f5);
     _statusView.hidden = YES;
     [self addSubview:_statusView];
-    [_statusView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(@0);
-        make.height.equalTo(@(size));
-    }];
     
     _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    _playButton.frame = CGRectMake(0, 0, size, size);
     [_playButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
     [_playButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateSelected];
     [_playButton addTarget:self action:@selector(playButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_statusView addSubview:_playButton];
-    [_playButton makeConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(@(size));
-        make.top.left.bottom.equalTo(@0);
-    }];
+    
+    CGFloat btnViewX = size + 20;
+    CGFloat btnViewW = _statusView.frame.size.width-btnViewX;
     
     _btnView = [[UIView alloc] init];
+    _btnView.frame = CGRectMake(btnViewX, 0, btnViewW, size);
     _btnView.backgroundColor = [UIColor clearColor];
     [_statusView addSubview:_btnView];
-    [_btnView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.right.equalTo(@0);
-        make.left.equalTo(self.playButton.mas_right).offset(20);
-    }];
+    
+    CGFloat itemW = btnViewW / 5;
     
     _kbpsLabel = [[UILabel alloc] init];
+    _kbpsLabel.frame = CGRectMake(itemW * 0, 0, itemW, size);
     _kbpsLabel.text = @"0kbps";
-    _kbpsLabel.textColor = UIColorFromRGB(SelectBtnColor);
+    _kbpsLabel.textColor = UIColorFromRGB(0x03c6e3);
     _kbpsLabel.font = [UIFont systemFontOfSize:13];
     [_btnView addSubview:_kbpsLabel];
-    [_kbpsLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(@0);
-        make.left.equalTo(@0);
-    }];
     
     self.audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_enabled"] forState:UIControlStateDisabled];
@@ -177,12 +199,9 @@
     [self.audioButton setImage:[UIImage imageNamed:@"ic_action_audio_pressed"] forState:UIControlStateSelected];
     [self.audioButton addTarget:self action:@selector(audioButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.audioButton.enabled = NO;
-    _audioButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.audioButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.audioButton.frame = CGRectMake(itemW * 1, 0, itemW, size);
     [_btnView addSubview:self.audioButton];
-    [self.audioButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(@0);
-        make.left.equalTo(self.kbpsLabel.mas_right);
-    }];
     
     _recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_recordButton setImage:[UIImage imageNamed:@"ic_action_record_enabled"] forState:UIControlStateDisabled];
@@ -191,11 +210,8 @@
     [_recordButton addTarget:self action:@selector(recordButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     _recordButton.enabled = NO;
     _recordButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    _recordButton.frame = CGRectMake(itemW * 2, 0, itemW, size);
     [_btnView addSubview:_recordButton];
-    [_recordButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(@0);
-        make.left.equalTo(self.audioButton.mas_right);
-    }];
     
     _screenshotButton = [[UIButton alloc] init];
     [_screenshotButton setImage:[UIImage imageNamed:@"ic_action_camera_enabled"] forState:UIControlStateDisabled];
@@ -204,50 +220,28 @@
     [_screenshotButton addTarget:self action:@selector(screenshotButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     _screenshotButton.enabled = NO;
     _screenshotButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    _screenshotButton.frame = CGRectMake(itemW * 3, 0, itemW, size);
     [_btnView addSubview:_screenshotButton];
-    [_screenshotButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(@0);
-        make.left.equalTo(self.recordButton.mas_right);
-    }];
     
     _landspaceButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_landspaceButton setImage:[UIImage imageNamed:@"LandspaceVideo"] forState:UIControlStateNormal];
     [_landspaceButton setImage:[UIImage imageNamed:@"PortraitVideo"] forState:UIControlStateSelected];
     [_landspaceButton addTarget:self action:@selector(landspaceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     _landspaceButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    _landspaceButton.frame = CGRectMake(itemW * 4, 0, itemW, size);
     [_btnView addSubview:_landspaceButton];
-    [_landspaceButton makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(@0);
-        make.left.equalTo(self.screenshotButton.mas_right);
-    }];
-    
-    NSArray *views = @[ self.kbpsLabel, self.audioButton, self.recordButton, self.screenshotButton, self.landspaceButton ];
-    // 实现masonry水平固定间隔方法
-    [views mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:0 leadSpacing:0 tailSpacing:0];
-    
-    // 设置array的垂直方向的约束
-    [views mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-    }];
     
     _backView = [[UIView alloc] init];
     _backView.backgroundColor = UIColorFromRGBA(0x000000, 0.4);
     _backView.hidden = YES;
+    _backView.frame = CGRectMake(0, 0, self.frame.size.width, 44);
     [self addSubview:_backView];
-    [_backView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(@0);
-        make.height.equalTo(@44);
-    }];
     
     UIButton *backBtn = [[UIButton alloc] init];
     [backBtn setImage:[UIImage imageNamed:@"nav_back"] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    backBtn.frame = CGRectMake(15, 0, 44, 44);
     [_backView addSubview:backBtn];
-    [backBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.equalTo(@0);
-        make.left.equalTo(@15);
-        make.width.equalTo(@44);
-    }];
 }
 
 // 点击视频，隐藏底部按钮
@@ -384,7 +378,7 @@
     _reader.transportMode = self.transportMode;
     _reader.sendOption = self.sendOption;
     
-    if ([NSUserDefaultsUnit isAutoRecord]) {
+    if (self.isAutoRecord) {
         _reader.recordFilePath = [PathUnit recordWithURL:_url];
         _recordButton.selected = YES;
     }
@@ -396,7 +390,7 @@
         [weakSelf presentFrame];
         
         // 自动播放声音
-        if ([NSUserDefaultsUnit isAutoAudio]) {
+        if (weakSelf.isAutoAudio) {
             [weakSelf startAudio];
         }
     };
@@ -530,7 +524,7 @@
         /* https://github.com/kolyvan/kxmovie
          * 这句不能设置0，否则一直play faster
          */
-//        _tickCorrectionTime = 0;
+        //        _tickCorrectionTime = 0;
     }
     
     if (_bufferdDuration >= 0.3) {
@@ -615,16 +609,16 @@
                     if (count > 0) {
                         KxAudioFrame *frame = _audioFrames[0];
                         CGFloat differ = _moviePosition - frame.position;
-
-//                        // 似乎没有作用
-//                        if (differ < -0.1) {
-//                            memset(outData, 0, numFrames * numChannels * sizeof(float));
-//                            break; // silence and exit
-//                        }
+                        
+                        //                        // 似乎没有作用
+                        //                        if (differ < -0.1) {
+                        //                            memset(outData, 0, numFrames * numChannels * sizeof(float));
+                        //                            break; // silence and exit
+                        //                        }
                         
                         [_audioFrames removeObjectAtIndex:0];
                         
-//                        if (differ > 5 && count > 1) {// 原来是5，结果音视频不同步，音频慢2秒左右
+                        //                        if (differ > 5 && count > 1) {// 原来是5，结果音视频不同步，音频慢2秒左右
                         if (differ > 0.1 && count > 1) {
                             NSLog(@"differ = %.4f", differ);
                             NSLog(@"audio skip movPos = %.4f audioPos = %.4f", _moviePosition, frame.position);
@@ -709,15 +703,11 @@
 
 - (void) updateHeight {
     if (_landspaceButton.selected) {
-        [_statusView updateConstraints:^(MASConstraintMaker *make) {
-            make.height.equalTo(@56);
-        }];
+        _statusView.frame = CGRectMake(0, self.frame.size.height-45, self.frame.size.width, 45);
         
         _backView.hidden = NO;
     } else {
-        [_statusView updateConstraints:^(MASConstraintMaker *make) {
-            make.height.equalTo(@45);
-        }];
+        _statusView.frame = CGRectMake(0, self.frame.size.height-45, self.frame.size.width, 45);
         
         _backView.hidden = YES;
     }
@@ -844,9 +834,7 @@
         [UIImagePNGRepresentation([kxGlView curImage]) writeToFile:_screenShotPath atomically:YES];
         _screenShotPath = nil;
         
-        if (!isSnapshot) {
-            [WHToast showMessage:@"截图保存成功" duration:1 finishHandler:nil];
-        }
+        // 截图保存成功
     }
 }
 

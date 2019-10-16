@@ -24,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
 
-@property (nonatomic, strong) URLModel *model;
+@property (nonatomic, strong) MyURLModel *model;
 
 @end
 
@@ -63,7 +63,7 @@
     [self.sendBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateNormal];
     [self.sendBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     
-    self.model = [[URLModel alloc] initDefault];
+    self.model = [[MyURLModel alloc] initDefault];
     
     if (self.urlModel) {
         self.model.url = self.urlModel.url;

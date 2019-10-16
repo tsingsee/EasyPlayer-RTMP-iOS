@@ -6,12 +6,12 @@
 //  Copyright © 2019年 cs. All rights reserved.
 //
 
-#import "BaseModel.h"
+#import <Foundation/Foundation.h>
 #import "EasyTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface URLModel : BaseModel
+@interface URLModel : NSObject
 
 @property (nonatomic, copy) NSString *url;  // 流地址
 
@@ -21,7 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
 // 发送保活包(心跳：0x00 不发送心跳， 0x01 OPTIONS， 0x02 GET_PARAMETER)
 @property (nonatomic, assign) int sendOption;
 
-@property (nonatomic, copy) NSString *audienceNumber;// 当前观看人数
+// 是否启用硬解码
+@property (nonatomic, assign) BOOL useHWDecoder;
+// 音频开关
+@property (nonatomic, assign) BOOL isAutoAudio;
+// 是否自动播放音频
+@property (nonatomic, assign) BOOL isAutoRecord;
+
+//// 当前观看人数
+//@property (nonatomic, copy) NSString *audienceNumber;
 
 - (instancetype) initDefault;
 

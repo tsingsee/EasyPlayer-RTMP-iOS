@@ -1,7 +1,7 @@
 
 #import "VideoPlayerController.h"
 #import "RecordViewController.h"
-#import "UIColor+HexColor.h"
+#import "NSUserDefaultsUnit.h"
 #import "VideoPanel.h"
 #import "AudioManager.h"
 
@@ -23,6 +23,9 @@
     [super viewDidLoad];
     
     // 最多是9分屏，最多9个URL
+    self.model.useHWDecoder = ![NSUserDefaultsUnit isFFMpeg];
+    self.model.isAutoAudio = [NSUserDefaultsUnit isAutoAudio];
+    self.model.isAutoRecord = [NSUserDefaultsUnit isAutoRecord];
     _urlModels = @[ self.model ];
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >=7.0) {
@@ -30,7 +33,7 @@
     }
     
     self.navigationItem.title = self.model.url;
-    self.view.backgroundColor = [UIColor colorFromHex:0xfefefe];
+    self.view.backgroundColor = UIColorFromRGB(0xfefefe);
     
     [[AudioManager sharedInstance] activateAudioSession];
     
@@ -38,7 +41,8 @@
     self.panel = [[VideoPanel alloc] initWithFrame:self.panelFrame];
     self.panel.delegate = self;
     [self.view addSubview:self.panel];
-    [self.panel setLayout:IVL_One currentURL:nil URLs:_urlModels];
+    [self.panel setLayout:IVL_One URLs:_urlModels];
+    [self.panel startAll:_urlModels];
     
     [self regestAppStatusNotification];
     
@@ -164,7 +168,7 @@
 }
 
 - (void)videoViewWillAnimateToFullScreen:(VideoView *)view {
-    [self.panel setLayout:IVL_One currentURL:view.url URLs:_urlModels];// 先转成1分频
+//    [self.panel setLayout:IVL_One URLs:_urlModels];// 先转成1分频
     [self crossScreenWithDuration:0.5 isLeftCrossScreen:YES];// 再全屏
 }
 

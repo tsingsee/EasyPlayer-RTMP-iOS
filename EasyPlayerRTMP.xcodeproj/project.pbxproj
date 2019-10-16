@@ -13,6 +13,7 @@
 		368B0B5E1FCBFFA300172BDB /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368B0B5D1FCBFF8D00172BDB /* VideoToolbox.framework */; };
 		368B0B601FCBFFB600172BDB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368B0B5F1FCBFFB000172BDB /* CoreMedia.framework */; };
 		660A18452271FDE1001466AE /* Pods_EasyPlayerRTMP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1197C9191E2FC6BD21F2F829 /* Pods_EasyPlayerRTMP.framework */; };
+		660B1ED22356B931004D1024 /* MyURLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 660B1ED12356B931004D1024 /* MyURLModel.m */; };
 		6613BC0F2271F74A00FDF892 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BC0B2271F74A00FDF892 /* main.m */; };
 		6613BC102271F74A00FDF892 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6613BC0C2271F74A00FDF892 /* AppDelegate.m */; };
 		6613BC172271F78C00FDF892 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6613BC132271F78B00FDF892 /* LaunchScreen.storyboard */; };
@@ -87,6 +88,8 @@
 		660A18462271FDF6001466AE /* IQKeyboardManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = IQKeyboardManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		660A18482271FDF6001466AE /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		660A184A2271FDF6001466AE /* RTRootNavigationController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RTRootNavigationController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		660B1ED02356B931004D1024 /* MyURLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyURLModel.h; sourceTree = "<group>"; };
+		660B1ED12356B931004D1024 /* MyURLModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyURLModel.m; sourceTree = "<group>"; };
 		6613BC0A2271F74A00FDF892 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6613BC0B2271F74A00FDF892 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6613BC0C2271F74A00FDF892 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -358,6 +361,8 @@
 		6635A75C1FF767AA00C25760 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				660B1ED02356B931004D1024 /* MyURLModel.h */,
+				660B1ED12356B931004D1024 /* MyURLModel.m */,
 				662D8EF7227428020073F945 /* BaseModel.h */,
 				662D8EF6227428020073F945 /* BaseModel.m */,
 				662D8EF02273F98B0073F945 /* URLModel.h */,
@@ -965,6 +970,7 @@
 				66487F61205F974100514203 /* Muxer.c in Sources */,
 				664DC1892223C8CC003F9A40 /* KxMovieGLView.m in Sources */,
 				E1A6BCEB1FBAD1E40000213E /* VideoView.m in Sources */,
+				660B1ED22356B931004D1024 /* MyURLModel.m in Sources */,
 				E19AC7C01FBBE987008E2FA7 /* AACDecoder.c in Sources */,
 				6635A7651FF77BFB00C25760 /* AboutViewController.m in Sources */,
 			);

@@ -34,7 +34,8 @@ typedef enum {
 
 @property (nonatomic, assign) BOOL active;
 @property (nonatomic, assign) BOOL useHWDecoder;        // 是否启用硬解
-@property (nonatomic, assign) BOOL audioPlaying;        // 自动播放音频
+@property (nonatomic, assign) BOOL isAutoAudio;         // 是否自动开启音频
+@property (nonatomic, assign) BOOL isAutoRecord;        // 是否自动播放音频
 @property (nonatomic, assign) BOOL showAllRegon;        //
 @property (nonatomic, assign) BOOL showActiveStatus;    //
 
@@ -43,6 +44,8 @@ typedef enum {
 
 - (void) hideBtnView;
 - (void) changeHorizontalScreen:(BOOL) horizontal;
+
+- (void) setVideoViewFrame:(CGRect)frame;
 
 // ----------------- 播放控制 -----------------
 - (void)stopAudio;

@@ -3,7 +3,7 @@
 #import "VideoView.h"
 #import "URLModel.h"
 
-typedef NS_OPTIONS(NSInteger, IVideoLayout){
+typedef NS_OPTIONS(NSInteger, IVideoLayout) {
     IVL_One = 1,
     IVL_Four = 4,
     IVL_Nine = 9,
@@ -17,7 +17,9 @@ typedef NS_OPTIONS(NSInteger, IVideoLayout){
 
 @property (nonatomic, retain) NSMutableArray *resuedViews;
 @property (nonatomic, strong) VideoView *activeView;
+
 @property (nonatomic, assign) IVideoLayout layout;
+@property (nonatomic, strong) NSArray<URLModel *> *urlModels;
 
 - (VideoView *) nextAvailableContainer;
 
@@ -31,7 +33,7 @@ typedef NS_OPTIONS(NSInteger, IVideoLayout){
 - (void) startAll:(NSArray<URLModel *> *)urlModels;
 
 // 设置分屏
-- (void)setLayout:(IVideoLayout)layout currentURL:(NSString *)url URLs:(NSArray<URLModel *> *)urlModels;
+- (void)setLayout:(IVideoLayout)layout URLs:(NSArray<URLModel *> *)urlModels;
 
 // 隐藏底部按钮
 - (void) hideBtnView;

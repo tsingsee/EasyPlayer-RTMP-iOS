@@ -1,6 +1,6 @@
 
 #import "BaseViewController.h"
-#import "URLModel.h"
+#import "MyURLModel.h"
 
 /**
  视频广场
@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 
-@property (nonatomic, copy) void (^previewMore)(URLModel *model);
+@property (nonatomic, copy) void (^previewMore)(MyURLModel *model);
 
 - (instancetype) initWithStoryboard;
 

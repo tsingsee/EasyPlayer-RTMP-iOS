@@ -25,7 +25,7 @@ static NSString *URLUnitKey = @"URLUnitKey";
 }
 
 // 添加rl
-+ (void) addURLModel:(URLModel *)model {
++ (void) addURLModel:(MyURLModel *)model {
     NSMutableArray *arr = [self urlModels];
     if (!arr) {
         arr = [[NSMutableArray alloc] init];
@@ -50,7 +50,7 @@ static NSString *URLUnitKey = @"URLUnitKey";
     [cache setObject:arr forKey:URLUnitKey];
 }
 
-+ (void) updateURLModel:(URLModel *)model oldModel:(URLModel *)m {
++ (void) updateURLModel:(MyURLModel *)model oldModel:(URLModel *)m {
     NSMutableArray *arr = [self urlModels];
     if (!arr) {
         arr = [[NSMutableArray alloc] init];
@@ -70,7 +70,7 @@ static NSString *URLUnitKey = @"URLUnitKey";
 }
 
 // 删除url
-+ (void) removeURLModel:(URLModel *)model {
++ (void) removeURLModel:(MyURLModel *)model {
     NSMutableArray *arr = [self urlModels];
     [arr addObject:model];
     

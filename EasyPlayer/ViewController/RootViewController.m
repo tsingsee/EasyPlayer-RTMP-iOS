@@ -159,7 +159,7 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     VideoCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"VideoCell" forIndexPath:indexPath];
-    URLModel *model = _dataArray[indexPath.row];
+    MyURLModel *model = _dataArray[indexPath.row];
     
     NSString *path = [PathUnit snapshotWithURL:model.url];
     if([[NSFileManager defaultManager] fileExistsAtPath:path]) {
@@ -228,7 +228,7 @@
     
     // 添加确定到UIAlertController中
     UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        URLModel *model = self.dataArray[index];
+        MyURLModel *model = self.dataArray[index];
         [PathUnit deleteBaseRecordPathWithURL:model.url];
         [PathUnit deleteBaseShotPathWithURL:model.url];
         

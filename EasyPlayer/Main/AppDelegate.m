@@ -21,8 +21,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     if (![URLUnit urlModels]) {
-        URLModel *model = [[URLModel alloc] initDefault];
-        model.url = @"rtmp://live.hkstv.hk.lxdns.com/live/hks2";
+        MyURLModel *model = [[MyURLModel alloc] initDefault];
+        model.url = @"rtmp://202.69.69.180:443/webcast/bshdlive-pc";
         [URLUnit addURLModel:model];
         
         [NSUserDefaultsUnit setFFMpeg:YES];     // 默认软解码

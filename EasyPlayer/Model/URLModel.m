@@ -7,7 +7,6 @@
 //
 
 #import "URLModel.h"
-#import "NSObject+YYModel.h"
 
 @implementation URLModel
 
@@ -18,16 +17,6 @@
     }
     
     return self;
-}
-
-+ (nullable NSDictionary<NSString *, id> *)modelCustomPropertyMapper {
-    return @{ @"url" : @"url" };
-}
-
-+ (instancetype) convertFromDict:(NSDictionary *)dict {
-    URLModel *model = [URLModel modelWithDictionary:dict];
-    
-    return model;
 }
 
 @end

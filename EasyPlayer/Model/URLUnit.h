@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "URLModel.h"
+#import "MyURLModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,11 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSMutableArray *) urlModels;
 
 // 添加rl
-+ (void) addURLModel:(URLModel *)model;
-+ (void) updateURLModel:(URLModel *)model oldModel:(URLModel *)m;
++ (void) addURLModel:(MyURLModel *)model;
++ (void) updateURLModel:(MyURLModel *)model oldModel:(URLModel *)m;
 
 // 删除url
-+ (void) removeURLModel:(URLModel *)model;
++ (void) removeURLModel:(MyURLModel *)model;
 
 @end
 

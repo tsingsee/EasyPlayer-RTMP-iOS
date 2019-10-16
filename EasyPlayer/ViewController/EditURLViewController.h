@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-#import "URLModel.h"
+#import "MyURLModel.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface EditURLViewController : BaseViewController
 
-@property (nonatomic, strong) URLModel *urlModel;
+@property (nonatomic, strong) MyURLModel *urlModel;
 
 @property (nonatomic, strong) RACSubject *subject;
 

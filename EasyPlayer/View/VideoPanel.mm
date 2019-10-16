@@ -1,7 +1,6 @@
 
 #import "VideoPanel.h"
 #import "AudioManager.h"
-#import "Masonry.h"
 
 #define kContentInset 1
 
@@ -75,6 +74,9 @@
         videoView.url = model.url;
         videoView.transportMode = model.transportMode;
         videoView.sendOption = model.sendOption;
+        videoView.useHWDecoder = model.useHWDecoder;
+        videoView.isAutoAudio = model.isAutoAudio;
+        videoView.isAutoRecord = model.isAutoRecord;
         
         [videoView startPlay];
     }
@@ -90,6 +92,12 @@
     }
 }
 
+- (void) setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    
+    [self setLayout:_layout URLs:_urlModels];
+}
+
 #pragma mark - setter
 
 - (void)setActiveView:(VideoView *)activeView {
@@ -100,12 +108,13 @@
     }
 }
 
-- (void)setLayout:(IVideoLayout)layout currentURL:(NSString *)url URLs:(NSArray<URLModel *> *)urlModels {
+- (void)setLayout:(IVideoLayout)layout URLs:(NSArray<URLModel *> *)urlModels {
 //    if (_layout == layout) {
 //        return;
 //    }
     
     _layout = layout;
+    _urlModels = urlModels;
     
     NSInteger diff = _layout - [_resuedViews count];
     int count = (int)[_resuedViews count];
@@ -135,7 +144,6 @@
     }
     
     BOOL hasActiveView = NO;
-    VideoView *topView = nil;
     
     NSInteger rowCount = [self rowCount];       // 每行数
     NSInteger columnCount = _layout / rowCount; // 每列数
@@ -150,60 +158,18 @@
     }
     
     for (int i = 0; i < rowCount; i++) {
-        VideoView *leftView = nil;
         NSMutableArray *viewsOneRow = [[NSMutableArray alloc] init];
         
         for (int j = 0; j < columnCount; j++) {
             VideoView *view = [_resuedViews objectAtIndex:(i * columnCount + j)];
             [viewsOneRow addObject:view];
+            [view setVideoViewFrame:CGRectMake(itemW * j, itemH * i, itemW, itemH)];
             [self addSubview:view];
-            [view mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.size.equalTo(CGSizeMake(itemW, itemH));
-            }];
             
             if (view.active) {
                 hasActiveView = YES;
             }
-            
-            if (leftView == nil) {
-                [view mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.left.equalTo(@0);
-                }];
-
-                if (topView == nil) {
-                    [view mas_updateConstraints:^(MASConstraintMaker *make) {
-                        make.top.equalTo(@0);
-                    }];
-                } else {
-                    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                        make.top.equalTo(topView.mas_bottom).offset(kContentInset);
-                    }];
-                }
-
-                if (i == rowCount - 1) {
-                    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                        make.bottom.equalTo(@0);
-                    }];
-                }
-                
-                topView = view;
-            } else {
-                [view mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.left.equalTo(leftView.mas_right).offset(kContentInset);
-                    make.top.equalTo(topView.mas_top);
-                }];
-            }
-            
-            if (j == columnCount - 1) {
-                [view mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.right.equalTo(@0);
-                }];
-            }
-            
-            leftView = view;
         }
-        
-        leftView = nil;
     }
     
 //    if (!hasActiveView) {
@@ -214,16 +180,6 @@
 //        VideoView *view = [_resuedViews firstObject];
 //        [self videoViewBeginActive:view];
 //    }
-    
-    if (url) {
-        // 全屏时，需要设置为1分屏, 并设置当前VideoView为第一个View
-        VideoView *view = [_resuedViews firstObject];
-        view.landspaceButton.selected = YES;
-        view.url = url;
-        [self videoViewBeginActive:view];
-    } else {
-        [self startAll:urlModels];
-    }
 }
 
 - (void) hideBtnView {

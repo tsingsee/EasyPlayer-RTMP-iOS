@@ -1,12 +1,12 @@
 
 #import "BaseViewController.h"
-#import "URLModel.h"
+#import "MyURLModel.h"
 
 /**
  视频播放
  */
 @interface VideoPlayerController : BaseViewController
 
-@property (nonatomic, strong) URLModel *model;
+@property (nonatomic, strong) MyURLModel *model;
 
 @end
