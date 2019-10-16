@@ -41,7 +41,8 @@
     self.panel = [[VideoPanel alloc] initWithFrame:self.panelFrame];
     self.panel.delegate = self;
     [self.view addSubview:self.panel];
-    [self.panel setLayout:IVL_One currentURL:nil URLs:_urlModels];
+    [self.panel setLayout:IVL_One URLs:_urlModels];
+    [self.panel startAll:_urlModels];
     
     [self regestAppStatusNotification];
     
@@ -167,7 +168,7 @@
 }
 
 - (void)videoViewWillAnimateToFullScreen:(VideoView *)view {
-    [self.panel setLayout:IVL_One currentURL:view.url URLs:_urlModels];// 先转成1分频
+//    [self.panel setLayout:IVL_One URLs:_urlModels];// 先转成1分频
     [self crossScreenWithDuration:0.5 isLeftCrossScreen:YES];// 再全屏
 }
 

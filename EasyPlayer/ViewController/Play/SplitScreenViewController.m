@@ -67,7 +67,8 @@
     self.panel = [[VideoPanel alloc] initWithFrame:self.panelFrame];
     self.panel.delegate = self;
     [self.view addSubview:self.panel];
-    [self.panel setLayout:IVL_Four currentURL:nil URLs:_urlModels];
+    [self.panel setLayout:IVL_Four URLs:_urlModels];
+    [self.panel startAll:_urlModels];
     [self.panel hideBtnView];
     
     [self regestAppStatusNotification];
@@ -186,11 +187,11 @@
 
 - (void)layoutChanged:(id)sender {
     if (segment.selectedSegmentIndex == 0) {
-        [self.panel setLayout:IVL_Four currentURL:nil URLs:_urlModels];
+        [self.panel setLayout:IVL_Four URLs:_urlModels];
     } else if (segment.selectedSegmentIndex == 1) {
-        [self.panel setLayout:IVL_Nine currentURL:nil URLs:_urlModels];
+        [self.panel setLayout:IVL_Nine URLs:_urlModels];
     } else {
-        [self.panel setLayout:IVL_One currentURL:nil URLs:_urlModels];
+        [self.panel setLayout:IVL_One URLs:_urlModels];
     }
 }
 
@@ -237,11 +238,11 @@
 
 //- (void)videoViewWillAnimateToFullScreen:(VideoView *)view {
 //    if (crossScreen) {      // 横屏->全屏
-//        [self.panel setLayout:IVL_One currentURL:view.url URLs:_urlModels];// 先转成1分频
+//        [self.panel setLayout:IVL_One URLs:_urlModels];// 先转成1分频
 //        firstFullScreen = NO;
 //    } else {            // 竖屏->全屏
 //        firstFullScreen = YES;
-//        [self.panel setLayout:IVL_One currentURL:view.url URLs:_urlModels];// 先转成1分频
+//        [self.panel setLayout:IVL_One URLs:_urlModels];// 先转成1分频
 //        [self crossScreenWithDuration:0.5 isLeftCrossScreen:YES];// 再全屏
 //    }
 //    

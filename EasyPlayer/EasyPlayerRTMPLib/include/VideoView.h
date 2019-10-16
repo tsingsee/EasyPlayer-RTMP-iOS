@@ -45,6 +45,8 @@ typedef enum {
 - (void) hideBtnView;
 - (void) changeHorizontalScreen:(BOOL) horizontal;
 
+- (void) setVideoViewFrame:(CGRect)frame;
+
 // ----------------- 播放控制 -----------------
 - (void)stopAudio;
 - (void)startPlay;

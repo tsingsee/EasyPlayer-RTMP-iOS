@@ -1,6 +1,6 @@
 PODS:
   - Bugly (2.5.0)
-  - IQKeyboardManager (6.2.0)
+  - IQKeyboardManager (6.5.0)
   - Masonry (1.1.0)
   - ReactiveCocoa (2.5.2):
     - ReactiveCocoa/UI (= 2.5.2)
@@ -9,10 +9,10 @@ PODS:
   - ReactiveCocoa/no-arc (2.5.2)
   - ReactiveCocoa/UI (2.5.2):
     - ReactiveCocoa/Core
-  - RTRootNavigationController (0.7.1):
-    - RTRootNavigationController/Core (= 0.7.1)
-  - RTRootNavigationController/Core (0.7.1)
-  - WHToast (0.0.2)
+  - RTRootNavigationController (0.7.2):
+    - RTRootNavigationController/Core (= 0.7.2)
+  - RTRootNavigationController/Core (0.7.2)
+  - WHToast (0.0.3)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -27,7 +27,7 @@ DEPENDENCIES:
   - YYKit
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Bugly
     - IQKeyboardManager
     - Masonry
@@ -47,13 +47,13 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
-  IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
+  IQKeyboardManager: 700e5155d6a292383b54e8678aec769e14fc78fc
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   ReactiveCocoa: 3ff25b1bd992ac79c5c79b26b6c0c1713b715bb2
-  RTRootNavigationController: afa6913402be26f8326f7f37fc1550aa67baddcc
-  WHToast: b5b1c6c2a178b2e848e7416fd25ca6b25c7babf8
+  RTRootNavigationController: 8344c2352d6d40fa370d0366efae2c84a945213f
+  WHToast: 30d7f1734ff57b391da4050fab13a2af0e95638c
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: f94d8f7070af873b3c443fc3b0013fdc3c865265
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.3
