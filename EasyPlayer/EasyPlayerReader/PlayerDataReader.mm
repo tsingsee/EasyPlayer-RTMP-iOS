@@ -97,7 +97,7 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
  _pBuf:         回调的数据部分，具体用法看Demo
  _frameInfo:    帧结构数据
  */
-int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf, EASY_FRAME_INFO *frameInfo) {
+int DataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf, EASY_FRAME_INFO *frameInfo) {
     if (channelPtr == NULL) {
         return 0;
     }
@@ -250,7 +250,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
             NSLog(@"EasyRTMP_Init err");
         } else {
             /* 设置数据回调 */
-            EasyRTMPClient_SetCallback(rtspHandle, RTSPDataCallBack);
+            EasyRTMPClient_SetCallback(rtspHandle, DataCallBack);
             
             /* 打开网络流 */
             EasyRTMPClient_StartStream(rtspHandle,

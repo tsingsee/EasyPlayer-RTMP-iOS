@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "PlayerDataReader.h"
+#import "RtspPlayerDataReader.h"
 #import "RootViewController.h"
 #import "NSUserDefaultsUnit.h"
 #import "URLUnit.h"
@@ -33,8 +34,12 @@
     
     int days = EasyRTMPClient_Activate(
                                        "59615A6742762B32734B79416A7770656F665677512F464659584E355547786865575679556C524E55495258444661672F3850695257467A65555268636E6470626C526C5957314A6331526F5A554A6C6333516A4D6A41784F546C6C59584E35");
-    NSLog(@"key有效期：%d", days);
+    NSLog(@"rtmp key有效期：%d", days);
     [NSUserDefaultsUnit setActiveDay:days];
+    
+    days = EasyRTSP_Activate("6D75724D7A502B32734B79416A7770656F665677512F464659584E355547786865575679556C5254554C3558444661672F3850695257467A65555268636E6470626C526C5957314A6331526F5A554A6C6333516A4D6A41784F546C6C59584E35");
+    NSLog(@"rtsp key有效期：%d", days);
+//    [NSUserDefaultsUnit setActiveDay:days];
     
     // Bugly
     [Bugly startWithAppId:@"8a4c2e394d"];

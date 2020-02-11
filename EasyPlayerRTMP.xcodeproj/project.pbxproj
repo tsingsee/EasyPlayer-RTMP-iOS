@@ -50,6 +50,12 @@
 		664FAC0320638E3200A2C767 /* libavdevice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664FABFC20638E3200A2C767 /* libavdevice.a */; };
 		664FAC0420638E3200A2C767 /* libswresample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664FABFD20638E3200A2C767 /* libswresample.a */; };
 		664FAC0520638E3200A2C767 /* libswscale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 664FABFE20638E3200A2C767 /* libswscale.a */; };
+		667F919823F0E795009F7473 /* libEasyRTSPClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 667F919723F0E794009F7473 /* libEasyRTSPClient.a */; };
+		667F919B23F0E7E6009F7473 /* RtspPlayerDataReader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 667F919923F0E7E6009F7473 /* RtspPlayerDataReader.mm */; };
+		667F919E23F14A97009F7473 /* RtspVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 667F919D23F14A97009F7473 /* RtspVideoView.m */; };
+		667F91A123F14BD5009F7473 /* RtspVideoPanel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 667F91A023F14BD5009F7473 /* RtspVideoPanel.mm */; };
+		667F91A723F14D04009F7473 /* RtspSplitScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667F91A323F14D03009F7473 /* RtspSplitScreenViewController.m */; };
+		667F91A823F14D04009F7473 /* RtspVideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 667F91A423F14D03009F7473 /* RtspVideoPlayerController.m */; };
 		66D421ED22705DF1002AF407 /* NewIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66D421EC22705DF1002AF407 /* NewIcon.xcassets */; };
 		66D730A422715F57002828FB /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D730A322715F57002828FB /* BaseViewController.m */; };
 		66EA21202270B58700D7E8FD /* SplitScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EA211F2270B58700D7E8FD /* SplitScreenViewController.m */; };
@@ -259,6 +265,18 @@
 		664FABFC20638E3200A2C767 /* libavdevice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libavdevice.a; sourceTree = "<group>"; };
 		664FABFD20638E3200A2C767 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libswresample.a; sourceTree = "<group>"; };
 		664FABFE20638E3200A2C767 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libswscale.a; sourceTree = "<group>"; };
+		667F919623F0E794009F7473 /* EasyRTSPClientAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyRTSPClientAPI.h; sourceTree = "<group>"; };
+		667F919723F0E794009F7473 /* libEasyRTSPClient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyRTSPClient.a; sourceTree = "<group>"; };
+		667F919923F0E7E6009F7473 /* RtspPlayerDataReader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RtspPlayerDataReader.mm; sourceTree = "<group>"; };
+		667F919A23F0E7E6009F7473 /* RtspPlayerDataReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtspPlayerDataReader.h; sourceTree = "<group>"; };
+		667F919C23F14A96009F7473 /* RtspVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtspVideoView.h; sourceTree = "<group>"; };
+		667F919D23F14A97009F7473 /* RtspVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RtspVideoView.m; sourceTree = "<group>"; };
+		667F919F23F14BD5009F7473 /* RtspVideoPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtspVideoPanel.h; sourceTree = "<group>"; };
+		667F91A023F14BD5009F7473 /* RtspVideoPanel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RtspVideoPanel.mm; sourceTree = "<group>"; };
+		667F91A323F14D03009F7473 /* RtspSplitScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RtspSplitScreenViewController.m; sourceTree = "<group>"; };
+		667F91A423F14D03009F7473 /* RtspVideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RtspVideoPlayerController.m; sourceTree = "<group>"; };
+		667F91A523F14D03009F7473 /* RtspVideoPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtspVideoPlayerController.h; sourceTree = "<group>"; };
+		667F91A623F14D03009F7473 /* RtspSplitScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RtspSplitScreenViewController.h; sourceTree = "<group>"; };
 		66D421EC22705DF1002AF407 /* NewIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = NewIcon.xcassets; sourceTree = "<group>"; };
 		66D730A222715F57002828FB /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		66D730A322715F57002828FB /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
@@ -304,6 +322,7 @@
 				660A18452271FDE1001466AE /* Pods_EasyPlayerRTMP.framework in Frameworks */,
 				664B2225209A02A900A926FC /* libc++.tbd in Frameworks */,
 				E1A6BCB51FBAC77C0000213E /* libbz2.tbd in Frameworks */,
+				667F919823F0E795009F7473 /* libEasyRTSPClient.a in Frameworks */,
 				E1A6BCB31FBAC7760000213E /* libz.tbd in Frameworks */,
 				E1A6BCB11FBAC7710000213E /* libiconv.tbd in Frameworks */,
 				66FF6691202C5523004E76B2 /* libstdc++.tbd in Frameworks */,
@@ -633,6 +652,17 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		667F91A223F14D03009F7473 /* RtspPlay */ = {
+			isa = PBXGroup;
+			children = (
+				667F91A523F14D03009F7473 /* RtspVideoPlayerController.h */,
+				667F91A423F14D03009F7473 /* RtspVideoPlayerController.m */,
+				667F91A623F14D03009F7473 /* RtspSplitScreenViewController.h */,
+				667F91A323F14D03009F7473 /* RtspSplitScreenViewController.m */,
+			);
+			path = RtspPlay;
+			sourceTree = "<group>";
+		};
 		668665451FCE957200956A52 /* EasyVideoDecoder */ = {
 			isa = PBXGroup;
 			children = (
@@ -647,6 +677,8 @@
 		668665461FCE959400956A52 /* EasyPlayerReader */ = {
 			isa = PBXGroup;
 			children = (
+				667F919A23F0E7E6009F7473 /* RtspPlayerDataReader.h */,
+				667F919923F0E7E6009F7473 /* RtspPlayerDataReader.mm */,
 				664FAB4720624B9400A2C767 /* PlayerDataReader.h */,
 				664FAB4820624B9500A2C767 /* PlayerDataReader.mm */,
 			);
@@ -656,6 +688,8 @@
 		668665471FCE95A600956A52 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				667F919C23F14A96009F7473 /* RtspVideoView.h */,
+				667F919D23F14A97009F7473 /* RtspVideoView.m */,
 				E1A6BCE91FBAD1E40000213E /* VideoView.h */,
 				E1A6BCEA1FBAD1E40000213E /* VideoView.m */,
 				E19AC7B31FBBE686008E2FA7 /* AudioManager.h */,
@@ -686,6 +720,7 @@
 				6647D68F2272111D00D44FA5 /* ScanViewController.h */,
 				6647D6902272111D00D44FA5 /* ScanViewController.m */,
 				6647D68A22720F6300D44FA5 /* Play */,
+				667F91A223F14D03009F7473 /* RtspPlay */,
 				6647D68B2272108D00D44FA5 /* Setting */,
 				6635A7661FF77CC000C25760 /* Record */,
 			);
@@ -704,23 +739,27 @@
 				662D8EED227354DD0073F945 /* RecordListCell.m */,
 				E1A6BD031FBAD6800000213E /* VideoPanel.h */,
 				E1A6BD041FBAD6800000213E /* VideoPanel.mm */,
+				667F919F23F14BD5009F7473 /* RtspVideoPanel.h */,
+				667F91A023F14BD5009F7473 /* RtspVideoPanel.mm */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		66FF66CB202C611D004E76B2 /* libEasyRTMPClient */ = {
+		66FF66CB202C611D004E76B2 /* libEasyClient */ = {
 			isa = PBXGroup;
 			children = (
-				66FEA9F6205B94B5009822E0 /* libEasyRTMPClient.a */,
 				66FF66CC202C611D004E76B2 /* include */,
+				667F919723F0E794009F7473 /* libEasyRTSPClient.a */,
+				66FEA9F6205B94B5009822E0 /* libEasyRTMPClient.a */,
 			);
-			path = libEasyRTMPClient;
+			path = libEasyClient;
 			sourceTree = "<group>";
 		};
 		66FF66CC202C611D004E76B2 /* include */ = {
 			isa = PBXGroup;
 			children = (
 				66FF66CD202C611D004E76B2 /* EasyTypes.h */,
+				667F919623F0E794009F7473 /* EasyRTSPClientAPI.h */,
 				66FF66CE202C611D004E76B2 /* EasyRTMPClientAPI.h */,
 			);
 			path = include;
@@ -770,7 +809,7 @@
 				66D62EE41FED219F00C3B5C7 /* MuxerToVideo */,
 				668665451FCE957200956A52 /* EasyVideoDecoder */,
 				E19AC7B61FBBE987008E2FA7 /* EasyAudioDecoder */,
-				66FF66CB202C611D004E76B2 /* libEasyRTMPClient */,
+				66FF66CB202C611D004E76B2 /* libEasyClient */,
 				664FAB8120638E3200A2C767 /* ffmpeg */,
 				E1A6BC1E1FBAC6EC0000213E /* Supporting Files */,
 			);
@@ -936,10 +975,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A6BD071FBAD6800000213E /* VideoPanel.mm in Sources */,
+				667F91A123F14BD5009F7473 /* RtspVideoPanel.mm in Sources */,
 				66268FE6227DCDCD009C84CE /* WebViewController.m in Sources */,
 				6647D6912272111D00D44FA5 /* ScanViewController.m in Sources */,
 				363E00B11FBDB1F4008690E7 /* VideoCell.m in Sources */,
 				664DC18C2223C921003F9A40 /* KxMovieDecoder.m in Sources */,
+				667F919E23F14A97009F7473 /* RtspVideoView.m in Sources */,
 				662D8EF5227401980073F945 /* URLUnit.m in Sources */,
 				368B0B5B1FCBFE9200172BDB /* HWVideoDecoder.m in Sources */,
 				E19AC7C11FBBE987008E2FA7 /* EasyAudioDecoder.c in Sources */,
@@ -952,6 +993,7 @@
 				E1A6BCBB1FBAC7D90000213E /* VideoDecode.c in Sources */,
 				E19AC7B51FBBE686008E2FA7 /* AudioManager.mm in Sources */,
 				664FAB4920624B9500A2C767 /* PlayerDataReader.mm in Sources */,
+				667F919B23F0E7E6009F7473 /* RtspPlayerDataReader.mm in Sources */,
 				66EA21202270B58700D7E8FD /* SplitScreenViewController.m in Sources */,
 				662D8EF8227428020073F945 /* BaseModel.m in Sources */,
 				662D8EF22273F98B0073F945 /* URLModel.m in Sources */,
@@ -970,7 +1012,9 @@
 				66487F61205F974100514203 /* Muxer.c in Sources */,
 				664DC1892223C8CC003F9A40 /* KxMovieGLView.m in Sources */,
 				E1A6BCEB1FBAD1E40000213E /* VideoView.m in Sources */,
+				667F91A823F14D04009F7473 /* RtspVideoPlayerController.m in Sources */,
 				660B1ED22356B931004D1024 /* MyURLModel.m in Sources */,
+				667F91A723F14D04009F7473 /* RtspSplitScreenViewController.m in Sources */,
 				E19AC7C01FBBE987008E2FA7 /* AACDecoder.c in Sources */,
 				6635A7651FF77BFB00C25760 /* AboutViewController.m in Sources */,
 			);
@@ -1145,7 +1189,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/EasyPlayer/libEasyRTMPClient",
+					"$(PROJECT_DIR)/EasyPlayer/libEasyClient",
 					"$(PROJECT_DIR)/EasyPlayer/ffmpeg/lib",
 				);
 				ORDER_FILE = "";
@@ -1204,7 +1248,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/EasyPlayer/libEasyRTMPClient",
+					"$(PROJECT_DIR)/EasyPlayer/libEasyClient",
 					"$(PROJECT_DIR)/EasyPlayer/ffmpeg/lib",
 				);
 				ORDER_FILE = "";

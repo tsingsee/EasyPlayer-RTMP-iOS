@@ -6,7 +6,7 @@
 #include "EasyRTMPClientAPI.h"
 
 /**
- 获取RTSP流，解协议,解封装,再分别音视频解码
+ 获取RTMP流，解协议,解封装,再分别音视频解码
  */
 @interface PlayerDataReader : NSObject
 

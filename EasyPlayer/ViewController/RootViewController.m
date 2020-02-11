@@ -2,8 +2,10 @@
 #import "RootViewController.h"
 #import "AboutViewController.h"
 #import "VideoPlayerController.h"
+#import "RtspVideoPlayerController.h"
 #import "EditURLViewController.h"
 #import "SplitScreenViewController.h"
+#import "RtspSplitScreenViewController.h"
 #import "SettingViewController.h"
 #import "VideoCell.h"
 #import "PathUnit.h"
@@ -135,6 +137,9 @@
 - (IBAction)splitScreen:(id)sender {
     SplitScreenViewController *controller = [[SplitScreenViewController alloc] init];
     [self.navigationController pushViewController:controller animated:YES];
+    
+//    RtspSplitScreenViewController *controller = [[RtspSplitScreenViewController alloc] init];
+//    [self.navigationController pushViewController:controller animated:YES];
 }
 
 /**
@@ -183,9 +188,17 @@
         [self cancelVc];
         self.previewMore(_dataArray[indexPath.row]);
     } else {
-        VideoPlayerController* pvc = [[VideoPlayerController alloc] init];
-        pvc.model = _dataArray[indexPath.row];
-        [self.navigationController pushViewController:pvc animated:YES];
+        MyURLModel *model = _dataArray[indexPath.row];
+        
+        if ([model.url hasPrefix:@"rtsp"]) {
+            RtspVideoPlayerController* pvc = [[RtspVideoPlayerController alloc] init];
+            pvc.model = model;
+            [self.navigationController pushViewController:pvc animated:YES];
+        } else {
+            VideoPlayerController* pvc = [[VideoPlayerController alloc] init];
+            pvc.model = model;
+            [self.navigationController pushViewController:pvc animated:YES];
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 //
 //  EditURLViewController.m
-//  EasyPlayerRTMP
+//  EasyPlayerRTSP
 //
 //  Created by leo on 2019/4/25.
 //  Copyright © 2019年 cs. All rights reserved.
@@ -9,7 +9,7 @@
 #import "EditURLViewController.h"
 #import "ScanViewController.h"
 #import "URLUnit.h"
-#import <WHToast.h>
+#import "WHToast.h"
 
 @interface EditURLViewController ()
 
@@ -39,8 +39,8 @@
     
     self.view.backgroundColor = UIColorFromRGBA(0x000000, 0.6);
     
-    // EasyPlayer RTMP iOS 不需要设置传输协议和保活包
-    self.itemView.hidden = YES;
+    // EasyPlayer RTSP iOS 需要设置传输协议和保活包
+//    self.itemView.hidden = YES;
     
     self.contentViewWidth.constant = EasyScreenWidth;
     self.contentViewHeight.constant = EasyScreenHeight;
@@ -74,7 +74,7 @@
     if (self.model.url) {
         self.textField.text = self.model.url;
     } else {
-        self.textField.text = @"rtmp://";
+        self.textField.text = @"rtsp://";
     }
     
     if (self.model.transportMode == EASY_RTP_OVER_TCP) {
@@ -144,7 +144,7 @@
         return;
     }
     
-    if (![text hasPrefix:@"rtmp://"]) {
+    if (![text hasPrefix:@"rtsp://"] && ![text hasPrefix:@"rtmp://"]) {
         [WHToast showMessage:@"请输入正确的流地址" duration:2 finishHandler:nil];
         return;
     }

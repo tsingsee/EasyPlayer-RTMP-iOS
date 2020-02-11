@@ -1,13 +1,13 @@
 //
 //  EditURLViewController.h
-//  EasyPlayerRTMP
+//  EasyPlayerRTSP
 //
 //  Created by leo on 2019/4/25.
 //  Copyright © 2019年 cs. All rights reserved.
 //
 
 #import "BaseViewController.h"
-#import "MyURLModel.h"
+#import "URLModel.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface EditURLViewController : BaseViewController
 
-@property (nonatomic, strong) MyURLModel *urlModel;
+@property (nonatomic, strong) URLModel *urlModel;
 
 @property (nonatomic, strong) RACSubject *subject;
 
