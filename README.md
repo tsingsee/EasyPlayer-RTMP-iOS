@@ -1,6 +1,6 @@
 # EasyPlayer-RTMP-iOS #
 
-EasyPlayer-**RTMP iOS版** 播放器是由[TSINGSEE青犀开放平台](http://open.tsingsee.com "TSINGSEE青犀开放平台")开发和维护的一个完善的RTMP流媒体播放器项目，视频编码支持**H.264**（后续会扩展H.265），音频支持**AAC**，支持**硬解码**，**软解码**，是一套极佳的安防流媒体平台播放组件！EasyPlayer-RTMP iOS版本经过了很多年的发展和迭代，已经非常稳定、完整，功能包括：直播、录像、抓图，支持指令集包括arm64、armv7，应该说是目前市面上功能性、稳定性、低延时性和完整性最强的一款RTMP播放器！
+EasyPlayer-**RTMP iOS版** 播放器是由[TSINGSEE青犀开放平台](http://open.tsingsee.com "TSINGSEE青犀开放平台")开发和维护的一个完善的RTMP流媒体播放器项目，视频编码支持**H.264**、**H.265**，音频支持**AAC**、**G.711**、**G.726**，支持**硬解码**，**软解码**，是一套极佳的安防流媒体平台播放组件！EasyPlayer-RTMP iOS版本经过了很多年的发展和迭代，已经非常稳定、完整，功能包括：直播、录像、抓图，支持指令集包括arm64、armv7，应该说是目前市面上功能性、稳定性、低延时性和完整性最强的一款RTMP播放器！
 
 ## 工作流程 ##
 
@@ -69,7 +69,7 @@ iOS：Xcode编译；
 
 ## 技术支持 ##
 
-- 邮件：[support@easydarwin.org](mailto:support@easydarwin.org) 
+- 邮件：[support@tsingsee.com](mailto:support@tsingsee.com) 
 
 - QQ交流群：**544917793**
 
@@ -77,4 +77,4 @@ iOS：Xcode编译；
 
 TSINGSEE青犀开放平台：[http://open.tsingsee.com](http://open.tsingsee.com "TSINGSEE青犀")
 
-Copyright &copy; TSINGSEE.com 2012~2019
+Copyright &copy; TSINGSEE.com 2012~2020
