@@ -662,6 +662,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33USAS7KQX;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -691,6 +692,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/EasyPlayer/EasyPlayerRTMPLib",
 				);
+				MARKETING_VERSION = 1.6;
 				ORDER_FILE = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -721,6 +723,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 33USAS7KQX;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -749,6 +752,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/EasyPlayer/EasyPlayerRTMPLib",
 				);
+				MARKETING_VERSION = 1.6;
 				ORDER_FILE = "";
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = org.easydarwin.easyplayertrmp;
