@@ -13,8 +13,8 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 
-//#include "libavformat/avformat.h"
-//#include "libswscale/swscale.h"
+#include "libavformat/avformat.h"
+#include "libswscale/swscale.h"
 
 extern NSString * kxmovieErrorDomain;
 
@@ -87,10 +87,7 @@ typedef enum {
 @property ( nonatomic, strong) NSData *chromaB; // Cb
 @property ( nonatomic, strong) NSData *chromaR; // Cr
 
-+ (instancetype) handleData0:(void *)data0 data1:(void *)data1 data2:(void *)data2
-                   linesize0:(int)linesize0 linesize1:(int)linesize1 linesize2:(int)linesize2
-                       width:(int)w height:(int)h;
-//+ (instancetype) handleVideoFrame:(AVFrame *)videoFrame videoCodecCtx:(AVCodecContext *)videoCodecCtx;
++ (instancetype) handleVideoFrame:(AVFrame *)videoFrame videoCodecCtx:(AVCodecContext *)videoCodecCtx;
 
 @end
 
