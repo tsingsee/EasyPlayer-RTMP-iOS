@@ -62,10 +62,12 @@ int *stopRecord = (int *)malloc(sizeof(int));// 停止录像
     std::multiset<FrameInfo *, compare> videoFrameSet;
     std::multiset<FrameInfo *, compare> audioFrameSet;
     
-    CGFloat lastFrameTimeStamp;
+    // 单位全用毫秒
+    long previousStampUs;
+    long lastFrameStampUs;
+    long decodeBegin;
+    long hwSleepTime;
     CGFloat mNewestStample;
-    NSTimeInterval beforeDecoderTimeStamp;
-    NSTimeInterval afterDecoderTimeStamp;
     
     CGFloat _lastVideoFramePosition;
     
@@ -322,7 +324,7 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         FrameInfo *frame = *(videoFrameSet.begin());
         videoFrameSet.erase(videoFrameSet.begin());// erase()函数的功能是用来删除容器中的元素
         
-        beforeDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;// 毫秒数
+        lastFrameStampUs = frame->timeStamp;
         
         pthread_mutex_unlock(&mutexVideoFrame);
         // ------------ 解锁mutexVideoFrame ------------
@@ -337,40 +339,44 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
         }
         
         if (self.useHWDecoder) {
+            if (hwSleepTime > 0) {
+//                usleep((unsigned int) hwSleepTime);
+            }
+            
+            decodeBegin = (long) [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970] * 1000;// 毫秒数
             [_hwDec decodeVideoData:frame->pBuf len:frame->frameLen isInit:isInit];
         } else {
+            decodeBegin = (long) [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970] * 1000;// 毫秒数
+            
             [self decodeVideoFrame:frame isInit:isInit];
+            
+            // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
+            long decodeSpend = (long) [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970] * 1000 - decodeBegin;
+            
+            if (previousStampUs != 0) {
+                long sleepTime = (frame->timeStamp - previousStampUs - decodeSpend) * 1000;
+                if (sleepTime > 100000) {
+                    NSLog(@"sleep time.too long:%ld", sleepTime);
+                    sleepTime = 100000;
+                }
+                
+                if (sleepTime > 0) {
+                    sleepTime %= 100000;
+                    
+                    // 设置缓存的时间戳
+                    long cache = (mNewestStample - frame->timeStamp) * 1000;
+                    
+                    sleepTime = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
+                    
+//                    // usleep功能把进程挂起一段时间， 单位是微秒（百万分之一秒）；
+//                    usleep((unsigned int) sleepTime);
+                }
+            }
+            
+            previousStampUs = frame->timeStamp;
         }
         
         delete []frame->pBuf;
-        
-        // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
-        afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
-        if (lastFrameTimeStamp != 0) {
-            float sleepTime = (frame->timeStamp - lastFrameTimeStamp - (afterDecoderTimeStamp - beforeDecoderTimeStamp)) * 1000;
-            if (sleepTime > 100000) {
-                NSLog(@"sleep time.too long:%f", sleepTime);
-                sleepTime = 100000;
-            }
-            
-            if (sleepTime > 0) {
-                // 设置缓存的时间戳
-                float cache = (mNewestStample - frame->timeStamp) * 1000;
-                float newDelay = 0;
-                
-                if (self.useHWDecoder) {
-                    newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:100000];
-                } else {
-                    newDelay = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
-                }
-                
-                // usleep功能把进程挂起一段时间， 单位是微秒（百万分之一秒）；
-                usleep(newDelay);
-            }
-        }
-        
-        lastFrameTimeStamp = frame->timeStamp;
-        
         delete frame;
     }
     
@@ -453,7 +459,6 @@ int RTSPDataCallBack(int channelId, void *channelPtr, int frameType, char *pBuf,
 //            frame.duration = duration;
             
             _lastVideoFramePosition = video->timeStamp;
-            afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
             
             if (self.frameOutputBlock) {
                 // 第一种显示方式：KxVideoFrameYUV
@@ -710,12 +715,33 @@ int read_audio_packet(void *opaque, uint8_t *buf, int buf_size) {
 
 #pragma mark - HWVideoDecoderDelegate
 
--(void) getDecodePictureData:(KxVideoFrame *)frame  length:(unsigned int) length {
-    afterDecoderTimeStamp = [[NSDate date] timeIntervalSince1970] * 1000;
-    
+-(void) getDecodePictureData:(KxVideoFrame *)frame length:(unsigned int) length {
     if (self.frameOutputBlock) {
+        frame.position = lastFrameStampUs / 1000.0;
         self.frameOutputBlock(frame, length);
     }
+    
+    // 帧里面有个timestamp 是当前帧的时间戳， 先获取下系统时间A，然后解码播放，解码后获取系统时间B， B-A就是本次的耗时。sleep的时长就是 当期帧的timestamp  减去 上一个视频帧的timestamp 再减去 这次的耗时
+    long decodeSpend = (long) [[NSDate dateWithTimeIntervalSinceNow:0] timeIntervalSince1970] * 1000 - decodeBegin;
+    
+    if (previousStampUs != 0) {
+        long sleepTime = (lastFrameStampUs - previousStampUs - decodeSpend) * 1000;
+        if (sleepTime > 100000) {
+            NSLog(@"sleep time.too long:%ld", sleepTime);
+            sleepTime = 100000;
+        }
+        
+        if (sleepTime > 0) {
+            sleepTime %= 100000;
+            
+            // 设置缓存的时间戳
+            long cache = (mNewestStample - lastFrameStampUs) * 1000;
+            
+            hwSleepTime = [self fixSleepTime:sleepTime totalTimestampDifferUs:cache delayUs:50000];
+        }
+    }
+    
+    previousStampUs = lastFrameStampUs;
 }
 
 -(void) getDecodePixelData:(CVImageBufferRef)frame {

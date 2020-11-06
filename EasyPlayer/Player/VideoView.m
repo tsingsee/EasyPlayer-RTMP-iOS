@@ -8,14 +8,6 @@
 #import "AudioManager.h"
 #import "PathUnit.h"
 
-// ----------------  设置颜色 ----------------
-#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
-
-#define UIColorFromRGBA(rgbValue,trans) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:trans]
-
-#define EasyScreenWidth [[UIScreen mainScreen] bounds].size.width
-#define EasyScreenHeight [[UIScreen mainScreen] bounds].size.height
-
 @interface VideoView() <UIScrollViewDelegate> {
     UIScrollView *scrollView;
     KxMovieGLView *kxGlView;
@@ -610,15 +602,14 @@
                         KxAudioFrame *frame = _audioFrames[0];
                         CGFloat differ = _moviePosition - frame.position;
                         
-                        //                        // 似乎没有作用
-                        //                        if (differ < -0.1) {
-                        //                            memset(outData, 0, numFrames * numChannels * sizeof(float));
-                        //                            break; // silence and exit
-                        //                        }
+                        // 似乎没有作用
+                        if (differ < -0.1) {
+                            memset(outData, 0, numFrames * numChannels * sizeof(float));
+                            break; // silence and exit
+                        }
                         
                         [_audioFrames removeObjectAtIndex:0];
                         
-                        //                        if (differ > 5 && count > 1) {// 原来是5，结果音视频不同步，音频慢2秒左右
                         if (differ > 0.1 && count > 1) {
                             NSLog(@"differ = %.4f", differ);
                             NSLog(@"audio skip movPos = %.4f audioPos = %.4f", _moviePosition, frame.position);

@@ -102,8 +102,8 @@ void rgb(CVImageBufferRef imageBuffer, HWVideoDecoder *weakSelf) {
     width = CVPixelBufferGetWidth(imageBuffer);
     height = CVPixelBufferGetHeight(imageBuffer);
     bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-    size_t dataSize = CVPixelBufferGetDataSize(imageBuffer);
-    NSLog(@"%zu", dataSize);
+//    size_t dataSize = CVPixelBufferGetDataSize(imageBuffer);
+//    NSLog(@"%zu", dataSize);
     
     @autoreleasepool {
         KxVideoFrameRGB *frame = [[KxVideoFrameRGB alloc] init];
